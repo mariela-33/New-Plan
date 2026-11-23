@@ -962,6 +962,82 @@
       font-size: 0.95rem;
       font-weight: 700;
     }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 16px 0;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-soft);
+    }
+    .auth-google-btn {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 11px 16px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border-soft);
+      background: #FFFFFF;
+      color: var(--text-main);
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+    }
+    .auth-google-btn:hover {
+      background: var(--lavender-mist);
+      border-color: var(--dusty-lavender);
+      box-shadow: 0 4px 12px rgba(142, 79, 143, 0.12);
+      transform: translateY(-1px);
+    }
+    .auth-google-btn:disabled {
+      opacity: 0.65;
+      cursor: wait;
+      transform: none;
+    }
+    .auth-google-cid-box {
+      display: none;
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      background: var(--lavender-mist);
+      border: 1px solid var(--border-soft);
+    }
+    .auth-google-cid-box.visible {
+      display: block;
+    }
+    .auth-google-cid-box label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--dusty-dark);
+      margin-bottom: 6px;
+    }
+    .auth-google-cid-row {
+      display: flex;
+      gap: 6px;
+    }
+    .auth-google-cid-row input {
+      flex: 1;
+      padding: 8px 10px;
+      font-size: 0.82rem;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      background: #FFFFFF;
+    }
     .auth-footnote {
       margin-top: 16px;
       text-align: center;
@@ -1020,8 +1096,28 @@
       </button>
     </form>
 
+    <div class="auth-divider">o acceso directo con Google</div>
+
+    <button type="button" id="authGoogleBtn" class="auth-google-btn" onclick="handleGoogleLoginFromOverlay()">
+      <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      <span>Continuar con Google</span>
+    </button>
+
+    <div id="authGoogleCidBox" class="auth-google-cid-box">
+      <label for="authGoogleClientIdInput">Configura tu Google Cloud Client ID (solo la primera vez):</label>
+      <div class="auth-google-cid-row">
+        <input type="text" id="authGoogleClientIdInput" placeholder="123456789-abc.apps.googleusercontent.com" />
+        <button type="button" class="btn btn-sm btn-primary" onclick="saveOverlayClientIdAndLogin()">Conectar</button>
+      </div>
+    </div>
+
     <div class="auth-footnote">
-      Sesión protegida por pestaña • Espacio personal privado
+      Bloqueo estricto SHA-256 • Espacio personal privado
     </div>
   </div>
 </div>
@@ -2014,7 +2110,7 @@
     </div>
 
     <div style="background:var(--lavender-mist);padding:14px;border-radius:var(--radius-md);margin-bottom:14px;font-size:0.84rem;">
-      <strong>Arquitectura Privada:</strong> Tus datos se almacenan exclusivamente en tu Google Drive dentro de la carpeta dedicada <code>Mi Planificador - Datos</code> (permisos limitados <code>drive.file</code> + <code>calendar.events</code> + <code>calendar.readonly</code>).
+      <strong>Arquitectura Privada:</strong> Tus datos se almacenan exclusivamente en tu Google Drive dentro de la carpeta dedicada <code>Mi Planificador - Datos</code> (permisos limitados <code>drive.file</code> + <code>calendar.events</code> + <code>calendar.readonly</code> + verificación estricta de cuenta).
     </div>
 
     <div id="cfgConnectionStatus" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-soft);background:#FAF8FD;margin-bottom:14px;font-size:0.82rem;">
@@ -2045,7 +2141,7 @@
     <hr style="border:none;border-top:1px solid var(--border-soft);margin:16px 0;" />
 
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
-      <span style="font-size:0.82rem;color:var(--text-muted);">Sesión activa en esta pestaña (usuario: <strong>marie22</strong>)</span>
+      <span id="cfgSessionInfoText" style="font-size:0.82rem;color:var(--text-muted);">Sesión activa en esta pestaña • Verificación SHA-256</span>
       <button type="button" class="btn btn-sm btn-danger-soft" onclick="closeModal('configModal');logoutAppSession();">
         <i data-lucide="log-out"></i> Cerrar Sesión
       </button>
@@ -2797,40 +2893,93 @@ function onGoogleCalendarFilterChange(val) {
   }
 }
 
-function handleGoogleAuth() {
+function revokeGoogleTokenSilently(token) {
+  if (!token) return;
+  try {
+    if (window.google && google.accounts && google.accounts.oauth2 && typeof google.accounts.oauth2.revoke === 'function') {
+      google.accounts.oauth2.revoke(token, () => {});
+    }
+  } catch (e) {}
+}
+
+async function verifyAuthorizedGoogleAccount(token) {
+  const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  if (!res.ok) {
+    throw new Error('No se pudo verificar la identidad de la cuenta de Google.');
+  }
+  const profile = await res.json();
+  const normalizedEmail = String(profile.email || '').trim().toLowerCase();
+  const isVerified = profile.email_verified !== false;
+  if (!normalizedEmail || !isVerified || sha256Hex(normalizedEmail) !== EXPECTED_GOOGLE_EMAIL_HASH) {
+    revokeGoogleTokenSilently(token);
+    const err = new Error('Cuenta de Google no autorizada.');
+    err.code = 'UNAUTHORIZED_GOOGLE_ACCOUNT';
+    throw err;
+  }
+  return profile;
+}
+
+function handleGoogleAuth(options = {}) {
+  const { fromLoginOverlay = false, onSuccess = null, onError = null } = options;
   const cid = localStorage.getItem(CLIENT_ID_KEY);
   if (!cid) {
-    openConfigModal();
+    if (fromLoginOverlay) {
+      const box = document.getElementById('authGoogleCidBox');
+      if (box) box.classList.add('visible');
+      const inp = document.getElementById('authGoogleClientIdInput');
+      if (inp) inp.focus();
+    } else {
+      openConfigModal();
+    }
     return;
   }
   if (!window.google || !google.accounts || !google.accounts.oauth2) {
-    showToast('La librería de Google aún está cargando. Intenta en 2 segundos.', 'warning');
+    const msg = 'La librería de Google aún está cargando. Intenta en 2 segundos.';
+    if (fromLoginOverlay && typeof onError === 'function') onError(msg);
+    else showToast(msg, 'warning');
     return;
   }
   tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: cid,
-    scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly',
+    scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/userinfo.email',
     callback: async (resp) => {
       if (resp.error) {
-        showToast('Error de autorización: ' + resp.error, 'danger');
+        const msg = 'Autorización cancelada o denegada por Google.';
+        if (fromLoginOverlay && typeof onError === 'function') onError(msg);
+        else showToast(msg, 'danger');
         return;
       }
-      accessToken = resp.access_token;
-      updateSyncUI(true, 'Sincronizando Drive...');
       try {
+        await verifyAuthorizedGoogleAccount(resp.access_token);
+        accessToken = resp.access_token;
+        if (fromLoginOverlay && typeof onSuccess === 'function') {
+          onSuccess();
+        }
+        updateSyncUI(true, 'Sincronizando Drive...');
         await ensureDriveWorkspace();
         await loadFromGoogleDrive();
         await fetchGoogleCalendars();
         await syncGoogleCalendar();
         updateSyncUI(true, 'Drive & Calendar Activos');
-        showToast('Conectado con Google Drive y Calendar.', 'success');
+        showToast('Cuenta verificada. Conectado con Google Drive y Calendar.', 'success');
       } catch (err) {
+        accessToken = null;
         updateSyncUI(false, 'Guardado Local');
-        showToast('No se pudo completar la sincronización inicial.', 'danger');
+        if (err && err.code === 'UNAUTHORIZED_GOOGLE_ACCOUNT') {
+          const deniedMsg = 'Acceso denegado: esta cuenta de Google no está autorizada para este planificador.';
+          if (fromLoginOverlay && typeof onError === 'function') onError(deniedMsg);
+          else showToast(deniedMsg, 'danger');
+        } else {
+          const failMsg = 'No se pudo completar la verificación o sincronización con Google.';
+          if (fromLoginOverlay && typeof onError === 'function') onError(failMsg);
+          else showToast(failMsg, 'danger');
+        }
       }
     }
   });
-  tokenClient.requestAccessToken({ prompt: 'consent' });
+  tokenClient.requestAccessToken({ prompt: fromLoginOverlay ? 'select_account' : 'consent' });
 }
 
 function updateSyncUI(connected, label) {
@@ -5095,8 +5244,10 @@ window.addEventListener('keydown', (e) => {
    AUTENTICACIÓN POR PESTAÑA (sessionStorage + SHA-256)
 ============================================================================ */
 const APP_SESSION_KEY = 'mi_planificador_session_v1';
+const APP_AUTH_METHOD_KEY = 'mi_planificador_auth_method_v1';
 const EXPECTED_USER_HASH = '5714ec8b03a739fa6273708b4444822ff083b4fd1786269277543122ed15ccb4';
 const EXPECTED_PASS_HASH = 'a7cc19cf59b80e8a75cf588b429a426495264fca7a8991cfc876de6a94e2b184';
+const EXPECTED_GOOGLE_EMAIL_HASH = 'e06dd5302ebe7f7d3a032ec69c9f017f9e9d335f6ebf5ea15257b431dc7f8d4a';
 let authFailedAttempts = 0;
 let authLockUntil = 0;
 
@@ -5240,14 +5391,80 @@ function handleAppLogin(e) {
   }
 }
 
+function setAuthOverlayError(msg) {
+  const errBox = document.getElementById('authErrorBox');
+  const errText = document.getElementById('authErrorText');
+  if (!errBox || !errText) return;
+  if (msg) {
+    errText.textContent = msg;
+    errBox.classList.add('visible');
+  } else {
+    errBox.classList.remove('visible');
+  }
+}
+
+function handleGoogleLoginFromOverlay() {
+  setAuthOverlayError('');
+  const cid = localStorage.getItem(CLIENT_ID_KEY);
+  if (!cid) {
+    const box = document.getElementById('authGoogleCidBox');
+    if (box) box.classList.add('visible');
+    const inp = document.getElementById('authGoogleClientIdInput');
+    if (inp) inp.focus();
+    setAuthOverlayError('Ingresa tu Google Cloud Client ID para continuar con Google, o accede con tu usuario local.');
+    return;
+  }
+  const gBtn = document.getElementById('authGoogleBtn');
+  if (gBtn) gBtn.disabled = true;
+
+  handleGoogleAuth({
+    fromLoginOverlay: true,
+    onSuccess: () => {
+      if (gBtn) gBtn.disabled = false;
+      authFailedAttempts = 0;
+      setAuthOverlayError('');
+      try {
+        sessionStorage.setItem(APP_SESSION_KEY, 'authenticated');
+        sessionStorage.setItem(APP_AUTH_METHOD_KEY, 'google');
+      } catch (err) {}
+      document.getElementById('authPassword').value = '';
+      applyAuthLockState();
+      renderAll();
+      showToast('¡Bienvenida, Mariela!', 'success');
+    },
+    onError: (msg) => {
+      if (gBtn) gBtn.disabled = false;
+      setAuthOverlayError(msg);
+    }
+  });
+}
+
+function saveOverlayClientIdAndLogin() {
+  const inp = document.getElementById('authGoogleClientIdInput');
+  const cid = inp ? inp.value.trim() : '';
+  if (!cid) {
+    setAuthOverlayError('Pega tu Google Cloud Client ID (termina en .apps.googleusercontent.com).');
+    return;
+  }
+  localStorage.setItem(CLIENT_ID_KEY, cid);
+  const box = document.getElementById('authGoogleCidBox');
+  if (box) box.classList.remove('visible');
+  handleGoogleLoginFromOverlay();
+}
+
 function logoutAppSession() {
+  if (accessToken) {
+    revokeGoogleTokenSilently(accessToken);
+    accessToken = null;
+    updateSyncUI(false, 'Guardado Local');
+  }
   try {
     sessionStorage.removeItem(APP_SESSION_KEY);
+    sessionStorage.removeItem(APP_AUTH_METHOD_KEY);
   } catch (e) {}
   const form = document.getElementById('appAuthForm');
   if (form) form.reset();
-  const errBox = document.getElementById('authErrorBox');
-  if (errBox) errBox.classList.remove('visible');
+  setAuthOverlayError('');
   applyAuthLockState();
   safeIcons();
 }
