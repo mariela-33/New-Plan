@@ -6,8 +6,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Mi Planificador" />
-  <meta name="theme-color" content="#825E77" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://accounts.google.com https://apis.google.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.googleusercontent.com https://drive.google.com; frame-src 'self' https://drive.google.com https://docs.google.com https://accounts.google.com; connect-src 'self' https://*.googleapis.com https://accounts.google.com https://www.googleapis.com;" />
+  <meta name="theme-color" content="#8E4F8F" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.googleusercontent.com https://drive.google.com; frame-src 'self' blob: https://drive.google.com https://docs.google.com https://accounts.google.com; connect-src 'self' https://*.googleapis.com https://accounts.google.com https://www.googleapis.com;" />
   <title>Mi Planificador Integral — Vida, Trabajo &amp; Energía</title>
 
   <!-- Fonts -->
@@ -26,18 +26,18 @@
 
   <style>
     :root {
-      --dusty-lavender: #825E77;
-      --dusty-dark: #63445A;
-      --thistle: #E9D2F4;
-      --thistle-soft: #F4E8FA;
-      --lavender-mist: #F1EFFB;
-      --bg-app: #F8F7FC;
-      --frosted-blue: #A5DFF1;
-      --light-cyan: #DCF6FA;
-      --teal-accent: #3B8EA5;
-      --text-main: #2B222C;
-      --text-muted: #6E6170;
-      --border-soft: #E5DFEC;
+      --dusty-lavender: #8E4F8F;
+      --dusty-dark: #552F57;
+      --thistle: #F0D9F0;
+      --thistle-soft: #F8EAF8;
+      --lavender-mist: #FBF4FB;
+      --bg-app: #FDF8FD;
+      --frosted-blue: #F9B8CF;
+      --light-cyan: #FFE6EE;
+      --teal-accent: #D6457A;
+      --text-main: #2E2030;
+      --text-muted: #705F73;
+      --border-soft: #EBDDEB;
       --danger: #D64550;
       --danger-bg: #FDECEC;
       --warning: #D9822B;
@@ -47,8 +47,8 @@
       --radius-lg: 18px;
       --radius-md: 12px;
       --radius-sm: 8px;
-      --shadow-sm: 0 2px 10px rgba(130, 94, 119, 0.06);
-      --shadow-md: 0 8px 24px rgba(130, 94, 119, 0.10);
+      --shadow-sm: 0 2px 10px rgba(142, 79, 143, 0.06);
+      --shadow-md: 0 8px 24px rgba(142, 79, 143, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -74,10 +74,10 @@
     }
 
     .sidebar {
-      width: 260px;
+      width: 76px;
       background: linear-gradient(180deg, #FFFFFF 0%, var(--lavender-mist) 100%);
       border-right: 1px solid var(--border-soft);
-      padding: 24px 16px;
+      padding: 20px 12px;
       display: flex;
       flex-direction: column;
       position: fixed;
@@ -85,7 +85,10 @@
       bottom: 0;
       left: 0;
       z-index: 40;
+      overflow: hidden;
+      transition: width 0.22s ease, box-shadow 0.22s ease;
     }
+    .sidebar:hover, .sidebar:focus-within { width: 260px; box-shadow: var(--shadow-md); }
 
     .brand {
       display: flex;
@@ -95,21 +98,24 @@
       border-bottom: 1px solid var(--border-soft);
       margin-bottom: 20px;
     }
+    .sidebar:not(:hover):not(:focus-within) .brand { padding: 0 0 20px; justify-content: center; }
+    .sidebar:not(:hover):not(:focus-within) .brand-text { display: none; }
 
     .brand-icon {
       width: 40px;
       height: 40px;
+      flex-shrink: 0;
       border-radius: 12px;
       background: linear-gradient(135deg, var(--dusty-lavender), var(--teal-accent));
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(130, 94, 119, 0.25);
+      box-shadow: 0 4px 12px rgba(142, 79, 143, 0.25);
     }
 
-    .brand-text h1 { font-size: 1.05rem; font-weight: 800; color: var(--dusty-lavender); }
-    .brand-text span { font-size: 0.75rem; color: var(--text-muted); display: block; }
+    .brand-text h1 { font-size: 1.05rem; font-weight: 800; color: var(--dusty-lavender); white-space: nowrap; }
+    .brand-text span { font-size: 0.75rem; color: var(--text-muted); display: block; white-space: nowrap; }
 
     .nav-menu {
       display: flex;
@@ -132,6 +138,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
       text-align: left;
+      white-space: nowrap;
     }
 
     .nav-btn:hover {
@@ -142,7 +149,7 @@
     .nav-btn.active {
       background: var(--dusty-lavender);
       color: #FFFFFF;
-      box-shadow: 0 4px 12px rgba(130, 94, 119, 0.25);
+      box-shadow: 0 4px 12px rgba(142, 79, 143, 0.25);
     }
 
     .sidebar-footer {
@@ -152,10 +159,13 @@
       flex-direction: column;
       gap: 8px;
     }
+    .sidebar-footer .btn { white-space: nowrap; }
+    .sidebar:not(:hover):not(:focus-within) .nav-btn,
+    .sidebar:not(:hover):not(:focus-within) .sidebar-footer .btn { font-size: 0; gap: 0; justify-content: center; padding: 12px 0; }
 
     .main-content {
       flex: 1;
-      margin-left: 260px;
+      margin-left: 76px;
       padding: 24px 32px;
       max-width: 1440px;
     }
@@ -228,13 +238,16 @@
       background: var(--thistle);
       color: var(--dusty-dark);
     }
-    .btn-secondary:hover { background: #DFC0EE; }
+    .btn-secondary:hover { background: #E3BEE3; }
 
     .btn-cyan {
       background: var(--frosted-blue);
-      color: #194A5A;
+      color: #5A1F3F;
     }
-    .btn-cyan:hover { background: #8FD3E8; }
+    .btn-cyan:hover { background: #F39BBB; }
+
+    .btn-accent { background: #F06A95; color: #FFFFFF; }
+    .btn-accent:hover { background: #D6457A; }
 
     .btn-outline {
       background: #FFFFFF;
@@ -243,9 +256,26 @@
     }
     .btn-outline:hover { background: var(--lavender-mist); border-color: var(--dusty-lavender); }
 
+    .btn-drawer-toggle.is-open {
+      background: var(--dusty-dark);
+      color: #FFFFFF;
+      border-color: var(--dusty-dark);
+    }
+
     .btn-sm { padding: 6px 11px; font-size: 0.78rem; }
     .btn-danger-soft { background: var(--danger-bg); color: var(--danger); }
     .btn-danger-soft:hover { background: #FAD7D7; }
+
+    .collapsible-drawer {
+      display: none;
+      margin-bottom: 16px;
+      animation: drawerSlide 0.2s ease;
+    }
+    .collapsible-drawer.open { display: block; }
+    @keyframes drawerSlide {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
@@ -276,6 +306,8 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+    .card-header.compact-header { margin-bottom: 0; }
+    .card-header.compact-header.has-open-drawer { margin-bottom: 14px; }
 
     .card-title {
       font-size: 1rem;
@@ -284,6 +316,13 @@
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .kpi-card {
@@ -335,7 +374,7 @@
     .subtab-btn.active {
       background: #FFFFFF;
       color: var(--dusty-lavender);
-      box-shadow: 0 2px 8px rgba(130, 94, 119, 0.12);
+      box-shadow: 0 2px 8px rgba(142, 79, 143, 0.12);
     }
 
     .form-row {
@@ -363,7 +402,7 @@
     input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--dusty-lavender);
-      box-shadow: 0 0 0 3px rgba(233, 210, 244, 0.55);
+      box-shadow: 0 0 0 3px rgba(240, 217, 240, 0.75);
     }
 
     .badge {
@@ -376,7 +415,7 @@
       font-weight: 600;
     }
     .badge-lavender { background: var(--thistle); color: var(--dusty-dark); }
-    .badge-cyan { background: var(--light-cyan); color: #1E5F74; }
+    .badge-cyan { background: var(--light-cyan); color: #8F2455; }
     .badge-danger { background: var(--danger-bg); color: var(--danger); }
     .badge-warning { background: var(--warning-bg); color: var(--warning); }
     .badge-success { background: var(--success-bg); color: var(--success); }
@@ -408,24 +447,16 @@
     }
     .cal-cell:hover { border-color: var(--dusty-lavender); background: var(--thistle-soft); }
     .cal-cell.cleaned {
-      background: linear-gradient(135deg, var(--frosted-blue), var(--light-cyan));
+      background: var(--frosted-blue);
       border-color: var(--teal-accent);
-      color: #144959;
-      box-shadow: 0 2px 8px rgba(165, 223, 241, 0.5);
-    }
-    .cal-cell.cleaned::after {
-      content: '✦';
-      font-size: 0.65rem;
-      color: var(--dusty-lavender);
-      line-height: 1;
+      color: var(--dusty-dark);
     }
     .cal-cell.empty { border: none; background: transparent; cursor: default; }
 
     .collage-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
       gap: 12px;
-      margin-bottom: 18px;
     }
     .collage-item {
       position: relative;
@@ -436,10 +467,27 @@
       box-shadow: var(--shadow-sm);
     }
     .collage-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .collage-del-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(46, 32, 48, 0.72);
+      color: #FFF;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .collage-del-btn:hover { background: var(--danger); }
     .collage-caption {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      background: linear-gradient(transparent, rgba(43, 34, 44, 0.8));
+      background: linear-gradient(transparent, rgba(43, 34, 44, 0.85));
       color: #FFF;
       font-size: 0.75rem;
       padding: 14px 8px 6px;
@@ -516,7 +564,63 @@
     .view-section.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-    .chart-box { position: relative; height: 240px; width: 100%; }
+    .chart-box { position: relative; height: 220px; width: 100%; }
+    .chart-box-sm { position: relative; height: 190px; width: 100%; }
+
+    /* Ajustes específicos de módulos */
+    .equil-top { display: grid; grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr); gap: 18px; margin-bottom: 20px; align-items: stretch; }
+    .equil-top > .card { display: flex; flex-direction: column; margin-bottom: 0; }
+    #wheelSliders > div { padding: 5px 9px !important; font-size: 0.78rem; }
+
+    .energy-top { display: grid; grid-template-columns: minmax(260px, 330px) minmax(0, 1fr); gap: 18px; margin-bottom: 20px; align-items: stretch; }
+    .energy-top > .card { display: flex; flex-direction: column; margin-bottom: 0; }
+    .energy-top .cal-grid { flex: 1; align-content: start; gap: 3px; }
+    .energy-top .cal-cell { aspect-ratio: auto; height: 30px; border-radius: 7px; font-size: 0.75rem; }
+    .energy-top .cal-day-name { font-size: 0.68rem; padding: 2px 0; }
+
+    .habit-day-btn.hm { width: 22px; height: 22px; border-radius: 5px; font-size: 0.65rem; }
+    .habit-day-btn.future { opacity: 0.45; }
+    #habitTableHead th:first-child, #habitTableBody td:first-child { position: sticky; left: 0; background: #FFFFFF; z-index: 1; min-width: 140px; }
+
+    .note-area { grid-column: 1 / -1; resize: vertical; line-height: 1.5; min-height: 92px; }
+    .note-text { white-space: pre-wrap; font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; margin-top: 4px; }
+    select.mini-select { padding: 6px 28px 6px 10px; font-size: 0.8rem; min-width: 135px; cursor: pointer; background-color: #FFFFFF; border: 1px solid var(--dusty-lavender); border-radius: 8px; color: var(--dusty-dark); font-weight: 600; appearance: auto; -webkit-appearance: menulist; }
+    input.mini-select { padding: 6px 10px; font-size: 0.8rem; border: 1px solid var(--border-soft); border-radius: 8px; background: #FFFFFF; }
+
+    /* Sistema de Notificaciones Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 250;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 340px;
+      pointer-events: none;
+    }
+    .toast-item {
+      pointer-events: auto;
+      background: #FFFFFF;
+      color: var(--text-main);
+      border-left: 4px solid var(--dusty-lavender);
+      border-top: 1px solid var(--border-soft);
+      border-right: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 11px 14px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      animation: toastIn 0.22s ease;
+    }
+    .toast-item.success { border-left-color: var(--success); }
+    .toast-item.warning { border-left-color: var(--warning); }
+    .toast-item.danger { border-left-color: var(--danger); }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .mobile-nav {
       display: none;
@@ -527,7 +631,7 @@
       padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
       z-index: 50;
       justify-content: space-around;
-      box-shadow: 0 -4px 16px rgba(130, 94, 119, 0.08);
+      box-shadow: 0 -4px 16px rgba(142, 79, 143, 0.08);
     }
 
     .mobile-nav-btn {
@@ -553,8 +657,9 @@
       .sidebar { display: none; }
       .main-content { margin-left: 0; padding: 14px 14px 28px; }
       .mobile-nav { display: flex; }
+      .toast-container { bottom: 76px; right: 14px; left: 14px; max-width: none; }
       .grid-4 { grid-template-columns: repeat(2, 1fr); }
-      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .grid-3, .grid-2, .energy-top, .equil-top { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -576,13 +681,13 @@
         <i data-lucide="layout-dashboard"></i> Resumen General
       </button>
       <button type="button" class="nav-btn" data-view="work" onclick="switchView('work')">
-        <i data-lucide="briefcase"></i> Espacio Laboral
+        <i data-lucide="briefcase"></i> Laboral
       </button>
       <button type="button" class="nav-btn" data-view="personal" onclick="switchView('personal')">
-        <i data-lucide="heart-handshake"></i> Espacio Personal
+        <i data-lucide="heart-handshake"></i> Personal
       </button>
       <button type="button" class="nav-btn" data-view="energy" onclick="switchView('energy')">
-        <i data-lucide="sun"></i> Espacio Energía
+        <i data-lucide="sun"></i> Energía
       </button>
     </nav>
 
@@ -633,32 +738,23 @@
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="compass"></i> Rueda de la Vida — Balance Actual</h3>
-            <button type="button" class="btn btn-sm btn-outline" onclick="switchView('personal'); switchPersonalTab('equilibrio')">Ajustar áreas</button>
-          </div>
-          <div class="chart-box"><canvas id="chartDashWheel"></canvas></div>
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-header">
             <h3 class="card-title"><i data-lucide="check-circle-2"></i> Enfoque de Hoy (Laboral &amp; Personal)</h3>
           </div>
           <div id="dashboardTodayTasks"></div>
         </div>
+      </div>
 
-        <div class="card card-cyan">
-          <div class="card-header">
-            <h3 class="card-title"><i data-lucide="wallet"></i> Pulso Financiero &amp; Energía del Mes</h3>
-          </div>
-          <div id="dashboardPulseSummary"></div>
+      <div class="card card-cyan">
+        <div class="card-header">
+          <h3 class="card-title"><i data-lucide="list-checks"></i> Pendientes por Sección</h3>
+          <span class="badge badge-lavender" id="pendingTotalBadge">0 pendientes</span>
         </div>
+        <div class="grid-3" id="dashboardPending"></div>
       </div>
     </section>
 
     <!-- =====================================================================
-         2. VISTA: ESPACIO LABORAL (GTD + PROYECTOS + ANALÍTICA)
+         2. VISTA: LABORAL (PROYECTOS + ANALÍTICA)
     ====================================================================== -->
     <section id="view-work" class="view-section">
       <div class="grid-4" id="workKpis"></div>
@@ -666,79 +762,90 @@
       <div class="grid-2">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="bar-chart-3"></i> Tareas por Proyecto (Al día vs. Vencidas)</h3>
+            <h3 class="card-title"><i data-lucide="bar-chart-3"></i> Tareas por Proyecto (al día y vencidas)</h3>
           </div>
-          <div class="chart-box"><canvas id="chartWorkProjects"></canvas></div>
+          <div class="chart-box-sm"><canvas id="chartWorkProjects"></canvas></div>
         </div>
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="users"></i> Carga por Responsable</h3>
+            <h3 class="card-title"><i data-lucide="users"></i> Carga por Responsable (activas y vencidas)</h3>
           </div>
-          <div class="chart-box"><canvas id="chartWorkResponsibles"></canvas></div>
+          <div class="chart-box-sm"><canvas id="chartWorkResponsibles"></canvas></div>
         </div>
-      </div>
-
-      <div class="card card-lavender" style="margin-bottom:20px;">
-        <div class="card-header">
-          <h3 class="card-title"><i data-lucide="wand-2"></i> Procesador Inteligente de Texto a Tareas Laborales</h3>
-          <span class="badge badge-lavender">100% Local y Privado</span>
-        </div>
-        <p style="font-size:0.83rem;color:var(--text-muted);margin-bottom:10px;">
-          Pega el texto de un correo, minuta o lista de pendientes. Usa opcionalmente <code>#Proyecto</code>, <code>@Responsable</code> y fechas como <code>25/11</code> o <code>mañana</code>.
-        </p>
-        <textarea id="workImportText" rows="3" placeholder="Ejemplo:&#10;- Revisar informe de auditoría #ISO9001 @Carlos 25/11&#10;- Enviar acta de reunión operativa #Infraestructura @Mariela mañana"></textarea>
-        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
-          <button type="button" class="btn btn-primary" onclick="parseWorkText()"><i data-lucide="cpu"></i> Procesar Texto</button>
-          <button type="button" class="btn btn-outline" onclick="document.getElementById('workImportText').value=''">Limpiar</button>
-        </div>
-        <div id="workImportPreview" style="margin-top:14px;"></div>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title"><i data-lucide="folder-kanban"></i> Gestión de Tareas y Proyectos GTD</h3>
-          <button type="button" class="btn btn-sm btn-secondary" onclick="addCategoryPrompt('workTypes')"><i data-lucide="plus"></i> Nuevo Tipo de Tarea</button>
+          <h3 class="card-title"><i data-lucide="folder-kanban"></i> Gestión de Tareas y Proyectos</h3>
+          <div class="header-actions">
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-work-form" onclick="toggleDrawer('drawer-work-form', this)">
+              <i data-lucide="plus"></i> Nueva Tarea
+            </button>
+            <button type="button" class="btn btn-sm btn-cyan btn-drawer-toggle" data-drawer="drawer-work-import" onclick="toggleDrawer('drawer-work-import', this)">
+              <i data-lucide="wand-2"></i> Importar Texto
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="promptNewCategory('workTypes', 'Nuevo Tipo de Tarea')">
+              <i data-lucide="tag"></i> + Tipo
+            </button>
+          </div>
         </div>
 
-        <form onsubmit="addWorkTask(event)" style="background:var(--lavender-mist);padding:14px;border-radius:var(--radius-md);margin-bottom:16px;">
-          <div class="form-row">
-            <div class="form-group" style="grid-column: span 2;">
-              <label>Descripción de la tarea *</label>
-              <input type="text" id="wtTitle" required placeholder="Ej. Validar cronograma de entrega..." />
-            </div>
-            <div class="form-group">
-              <label>Proyecto *</label>
-              <input type="text" id="wtProject" list="projectSuggestions" required placeholder="Ej. Proyecto Alpha" />
-              <datalist id="projectSuggestions"></datalist>
-            </div>
-            <div class="form-group">
-              <label>Tipo de tarea</label>
-              <select id="wtType"></select>
-            </div>
+        <!-- Acordeón: Importador Laboral -->
+        <div id="drawer-work-import" class="collapsible-drawer" style="background:var(--lavender-mist);padding:14px;border-radius:var(--radius-md);border:1px solid var(--border-soft);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+            <strong style="font-size:0.86rem;color:var(--dusty-dark);">Procesador Inteligente de Texto a Tareas</strong>
+            <span class="badge badge-lavender">100% Local • Usa #Proyecto, @Responsable y fecha</span>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Responsable</label>
-              <input type="text" id="wtResponsible" placeholder="Ej. Mariela" value="Mariela" />
-            </div>
-            <div class="form-group">
-              <label>Fecha de vencimiento *</label>
-              <input type="date" id="wtDueDate" required />
-            </div>
-            <div class="form-group">
-              <label>Estado GTD</label>
-              <select id="wtStatus">
-                <option value="Bandeja GTD">Bandeja GTD</option>
-                <option value="En Progreso">En Progreso</option>
-                <option value="En Espera">En Espera</option>
-                <option value="Completado">Completado</option>
-              </select>
-            </div>
-            <div class="form-group" style="justify-content:flex-end;">
-              <button type="submit" class="btn btn-primary"><i data-lucide="plus-circle"></i> Registrar Tarea</button>
-            </div>
+          <textarea id="workImportText" rows="3" placeholder="Ejemplo:&#10;- Revisar informe de auditoría #ISO9001 @Carlos 25/11&#10;- Enviar acta de reunión operativa #Infraestructura @Mariela mañana"></textarea>
+          <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+            <button type="button" class="btn btn-sm btn-primary" onclick="parseWorkText()"><i data-lucide="cpu"></i> Procesar Texto</button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById('workImportText').value='';document.getElementById('workImportPreview').innerHTML=''">Limpiar</button>
           </div>
-        </form>
+          <div id="workImportPreview" style="margin-top:12px;"></div>
+        </div>
+
+        <!-- Acordeón: Formulario Nueva Tarea -->
+        <div id="drawer-work-form" class="collapsible-drawer">
+          <form onsubmit="addWorkTask(event)" style="background:var(--lavender-mist);padding:14px;border-radius:var(--radius-md);border:1px solid var(--border-soft);">
+            <div class="form-row">
+              <div class="form-group" style="grid-column: span 2;">
+                <label>Descripción de la tarea *</label>
+                <input type="text" id="wtTitle" required placeholder="Ej. Validar cronograma de entrega..." />
+              </div>
+              <div class="form-group">
+                <label>Proyecto *</label>
+                <input type="text" id="wtProject" list="projectSuggestions" required placeholder="Ej. Proyecto Alpha" />
+                <datalist id="projectSuggestions"></datalist>
+              </div>
+              <div class="form-group">
+                <label>Tipo de tarea</label>
+                <select id="wtType"></select>
+              </div>
+            </div>
+            <div class="form-row" style="margin-bottom:0;">
+              <div class="form-group">
+                <label>Responsable</label>
+                <input type="text" id="wtResponsible" placeholder="Ej. Mariela" value="Mariela" />
+              </div>
+              <div class="form-group">
+                <label>Fecha de vencimiento *</label>
+                <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="wtDueDate" required />
+              </div>
+              <div class="form-group">
+                <label>Estado</label>
+                <select id="wtStatus">
+                  <option value="Bandeja">Bandeja</option>
+                  <option value="En Progreso">En Progreso</option>
+                  <option value="En Espera">En Espera</option>
+                  <option value="Completado">Completado</option>
+                </select>
+              </div>
+              <div class="form-group" style="justify-content:flex-end;">
+                <button type="submit" class="btn btn-primary"><i data-lucide="plus-circle"></i> Registrar Tarea</button>
+              </div>
+            </div>
+          </form>
+        </div>
 
         <div class="form-row" style="margin-bottom:14px;">
           <select id="filterWorkProject" onchange="renderWork()"><option value="">Todos los proyectos</option></select>
@@ -747,7 +854,7 @@
           <select id="filterWorkStatus" onchange="renderWork()">
             <option value="">Todos los estados</option>
             <option value="VENCIDAS">⚠️ Solo Vencidas</option>
-            <option value="Bandeja GTD">Bandeja GTD</option>
+            <option value="Bandeja">Bandeja</option>
             <option value="En Progreso">En Progreso</option>
             <option value="En Espera">En Espera</option>
             <option value="Completado">Completado</option>
@@ -758,11 +865,11 @@
           <table>
             <thead>
               <tr>
-                <th>Estado</th>
                 <th>Tarea</th>
                 <th>Proyecto</th>
                 <th>Tipo</th>
                 <th>Responsable</th>
+                <th>Estado</th>
                 <th>Vencimiento</th>
                 <th>Acciones</th>
               </tr>
@@ -774,10 +881,25 @@
     </section>
 
     <!-- =====================================================================
-         3. VISTA: ESPACIO PERSONAL (IMPORTADOR + 6 SUB-VISTAS)
+         3. VISTA: PERSONAL (IMPORTADOR + 6 SUB-VISTAS)
     ====================================================================== -->
     <section id="view-personal" class="view-section">
-      <div class="card card-lavender" style="margin-bottom:18px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+        <div class="subtabs" style="margin-bottom:0;flex:1;">
+          <button type="button" class="subtab-btn active" data-ptab="equilibrio" onclick="switchPersonalTab('equilibrio')"><i data-lucide="compass"></i> Equilibrio, Hábitos &amp; Agenda</button>
+          <button type="button" class="subtab-btn" data-ptab="salud" onclick="switchPersonalTab('salud')"><i data-lucide="heart-pulse"></i> Salud &amp; Ejercicio</button>
+          <button type="button" class="subtab-btn" data-ptab="finanzas" onclick="switchPersonalTab('finanzas')"><i data-lucide="wallet"></i> Finanzas &amp; Tarjetas</button>
+          <button type="button" class="subtab-btn" data-ptab="suenos" onclick="switchPersonalTab('suenos')"><i data-lucide="star"></i> Tablero de Sueños</button>
+          <button type="button" class="subtab-btn" data-ptab="pareja" onclick="switchPersonalTab('pareja')"><i data-lucide="heart"></i> Pareja</button>
+          <button type="button" class="subtab-btn" data-ptab="ocio" onclick="switchPersonalTab('ocio')"><i data-lucide="coffee"></i> Ocio</button>
+        </div>
+        <button type="button" class="btn btn-sm btn-secondary btn-drawer-toggle" data-drawer="drawer-personal-import" onclick="toggleDrawer('drawer-personal-import', this)">
+          <i data-lucide="sparkles"></i> Importar Notas
+        </button>
+      </div>
+
+      <!-- Acordeón: Importador Personal -->
+      <div id="drawer-personal-import" class="collapsible-drawer card card-lavender">
         <div class="card-header">
           <h3 class="card-title"><i data-lucide="sparkles"></i> Importador Inteligente Personal</h3>
           <span class="badge badge-cyan">Clasifica en Salud, Ejercicio, Ocio, Pareja y Sueños</span>
@@ -789,58 +911,79 @@
         <div id="personalImportPreview" style="margin-top:12px;"></div>
       </div>
 
-      <div class="subtabs">
-        <button type="button" class="subtab-btn active" data-ptab="equilibrio" onclick="switchPersonalTab('equilibrio')"><i data-lucide="compass"></i> Equilibrio, Hábitos &amp; Agenda</button>
-        <button type="button" class="subtab-btn" data-ptab="salud" onclick="switchPersonalTab('salud')"><i data-lucide="heart-pulse"></i> Salud &amp; Ejercicio</button>
-        <button type="button" class="subtab-btn" data-ptab="finanzas" onclick="switchPersonalTab('finanzas')"><i data-lucide="wallet"></i> Finanzas &amp; Tarjetas</button>
-        <button type="button" class="subtab-btn" data-ptab="suenos" onclick="switchPersonalTab('suenos')"><i data-lucide="star"></i> Tablero de Sueños</button>
-        <button type="button" class="subtab-btn" data-ptab="pareja" onclick="switchPersonalTab('pareja')"><i data-lucide="heart"></i> Pareja</button>
-        <button type="button" class="subtab-btn" data-ptab="ocio" onclick="switchPersonalTab('ocio')"><i data-lucide="coffee"></i> Ocio</button>
-      </div>
-
       <!-- SUB-VISTA 3.1: EQUILIBRIO, HÁBITOS & GOOGLE CALENDAR -->
       <div id="ptab-equilibrio" class="ptab-content">
-        <div class="grid-2">
+        <div class="equil-top">
           <div class="card">
             <div class="card-header">
               <h3 class="card-title"><i data-lucide="pie-chart"></i> Rueda de la Vida</h3>
-              <button type="button" class="btn btn-sm btn-outline" onclick="addWheelArea()"><i data-lucide="plus"></i> Área</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="promptNewWheelArea()"><i data-lucide="plus"></i> Área</button>
             </div>
-            <div class="chart-box"><canvas id="chartPersonalWheel"></canvas></div>
-            <div id="wheelSliders" style="margin-top:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;"></div>
+            <div class="chart-box" style="height:200px;"><canvas id="chartPersonalWheel"></canvas></div>
+            <div id="wheelSliders" style="margin-top:10px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;"></div>
           </div>
 
           <div class="card card-cyan">
             <div class="card-header">
-              <h3 class="card-title"><i data-lucide="calendar"></i> Agenda Personal &amp; Google Calendar</h3>
-              <button type="button" class="btn btn-sm btn-cyan" onclick="syncGoogleCalendar()"><i data-lucide="refresh-cw"></i> Sincronizar Calendar</button>
+              <h3 class="card-title"><i data-lucide="calendar"></i> Agenda Personal &amp; Calendar</h3>
+              <div class="header-actions">
+                <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-pe-form" onclick="toggleDrawer('drawer-pe-form', this)">
+                  <i data-lucide="calendar-plus"></i> Nuevo Evento
+                </button>
+                <button type="button" class="btn btn-sm btn-cyan" onclick="syncGoogleCalendar()">
+                  <i data-lucide="refresh-cw"></i> Sincronizar
+                </button>
+              </div>
             </div>
-            <form onsubmit="addPersonalEvent(event)" style="margin-bottom:14px;">
-              <div class="form-row">
-                <input type="text" id="peTitle" required placeholder="Cita médica, reunión personal..." />
-                <select id="peCategory">
-                  <option value="Cita Médica">Cita Médica</option>
-                  <option value="Reunión Personal">Reunión Personal</option>
-                  <option value="Otro">Otro Evento</option>
-                </select>
-              </div>
-              <div class="form-row">
-                <input type="date" id="peDate" required />
-                <input type="time" id="peTime" value="10:00" required />
-                <button type="submit" class="btn btn-primary"><i data-lucide="calendar-plus"></i> Agendar</button>
-              </div>
-            </form>
-            <div id="personalEventsList" style="display:flex;flex-direction:column;gap:8px;max-height:290px;overflow-y:auto;"></div>
+
+            <div id="drawer-pe-form" class="collapsible-drawer">
+              <form onsubmit="addPersonalEvent(event)" style="background:#FFFFFF;padding:12px;border-radius:var(--radius-md);border:1px solid var(--frosted-blue);">
+                <div class="form-row">
+                  <input type="text" id="peTitle" required placeholder="Cita médica, reunión personal..." />
+                  <select id="peCategory">
+                    <option value="Cita Médica">Cita Médica</option>
+                    <option value="Reunión Personal">Reunión Personal</option>
+                    <option value="Otro">Otro Evento</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <select id="peRecurring" onchange="togglePePeriod()" aria-label="¿Es recurrente?">
+                    <option value="no">No recurrente</option>
+                    <option value="si">Recurrente</option>
+                  </select>
+                  <select id="pePeriod" style="display:none;" aria-label="Periodicidad">
+                    <option>Diaria</option>
+                    <option selected>Semanal</option>
+                    <option>Quincenal</option>
+                    <option>Mensual</option>
+                    <option>Anual</option>
+                  </select>
+                </div>
+                <div class="form-row" style="margin-bottom:0;">
+                  <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="peDate" required />
+                  <input type="time" id="peTime" value="10:00" required />
+                  <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Agendar</button>
+                </div>
+              </form>
+            </div>
+
+            <div id="personalEventsList" style="display:flex;flex-direction:column;gap:8px;flex:1;min-height:140px;max-height:420px;overflow-y:auto;"></div>
           </div>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="flame"></i> Habit Tracker — Constancia Semanal</h3>
-            <div style="display:flex;gap:8px;">
-              <input type="text" id="newHabitName" placeholder="Nuevo hábito (ej. Meditar 15m)" style="width:210px;" />
+            <h3 class="card-title"><i data-lucide="flame"></i> Habit Tracker — Constancia Mensual</h3>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <input type="text" id="newHabitName" placeholder="Nuevo hábito (ej. Meditar 15m)" style="width:210px;" onkeydown="if(event.key==='Enter'){event.preventDefault();addHabit();}" />
               <button type="button" class="btn btn-sm btn-primary" onclick="addHabit()"><i data-lucide="plus"></i> Agregar</button>
             </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
+            <button type="button" class="btn btn-sm btn-outline" onclick="changeHabitMonth(-1)" aria-label="Mes anterior">◀</button>
+            <strong id="habitMonthTitle" style="min-width:140px;text-align:center;">Mes Año</strong>
+            <button type="button" class="btn btn-sm btn-outline" onclick="changeHabitMonth(1)" aria-label="Mes siguiente">▶</button>
+            <select id="habitFilterSel" onchange="setHabitFilter(this.value)" style="max-width:240px;"></select>
           </div>
           <div class="table-wrap">
             <table>
@@ -858,35 +1001,49 @@
         <div class="card card-cyan" style="margin-bottom:20px;">
           <div class="card-header">
             <h3 class="card-title"><i data-lucide="dumbbell"></i> Seguimiento de Ejercicio y Actividad Física</h3>
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-ex-form" onclick="toggleDrawer('drawer-ex-form', this)">
+              <i data-lucide="plus"></i> Registrar Sesión
+            </button>
           </div>
-          <form onsubmit="addExercise(event)" class="form-row">
-            <input type="date" id="exDate" required />
-            <input type="text" id="exActivity" required placeholder="Actividad (ej. Fuerza tren superior, Yoga, Cardio)" />
-            <input type="number" id="exMinutes" placeholder="Minutos (ej. 45)" min="1" />
-            <input type="text" id="exNotes" placeholder="Notas o sensaciones" />
-            <button type="submit" class="btn btn-primary"><i data-lucide="plus"></i> Registrar</button>
-          </form>
-          <div id="exerciseList" style="display:flex;flex-direction:column;gap:8px;margin-top:10px;"></div>
+          <div id="drawer-ex-form" class="collapsible-drawer">
+            <form onsubmit="addExercise(event)" class="form-row" style="background:#FFFFFF;padding:12px;border-radius:var(--radius-md);border:1px solid var(--frosted-blue);margin-bottom:0;">
+              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="exDate" required />
+              <input type="text" id="exActivity" required placeholder="Actividad (ej. Fuerza, Yoga, Cardio)" />
+              <input type="number" id="exMinutes" placeholder="Minutos (ej. 45)" min="1" />
+              <input type="text" id="exNotes" placeholder="Notas o sensaciones" />
+              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
+            </form>
+          </div>
+          <div id="exerciseList" style="display:flex;flex-direction:column;gap:8px;"></div>
         </div>
 
         <div class="card">
           <div class="card-header">
             <h3 class="card-title"><i data-lucide="stethoscope"></i> Historial Médico, Chequeos y Recordatorios</h3>
-            <button type="button" class="btn btn-sm btn-secondary" onclick="addCategoryPrompt('medicalSpecialties')"><i data-lucide="plus"></i> Nueva Especialidad</button>
+            <div class="header-actions">
+              <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-med-form" onclick="toggleDrawer('drawer-med-form', this)">
+                <i data-lucide="plus"></i> Nuevo Control
+              </button>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="promptNewCategory('medicalSpecialties', 'Nueva Especialidad Médica')">
+                <i data-lucide="tag"></i> + Especialidad
+              </button>
+            </div>
           </div>
-          <form onsubmit="addMedicalRecord(event)" style="background:var(--lavender-mist);padding:14px;border-radius:var(--radius-md);margin-bottom:16px;">
-            <div class="form-row">
-              <div class="form-group"><label>Fecha de atención *</label><input type="date" id="medDate" required /></div>
-              <div class="form-group"><label>Especialidad *</label><select id="medSpecialty"></select></div>
-              <div class="form-group"><label>Lugar de atención / Clínica *</label><input type="text" id="medPlace" required placeholder="Ej. Clínica Internacional" /></div>
-            </div>
-            <div class="form-row">
-              <div class="form-group"><label>Exámenes médicos / Diagnóstico</label><input type="text" id="medExams" placeholder="Ej. Hemograma completo, ecografía..." /></div>
-              <div class="form-group"><label>Próximo control / Recordatorio</label><input type="date" id="medNextDate" /></div>
-              <div class="form-group"><label>Tratamiento / Indicaciones</label><input type="text" id="medTreatment" placeholder="Ej. Repetir control en 6 meses" /></div>
-            </div>
-            <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Guardar Registro Médico</button>
-          </form>
+          <div id="drawer-med-form" class="collapsible-drawer">
+            <form onsubmit="addMedicalRecord(event)" style="background:var(--lavender-mist);padding:14px;border-radius:var(--radius-md);border:1px solid var(--border-soft);">
+              <div class="form-row">
+                <div class="form-group"><label>Fecha de atención *</label><input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="medDate" required /></div>
+                <div class="form-group"><label>Especialidad *</label><select id="medSpecialty"></select></div>
+                <div class="form-group"><label>Lugar de atención / Clínica *</label><input type="text" id="medPlace" required placeholder="Ej. Clínica Internacional" /></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>Exámenes médicos / Diagnóstico</label><input type="text" id="medExams" placeholder="Ej. Hemograma completo, ecografía..." /></div>
+                <div class="form-group"><label>Próximo control / Recordatorio</label><input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="medNextDate" /></div>
+                <div class="form-group"><label>Tratamiento / Indicaciones</label><input type="text" id="medTreatment" placeholder="Ej. Repetir control en 6 meses" /></div>
+              </div>
+              <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Guardar Registro Médico</button>
+            </form>
+          </div>
           <div class="table-wrap">
             <table>
               <thead>
@@ -920,14 +1077,17 @@
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <button type="button" class="btn btn-sm btn-secondary" onclick="openNewFinCatModal()"><i data-lucide="plus"></i> Nueva Categoría</button>
-              <button type="button" class="btn btn-sm btn-cyan" onclick="document.getElementById('statementUploadBox').style.display='block'"><i data-lucide="file-spreadsheet"></i> Cargar Estado de Cuenta</button>
+              <button type="button" class="btn btn-sm btn-cyan btn-drawer-toggle" data-drawer="drawer-statement" onclick="toggleDrawer('drawer-statement', this)">
+                <i data-lucide="file-spreadsheet"></i> Estado de Cuenta
+              </button>
             </div>
           </div>
         </div>
 
         <div class="grid-4" id="financeKpis"></div>
 
-        <div class="card card-cyan" id="statementUploadBox" style="margin-bottom:20px;">
+        <!-- Acordeón: Analizador Estado de Cuenta -->
+        <div class="collapsible-drawer card card-cyan" id="drawer-statement">
           <div class="card-header">
             <h3 class="card-title"><i data-lucide="credit-card"></i> Analizador de Estado de Cuenta (Excel, CSV o PDF)</h3>
             <span class="badge badge-lavender">Detecta cuotas, total del mes y fecha límite</span>
@@ -942,7 +1102,7 @@
             </div>
             <div class="form-group">
               <label>Fecha límite de pago de la tarjeta</label>
-              <input type="date" id="statementDueDate" />
+              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="statementDueDate" />
             </div>
             <div class="form-group">
               <label>Moneda del estado de cuenta</label>
@@ -968,26 +1128,31 @@
 
         <div class="card" style="margin-bottom:20px;">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="arrow-left-right"></i> Registrar Movimiento (Ingreso, Gasto o Ahorro Mensual)</h3>
+            <h3 class="card-title"><i data-lucide="arrow-left-right"></i> Movimientos del Periodo</h3>
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-tx-form" onclick="toggleDrawer('drawer-tx-form', this)">
+              <i data-lucide="plus"></i> Registrar Movimiento
+            </button>
           </div>
-          <form onsubmit="addFinanceTx(event)" class="form-row">
-            <select id="txType" onchange="toggleTxCategory()">
-              <option value="Gasto">Gasto</option>
-              <option value="Ingreso">Ingreso</option>
-              <option value="Ahorro">Ahorro Mensual</option>
-            </select>
-            <select id="txCategory"></select>
-            <input type="text" id="txDesc" required placeholder="Concepto (ej. Supermercado, Sueldo, Ahorro meta)" />
-            <select id="txCurrency">
-              <option value="PEN">S/ (Soles)</option>
-              <option value="USD">$ (Dólares)</option>
-            </select>
-            <input type="number" step="0.01" id="txAmount" required placeholder="Monto" />
-            <input type="date" id="txDate" required />
-            <button type="submit" class="btn btn-primary"><i data-lucide="plus"></i> Registrar</button>
-          </form>
+          <div id="drawer-tx-form" class="collapsible-drawer">
+            <form onsubmit="addFinanceTx(event)" class="form-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-md);border:1px solid var(--border-soft);margin-bottom:0;">
+              <select id="txType" onchange="toggleTxCategory()">
+                <option value="Gasto">Gasto</option>
+                <option value="Ingreso">Ingreso</option>
+                <option value="Ahorro">Ahorro Mensual</option>
+              </select>
+              <select id="txCategory"></select>
+              <input type="text" id="txDesc" required placeholder="Concepto (ej. Supermercado, Sueldo)" />
+              <select id="txCurrency">
+                <option value="PEN">S/ (Soles)</option>
+                <option value="USD">$ (Dólares)</option>
+              </select>
+              <input type="number" step="0.01" id="txAmount" required placeholder="Monto" />
+              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="txDate" required />
+              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
+            </form>
+          </div>
 
-          <div class="table-wrap" style="margin-top:14px;">
+          <div class="table-wrap">
             <table>
               <thead>
                 <tr>
@@ -1007,19 +1172,24 @@
         <div class="card">
           <div class="card-header">
             <h3 class="card-title"><i data-lucide="trending-up"></i> Portafolio de Inversiones</h3>
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-inv-form" onclick="toggleDrawer('drawer-inv-form', this)">
+              <i data-lucide="plus"></i> Nueva Inversión
+            </button>
           </div>
-          <form onsubmit="addInvestment(event)" class="form-row">
-            <input type="text" id="invEntity" required placeholder="Entidad / Instrumento (ej. Depósito Plazo, ETF)" />
-            <select id="invCurrency">
-              <option value="PEN">S/</option>
-              <option value="USD">$</option>
-            </select>
-            <input type="number" step="0.01" id="invCapital" required placeholder="Capital invertido" />
-            <input type="number" step="0.01" id="invCurrent" required placeholder="Valor actual" />
-            <input type="date" id="invMaturity" title="Fecha de vencimiento" />
-            <button type="submit" class="btn btn-primary"><i data-lucide="plus"></i> Agregar Inversión</button>
-          </form>
-          <div class="table-wrap" style="margin-top:12px;">
+          <div id="drawer-inv-form" class="collapsible-drawer">
+            <form onsubmit="addInvestment(event)" class="form-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-md);border:1px solid var(--border-soft);margin-bottom:0;">
+              <input type="text" id="invEntity" required placeholder="Entidad / Instrumento (ej. Depósito Plazo)" />
+              <select id="invCurrency">
+                <option value="PEN">S/</option>
+                <option value="USD">$</option>
+              </select>
+              <input type="number" step="0.01" id="invCapital" required placeholder="Capital invertido" />
+              <input type="number" step="0.01" id="invCurrent" required placeholder="Valor actual" />
+              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="invMaturity" title="Fecha de vencimiento" />
+              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Agregar</button>
+            </form>
+          </div>
+          <div class="table-wrap">
             <table>
               <thead>
                 <tr>
@@ -1053,26 +1223,36 @@
         <div class="card" style="margin-bottom:20px;">
           <div class="card-header">
             <h3 class="card-title"><i data-lucide="lightbulb"></i> Lluvia de Ideas de Sueños</h3>
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-dream-idea" onclick="toggleDrawer('drawer-dream-idea', this)">
+              <i data-lucide="plus"></i> Nueva Idea
+            </button>
           </div>
-          <form onsubmit="addDreamIdea(event)" class="form-row">
-            <input type="text" id="dreamIdeaTitle" required placeholder="Escribe tu sueño o deseo..." />
-            <input type="text" id="dreamIdeaComment" placeholder="Comentarios o inspiración..." />
-            <button type="submit" class="btn btn-primary"><i data-lucide="plus"></i> Agregar Idea</button>
-          </form>
-          <div id="dreamIdeasList" style="display:flex;flex-direction:column;gap:8px;margin-top:12px;"></div>
+          <div id="drawer-dream-idea" class="collapsible-drawer">
+            <form onsubmit="addDreamIdea(event)" class="form-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-md);margin-bottom:0;">
+              <input type="text" id="dreamIdeaTitle" required placeholder="Escribe tu sueño o deseo..." />
+              <input type="text" id="dreamIdeaComment" placeholder="Comentarios o inspiración..." />
+              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar Idea</button>
+            </form>
+          </div>
+          <div id="dreamIdeasList" style="display:flex;flex-direction:column;gap:8px;"></div>
         </div>
 
         <div class="card">
           <div class="card-header">
             <h3 class="card-title"><i data-lucide="target"></i> Matriz de Ejecución de Sueños</h3>
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-dream-matrix" onclick="toggleDrawer('drawer-dream-matrix', this)">
+              <i data-lucide="plus"></i> Nuevo Objetivo
+            </button>
           </div>
-          <form onsubmit="addDreamMatrix(event)" class="form-row">
-            <input type="text" id="dmObjective" required placeholder="Objetivo concreto" />
-            <input type="text" id="dmActions" required placeholder="Acciones clave para lograrlo" />
-            <input type="date" id="dmDeadline" required />
-            <button type="submit" class="btn btn-primary"><i data-lucide="plus"></i> Añadir a Matriz</button>
-          </form>
-          <div class="table-wrap" style="margin-top:12px;">
+          <div id="drawer-dream-matrix" class="collapsible-drawer">
+            <form onsubmit="addDreamMatrix(event)" class="form-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-md);margin-bottom:0;">
+              <input type="text" id="dmObjective" required placeholder="Objetivo concreto" />
+              <input type="text" id="dmActions" required placeholder="Acciones clave para lograrlo" />
+              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="dmDeadline" required />
+              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Añadir</button>
+            </form>
+          </div>
+          <div class="table-wrap">
             <table>
               <thead>
                 <tr><th>Objetivo</th><th>Acciones</th><th>Plazo</th><th>Estado</th><th></th></tr>
@@ -1087,15 +1267,21 @@
       <div id="ptab-pareja" class="ptab-content" style="display:none;">
         <div class="card card-lavender">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="heart"></i> Espacio de Pareja — Planes, Fechas y Acuerdos</h3>
+            <h3 class="card-title"><i data-lucide="heart"></i> Pareja — Planes, Fechas y Acuerdos</h3>
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-couple" onclick="toggleDrawer('drawer-couple', this)">
+              <i data-lucide="plus"></i> Nuevo Plan
+            </button>
           </div>
-          <form onsubmit="addSimplePersonalItem(event, 'couple')" class="form-row">
-            <input type="text" id="coupleTitle" required placeholder="Plan, cita, aniversario o detalle..." />
-            <input type="date" id="coupleDate" />
-            <input type="text" id="coupleNote" placeholder="Notas o ideas..." />
-            <button type="submit" class="btn btn-primary"><i data-lucide="plus"></i> Guardar</button>
-          </form>
-          <div id="coupleList" style="display:flex;flex-direction:column;gap:8px;margin-top:12px;"></div>
+          <div id="drawer-couple" class="collapsible-drawer">
+            <form onsubmit="addSimplePersonalItem(event, 'couple')" class="form-row" style="background:#FFFFFF;padding:12px;border-radius:var(--radius-md);border:1px solid var(--border-soft);margin-bottom:0;">
+              <input type="text" id="coupleTitle" required placeholder="Plan, cita, aniversario o detalle..." />
+              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="coupleDate" />
+              <select id="coupleStatus"><option>Programado</option><option>Culminado</option></select>
+              <textarea id="coupleNote" rows="3" class="note-area" placeholder="Notas o ideas..."></textarea>
+              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
+            </form>
+          </div>
+          <div id="coupleList" style="display:flex;flex-direction:column;gap:8px;"></div>
         </div>
       </div>
 
@@ -1103,105 +1289,119 @@
       <div id="ptab-ocio" class="ptab-content" style="display:none;">
         <div class="card card-cyan">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="coffee"></i> Espacio de Ocio, Lecturas, Películas y Descanso</h3>
+            <h3 class="card-title"><i data-lucide="coffee"></i> Ocio, Lecturas, Películas y Descanso</h3>
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-leisure" onclick="toggleDrawer('drawer-leisure', this)">
+              <i data-lucide="plus"></i> Nuevo Elemento
+            </button>
           </div>
-          <form onsubmit="addSimplePersonalItem(event, 'leisure')" class="form-row">
-            <input type="text" id="leisureTitle" required placeholder="Libro, película, salida, hobby..." />
-            <input type="date" id="leisureDate" />
-            <input type="text" id="leisureNote" placeholder="Categoría o comentario..." />
-            <button type="submit" class="btn btn-primary"><i data-lucide="plus"></i> Guardar</button>
-          </form>
-          <div id="leisureList" style="display:flex;flex-direction:column;gap:8px;margin-top:12px;"></div>
+          <div id="drawer-leisure" class="collapsible-drawer">
+            <form onsubmit="addSimplePersonalItem(event, 'leisure')" class="form-row" style="background:#FFFFFF;padding:12px;border-radius:var(--radius-md);border:1px solid var(--frosted-blue);margin-bottom:0;">
+              <input type="text" id="leisureTitle" required placeholder="Libro, película, salida, hobby..." />
+              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="leisureDate" />
+              <textarea id="leisureNote" rows="3" class="note-area" placeholder="Categoría, comentario o notas..."></textarea>
+              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
+            </form>
+          </div>
+          <div id="leisureList" style="display:flex;flex-direction:column;gap:8px;"></div>
         </div>
       </div>
     </section>
 
     <!-- =====================================================================
-         4. VISTA: ESPACIO ENERGÍA
+         4. VISTA: ENERGÍA
     ====================================================================== -->
     <section id="view-energy" class="view-section">
-      <div class="grid-2">
+      <div class="energy-top">
         <div class="card card-cyan">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="sparkles"></i> Calendario de Limpieza Energética</h3>
+            <h3 class="card-title"><i data-lucide="sparkles"></i> Calendario de Limpieza</h3>
             <span class="badge badge-lavender" id="energyStreakBadge">0 días este mes</span>
           </div>
           <div class="cal-header">
-            <button type="button" class="btn btn-sm btn-outline" onclick="changeEnergyMonth(-1)">◀ Anterior</button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="changeEnergyMonth(-1)">◀</button>
             <strong id="energyCalTitle">Mes Año</strong>
-            <button type="button" class="btn btn-sm btn-outline" onclick="changeEnergyMonth(1)">Siguiente ▶</button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="changeEnergyMonth(1)">▶</button>
           </div>
           <div class="cal-grid" id="energyCalendarGrid"></div>
-          <p style="font-size:0.78rem;color:var(--text-muted);margin-top:10px;">Haz clic en cualquier día para marcar o desmarcar tu limpieza energética.</p>
+          <p style="font-size:0.74rem;color:var(--text-muted);margin-top:8px;">Clic en un día para marcar o desmarcar.</p>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="bar-chart"></i> Resumen por Tipos y Subtipos de Rastreo</h3>
+            <h3 class="card-title"><i data-lucide="bar-chart"></i> Registros por Tipo</h3>
           </div>
-          <div class="chart-box"><canvas id="chartEnergyTypes"></canvas></div>
-          <div id="energySubtypeSummary" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;"></div>
+          <div class="chart-box" style="height:185px;"><canvas id="chartEnergyTypes"></canvas></div>
+          <div id="energySubtypeSummary" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;"></div>
         </div>
       </div>
 
       <div class="card card-lavender" style="margin-bottom:20px;">
         <div class="card-header">
           <h3 class="card-title"><i data-lucide="book-open"></i> Bitácora de Rastreo Energético</h3>
-          <button type="button" class="btn btn-sm btn-secondary" onclick="addCategoryPrompt('energyTypes')"><i data-lucide="plus"></i> Nuevo Tipo</button>
+          <div class="header-actions">
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-en-log" onclick="toggleDrawer('drawer-en-log', this)">
+              <i data-lucide="plus"></i> Nuevo Hallazgo
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="promptNewCategory('energyTypes', 'Nuevo Tipo de Rastreo')">
+              <i data-lucide="tag"></i> + Tipo
+            </button>
+          </div>
         </div>
 
-        <form onsubmit="addEnergyLog(event)" style="background:#FFFFFF;padding:14px;border-radius:var(--radius-md);margin-bottom:16px;border:1px solid var(--border-soft);">
-          <div class="form-row">
-            <div class="form-group">
-              <label>Fecha del rastreo *</label>
-              <input type="date" id="enDate" required />
-            </div>
-            <div class="form-group">
-              <label>Tipo identificado *</label>
-              <select id="enType" onchange="toggleEnergyTypeFields()"></select>
-            </div>
-            <div class="form-group" id="enSubtypeGroup" style="display:none;">
-              <label>Subtipo (Huellas Causales) *</label>
-              <select id="enSubtype">
-                <option value="Personas">Personas</option>
-                <option value="Cuerpo">Cuerpo</option>
-                <option value="Yo">Yo</option>
-                <option value="Actitud">Actitud</option>
-              </select>
-            </div>
-            <div class="form-group" id="enStandardDescGroup">
-              <label>Descripción / Hallazgo *</label>
-              <input type="text" id="enDescription" placeholder="Detalle de lo encontrado en el rastreo..." />
-            </div>
-          </div>
-
-          <div id="enCardFields" style="display:none;background:var(--thistle-soft);padding:12px;border-radius:var(--radius-sm);margin-bottom:12px;">
+        <div id="drawer-en-log" class="collapsible-drawer">
+          <form onsubmit="addEnergyLog(event)" style="background:#FFFFFF;padding:14px;border-radius:var(--radius-md);border:1px solid var(--border-soft);">
             <div class="form-row">
-              <div class="form-group"><label>Nombre de la Carta *</label><input type="text" id="enCardName" placeholder="Ej. La Estrella / Carta #12" /></div>
-              <div class="form-group"><label>Evento Relacionado</label><input type="text" id="enCardEvent" placeholder="Contexto o consulta..." /></div>
-              <div class="form-group"><label>Comentarios</label><input type="text" id="enCardComments" placeholder="Mensaje o interpretación..." /></div>
+              <div class="form-group">
+                <label>Fecha del rastreo *</label>
+                <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="enDate" required />
+              </div>
+              <div class="form-group">
+                <label>Tipo identificado *</label>
+                <select id="enType" onchange="toggleEnergyTypeFields()"></select>
+              </div>
+              <div class="form-group" id="enSubtypeGroup" style="display:none;">
+                <label>Subtipo (Huellas Causales) *</label>
+                <select id="enSubtype">
+                  <option value="Personas">Personas</option>
+                  <option value="Cuerpo">Cuerpo</option>
+                  <option value="Yo">Yo</option>
+                  <option value="Actitud">Actitud</option>
+                </select>
+              </div>
+              <div class="form-group" id="enStandardDescGroup">
+                <label>Descripción / Hallazgo *</label>
+                <input type="text" id="enDescription" required placeholder="Detalle de lo encontrado en el rastreo..." />
+              </div>
+              <div class="form-group">
+                <label>Acción</label>
+                <select id="enAction">
+                  <option>Consultar</option>
+                  <option>Por Eliminar</option>
+                  <option>Eliminado</option>
+                </select>
+              </div>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group" style="grid-column: span 2;">
-              <label>Actividad por hacer asociada (opcional — se agregará a tu lista de seguimiento)</label>
-              <input type="text" id="enLinkedAction" placeholder="Ej. Realizar protocolo de liberación / meditación..." />
+            <div class="form-row" style="margin-bottom:0;">
+              <div class="form-group" style="grid-column: span 2;">
+                <label>Actividad por hacer asociada (opcional — se agregará a tu lista de seguimiento)</label>
+                <input type="text" id="enLinkedAction" placeholder="Ej. Realizar protocolo de liberación / meditación..." />
+              </div>
+              <div class="form-group" style="justify-content:flex-end;">
+                <button type="submit" class="btn btn-primary"><i data-lucide="plus-circle"></i> Registrar en Bitácora</button>
+              </div>
             </div>
-            <div class="form-group" style="justify-content:flex-end;">
-              <button type="submit" class="btn btn-primary"><i data-lucide="plus-circle"></i> Registrar en Bitácora</button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
 
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
                 <th>Fecha</th>
-                <th>Tipo / Subtipo</th>
-                <th>Detalle / Carta</th>
-                <th>Acción Asociada</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+                <th>Acción</th>
                 <th></th>
               </tr>
             </thead>
@@ -1212,28 +1412,76 @@
 
       <div class="card" style="margin-bottom:20px;">
         <div class="card-header">
-          <h3 class="card-title"><i data-lucide="check-square"></i> Actividades Energéticas por Hacer (Seguimiento)</h3>
+          <h3 class="card-title"><i data-lucide="mail"></i> Bitácora de Cartas</h3>
+          <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-en-letter" onclick="toggleDrawer('drawer-en-letter', this)">
+            <i data-lucide="plus"></i> Nueva Carta
+          </button>
         </div>
-        <form onsubmit="addEnergyAction(event)" class="form-row">
-          <select id="eaType"></select>
-          <select id="eaSubtype">
-            <option value="">Sin subtipo</option>
-            <option value="Personas">Huella: Personas</option>
-            <option value="Cuerpo">Huella: Cuerpo</option>
-            <option value="Yo">Huella: Yo</option>
-            <option value="Actitud">Huella: Actitud</option>
-          </select>
-          <input type="text" id="eaTask" required placeholder="Actividad pendiente por ejecutar..." />
-          <button type="submit" class="btn btn-primary"><i data-lucide="plus"></i> Agregar Actividad</button>
-        </form>
-        <div id="energyActionsList" style="display:flex;flex-direction:column;gap:8px;margin-top:12px;"></div>
+        <div id="drawer-en-letter" class="collapsible-drawer">
+          <form onsubmit="addEnergyLetter(event)" class="form-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-md);margin-bottom:0;">
+            <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="letDate" required aria-label="Fecha de la carta" />
+            <input type="text" id="letPerson" required placeholder="Nombre de la persona" />
+            <input type="text" id="letDesc" placeholder="Descripción de la carta..." />
+            <select id="letAction">
+              <option>En proceso</option>
+              <option>Culminado</option>
+              <option>Por Incinerar</option>
+            </select>
+            <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Registrar</button>
+          </form>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha de carta</th>
+                <th>Persona</th>
+                <th>Descripción</th>
+                <th>Acción</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="energyLettersTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header">
+          <h3 class="card-title"><i data-lucide="check-square"></i> Actividades Energéticas por Hacer (Seguimiento)</h3>
+          <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-en-action" onclick="toggleDrawer('drawer-en-action', this)">
+            <i data-lucide="plus"></i> Nueva Actividad
+          </button>
+        </div>
+        <div id="drawer-en-action" class="collapsible-drawer">
+          <form onsubmit="addEnergyAction(event)" class="form-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-md);margin-bottom:0;">
+            <select id="eaType"></select>
+            <select id="eaSubtype">
+              <option value="">Sin subtipo</option>
+              <option value="Personas">Huella: Personas</option>
+              <option value="Cuerpo">Huella: Cuerpo</option>
+              <option value="Yo">Huella: Yo</option>
+              <option value="Actitud">Huella: Actitud</option>
+            </select>
+            <input type="text" id="eaTask" required placeholder="Actividad pendiente por ejecutar..." />
+            <select id="eaStatus" aria-label="Estado">
+              <option>Por hacer</option>
+              <option>Por Incinerar</option>
+              <option>Por Eliminar</option>
+              <option>Culminado</option>
+            </select>
+            <input type="text" id="eaComment" placeholder="Comentarios (opcional)" />
+            <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Agregar</button>
+          </form>
+        </div>
+        <div id="energyActionsList" style="display:flex;flex-direction:column;gap:8px;"></div>
       </div>
 
       <div class="card card-cyan">
         <div class="card-header">
-          <h3 class="card-title"><i data-lucide="library"></i> Biblioteca de Energía (Google Drive)</h3>
+          <h3 class="card-title"><i data-lucide="library"></i> Biblioteca de Energía (Local + Google Drive)</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button type="button" class="btn btn-sm btn-outline" onclick="createLibrarySubfolder()"><i data-lucide="folder-plus"></i> Nueva Subcarpeta</button>
+            <button type="button" class="btn btn-sm btn-outline" onclick="promptNewLibrarySubfolder()"><i data-lucide="folder-plus"></i> Nueva Subcarpeta</button>
             <label class="btn btn-sm btn-primary" style="cursor:pointer;">
               <i data-lucide="upload-cloud"></i> Subir Archivo (PDF, Word, Excel, Img)
               <input type="file" id="energyLibUploadInput" style="display:none;" onchange="uploadToEnergyLibrary(event)" />
@@ -1254,6 +1502,9 @@
   </main>
 </div>
 
+<!-- Contenedor de Notificaciones Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
 <!-- Mobile Bottom Navigation -->
 <nav class="mobile-nav">
   <button type="button" class="mobile-nav-btn active" data-view="dashboard" onclick="switchView('dashboard')">
@@ -1269,6 +1520,32 @@
     <i data-lucide="sun" style="width:18px;height:18px;"></i> Energía
   </button>
 </nav>
+
+<!-- =========================================================================
+     MODAL REUTILIZABLE DE ENTRADA (REEMPLAZA PROMPT NATIVO)
+========================================================================== -->
+<div class="modal-backdrop" id="inputPromptModal">
+  <div class="modal-box" style="max-width:440px;">
+    <div class="card-header">
+      <h3 class="card-title" id="promptModalTitle">Nuevo Elemento</h3>
+      <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('inputPromptModal')">✕</button>
+    </div>
+    <form onsubmit="submitPromptModal(event)">
+      <div class="form-group" id="promptSelectGroup" style="margin-bottom:12px;display:none;">
+        <label id="promptSelectLabel">Carpeta destino</label>
+        <select id="promptModalSelect" onchange="togglePromptCustomInput()"></select>
+      </div>
+      <div class="form-group" id="promptTextGroup" style="margin-bottom:16px;">
+        <label id="promptModalLabel">Nombre</label>
+        <input type="text" id="promptModalInput" placeholder="Escribe aquí..." />
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;">
+        <button type="button" class="btn btn-outline" onclick="closeModal('inputPromptModal')">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="promptModalConfirmBtn">Confirmar</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <!-- =========================================================================
      MODAL: CONFIGURACIÓN GOOGLE DRIVE, CALENDAR Y RESPALDO JSON
@@ -1344,19 +1621,22 @@
 
 <script>
 /* ============================================================================
-   1. ESTADO GLOBAL Y PERSISTENCIA SEGURA (LOCAL + GOOGLE DRIVE)
+   1. ESTADO GLOBAL, FECHAS LOCALES, INDEXEDDB Y PERSISTENCIA SEGURA
 ============================================================================ */
 const STORAGE_KEY = 'mi_planificador_data_v1';
 const CLIENT_ID_KEY = 'mi_planificador_client_id';
 const DRIVE_META_KEY = 'mi_planificador_drive_meta';
+const DRAWERS_STATE_KEY = 'mi_planificador_drawers_v1';
 
 let accessToken = null;
 let tokenClient = null;
 let driveMeta = JSON.parse(localStorage.getItem(DRIVE_META_KEY) || '{}');
+let drawerStates = JSON.parse(localStorage.getItem(DRAWERS_STATE_KEY) || '{}');
 let charts = {};
 let energyCalDate = new Date();
 let selectedLinearIcon = 'tag';
 let pendingStatementTxs = [];
+let activeBlobUrl = null;
 
 const LINEAR_ICONS = [
   'home', 'utensils', 'heart-pulse', 'shirt', 'sparkles', 'coffee',
@@ -1365,33 +1645,225 @@ const LINEAR_ICONS = [
   'briefcase', 'music', 'shopping-bag', 'shield', 'sun', 'tag'
 ];
 
+/* 3A: Fechas estrictamente en hora local del dispositivo (sin desfase UTC) */
+function localIsoDate(d = new Date()) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 function offsetDate(days) {
   const d = new Date();
   d.setDate(d.getDate() + days);
-  return d.toISOString().split('T')[0];
+  return localIsoDate(d);
 }
 
 function todayStr() {
-  return new Date().toISOString().split('T')[0];
+  return localIsoDate(new Date());
+}
+
+/* 2A: Sistema de Notificaciones Toast */
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  const icons = { success: 'check-circle-2', warning: 'alert-triangle', danger: 'alert-circle', info: 'sparkles' };
+  const toast = document.createElement('div');
+  toast.className = `toast-item ${type}`;
+  toast.innerHTML = `<i data-lucide="${icons[type] || 'sparkles'}" style="width:17px;height:17px;flex-shrink:0;"></i><span>${escapeHTML(message)}</span>`;
+  container.appendChild(toast);
+  safeIcons();
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(6px)';
+    toast.style.transition = 'all 0.2s ease';
+    setTimeout(() => toast.remove(), 220);
+  }, 3200);
+}
+
+/* 2A: Modal Reutilizable de Entrada (reemplaza prompt() nativo) */
+let promptCallback = null;
+function openPromptModal({ title, label, placeholder = '', defaultValue = '', selectOptions = null, selectLabel = 'Seleccionar' }, onConfirm) {
+  document.getElementById('promptModalTitle').textContent = title;
+  document.getElementById('promptModalLabel').textContent = label;
+  const inp = document.getElementById('promptModalInput');
+  inp.placeholder = placeholder;
+  inp.value = defaultValue;
+
+  const selGroup = document.getElementById('promptSelectGroup');
+  const selEl = document.getElementById('promptModalSelect');
+  if (Array.isArray(selectOptions) && selectOptions.length > 0) {
+    document.getElementById('promptSelectLabel').textContent = selectLabel;
+    selEl.innerHTML = selectOptions.map(opt => `<option value="${escapeHTML(opt.value)}">${escapeHTML(opt.text)}</option>`).join('');
+    selGroup.style.display = 'flex';
+    togglePromptCustomInput();
+  } else {
+    selGroup.style.display = 'none';
+    document.getElementById('promptTextGroup').style.display = 'flex';
+  }
+
+  promptCallback = onConfirm;
+  document.getElementById('inputPromptModal').classList.add('open');
+  setTimeout(() => {
+    if (document.getElementById('promptTextGroup').style.display !== 'none') inp.focus();
+    else selEl.focus();
+  }, 40);
+}
+
+function togglePromptCustomInput() {
+  const selEl = document.getElementById('promptModalSelect');
+  const txtGroup = document.getElementById('promptTextGroup');
+  txtGroup.style.display = (selEl.value === '__NEW__') ? 'flex' : 'none';
+  if (selEl.value === '__NEW__') document.getElementById('promptModalInput').focus();
+}
+
+function submitPromptModal(e) {
+  e.preventDefault();
+  const selVisible = document.getElementById('promptSelectGroup').style.display !== 'none';
+  const selVal = document.getElementById('promptModalSelect').value;
+  const txtVal = document.getElementById('promptModalInput').value.trim();
+
+  let result = txtVal;
+  if (selVisible) {
+    result = (selVal === '__NEW__') ? (txtVal || 'General') : selVal;
+  }
+  closeModal('inputPromptModal');
+  if (typeof promptCallback === 'function') {
+    const cb = promptCallback;
+    promptCallback = null;
+    cb(result);
+  }
+}
+
+/* 1A: Acordeones Colapsables con Memoria */
+function toggleDrawer(drawerId, btnEl) {
+  const drawer = document.getElementById(drawerId);
+  if (!drawer) return;
+  const willOpen = !drawer.classList.contains('open');
+  drawer.classList.toggle('open', willOpen);
+  drawerStates[drawerId] = willOpen;
+  localStorage.setItem(DRAWERS_STATE_KEY, JSON.stringify(drawerStates));
+  if (btnEl) btnEl.classList.toggle('is-open', willOpen);
+}
+
+function applySavedDrawerStates() {
+  Object.entries(drawerStates).forEach(([id, isOpen]) => {
+    const drawer = document.getElementById(id);
+    if (drawer) drawer.classList.toggle('open', !!isOpen);
+    const btn = document.querySelector(`[data-drawer="${id}"]`);
+    if (btn) btn.classList.toggle('is-open', !!isOpen);
+  });
+}
+
+/* 4A: Almacenamiento Binario Local en IndexedDB (evita saturar localStorage) */
+const PlanificadorIDB = {
+  dbPromise: null,
+  open() {
+    if (this.dbPromise) return this.dbPromise;
+    this.dbPromise = new Promise((resolve, reject) => {
+      if (!window.indexedDB) return reject(new Error('IndexedDB no disponible'));
+      const req = indexedDB.open('mi_planificador_files_db', 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains('library_files')) {
+          db.createObjectStore('library_files', { keyPath: 'id' });
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+    return this.dbPromise;
+  },
+  async put(id, blob, mimeType) {
+    try {
+      const db = await this.open();
+      return await new Promise((resolve, reject) => {
+        const tx = db.transaction('library_files', 'readwrite');
+        tx.objectStore('library_files').put({ id, blob, mimeType });
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (e) { console.warn('IDB put error:', e); return false; }
+  },
+  async get(id) {
+    try {
+      const db = await this.open();
+      return await new Promise((resolve, reject) => {
+        const tx = db.transaction('library_files', 'readonly');
+        const req = tx.objectStore('library_files').get(id);
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => reject(req.error);
+      });
+    } catch (e) { console.warn('IDB get error:', e); return null; }
+  },
+  async remove(id) {
+    try {
+      const db = await this.open();
+      return await new Promise((resolve) => {
+        const tx = db.transaction('library_files', 'readwrite');
+        tx.objectStore('library_files').delete(id);
+        tx.oncomplete = () => resolve(true);
+      });
+    } catch (e) { return false; }
+  }
+};
+
+/* 4A: Compresión automática de imágenes para Tablero de Sueños */
+function compressImageFile(file, maxDim = 800, quality = 0.78) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        let compressed = canvas.toDataURL('image/webp', quality);
+        if (!compressed.startsWith('data:image/webp')) {
+          compressed = canvas.toDataURL('image/jpeg', quality);
+        }
+        resolve(compressed);
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 const DEFAULT_DATA = {
   workTasks: [
     { id: 'w1', title: 'Revisar entregables mensuales de auditoría', project: 'Gestión Calidad', type: 'Auditoría', responsible: 'Mariela', dueDate: offsetDate(2), status: 'En Progreso' },
-    { id: 'w2', title: 'Actualizar matriz de indicadores operativos', project: 'Operaciones', type: 'Entregable', responsible: 'Mariela', dueDate: offsetDate(-1), status: 'Bandeja GTD' }
+    { id: 'w2', title: 'Actualizar matriz de indicadores operativos', project: 'Operaciones', type: 'Entregable', responsible: 'Mariela', dueDate: offsetDate(-1), status: 'Bandeja' }
   ],
   workTypes: ['Seguimiento', 'Auditoría', 'Entregable', 'Reunión', 'Administrativo'],
   wheelAreas: [
-    { name: 'Salud y Energía', score: 8 },
+    { name: 'Salud', score: 8 },
+    { name: 'Energía', score: 8 },
     { name: 'Carrera y Trabajo', score: 7 },
     { name: 'Finanzas', score: 7 },
     { name: 'Pareja y Amor', score: 8 },
     { name: 'Desarrollo Personal', score: 9 },
-    { name: 'Ocio y Descanso', score: 6 }
+    { name: 'Ocio y Descanso', score: 6 },
+    { name: 'Familia', score: 7 },
+    { name: 'Amigos', score: 7 }
   ],
   habits: [
     { id: 'h1', name: 'Hidratación y Kion tibio', days: {} },
-    { id: 'h2', name: 'Cierre de jornada y orden GTD', days: {} }
+    { id: 'h2', name: 'Cierre de jornada y orden', days: {} }
   ],
   personalEvents: [],
   exercises: [],
@@ -1417,14 +1889,43 @@ const DEFAULT_DATA = {
   couple: [],
   leisure: [],
   energyCleanDays: {},
-  energyTypes: ['Entes', 'Bloqueos', 'Emociones Atrapadas', 'Huellas Causales', 'Cartas'],
+  energyTypes: ['Entes', 'Bloqueos', 'Emociones Atrapadas', 'Huellas Causales', 'Trabajos energéticos'],
   energyLogs: [],
+  energyLetters: [],
   energyActions: [],
   energyLibrary: []
 };
 
 let appData = loadLocalData();
 
+function fmtDate(v) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(v || ''));
+  return m ? `${m[3]}-${m[2]}-${m[1]}` : (v || '');
+}
+function dmyToIso(v) {
+  const m = /^(\d{2})-(\d{2})-(\d{4})$/.exec(String(v || '').trim());
+  if (!m) return '';
+  const d = new Date(+m[3], +m[2] - 1, +m[1]);
+  return (d.getFullYear() === +m[3] && d.getMonth() === +m[2] - 1 && d.getDate() === +m[1]) ? `${m[3]}-${m[2]}-${m[1]}` : '';
+}
+function autoDMY(el) {
+  const dg = el.value.replace(/\D/g, '').slice(0, 8);
+  el.value = dg.length > 4 ? `${dg.slice(0, 2)}-${dg.slice(2, 4)}-${dg.slice(4)}` : dg.length > 2 ? `${dg.slice(0, 2)}-${dg.slice(2)}` : dg;
+  el.setCustomValidity(el.value && !dmyToIso(el.value) ? 'Fecha inválida. Usa dd-mm-aaaa' : '');
+}
+function initDateInputs() {
+  const desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+  document.querySelectorAll('input[data-date]').forEach(el => {
+    Object.defineProperty(el, 'value', {
+      configurable: true,
+      get() { return dmyToIso(desc.get.call(el)); },
+      set(v) { desc.set.call(el, fmtDate(v)); }
+    });
+    el.addEventListener('input', () => autoDMY(el));
+  });
+}
+
+/* Seguridad: escapeHTML puro + sanitización de IDs e imágenes */
 function escapeHTML(str) {
   if (str === null || str === undefined) return '';
   return String(str)
@@ -1433,6 +1934,17 @@ function escapeHTML(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+function safeId(id) {
+  return String(id || '').replace(/[^a-zA-Z0-9_-]/g, '');
+}
+
+function safeImgSrc(src) {
+  const s = String(src || '').trim();
+  if (/^data:image\/(png|jpeg|jpg|webp|gif);base64,[a-zA-Z0-9+/=]+$/i.test(s)) return s;
+  if (/^https:\/\/[a-zA-Z0-9.-]+/.test(s)) return escapeHTML(s);
+  return '';
 }
 
 function safeIcons() {
@@ -1445,7 +1957,11 @@ function loadLocalData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return JSON.parse(JSON.stringify(DEFAULT_DATA));
-    return { ...JSON.parse(JSON.stringify(DEFAULT_DATA)), ...JSON.parse(raw) };
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      return JSON.parse(JSON.stringify(DEFAULT_DATA));
+    }
+    return { ...JSON.parse(JSON.stringify(DEFAULT_DATA)), ...parsed };
   } catch (e) {
     return JSON.parse(JSON.stringify(DEFAULT_DATA));
   }
@@ -1453,7 +1969,12 @@ function loadLocalData() {
 
 let syncTimeout = null;
 function saveData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+  } catch (e) {
+    console.error('Error guardando en localStorage:', e);
+    showToast('Memoria local casi llena. Conecta Google Drive o elimina fotos antiguas.', 'warning');
+  }
   renderAll();
   if (accessToken) {
     clearTimeout(syncTimeout);
@@ -1470,19 +1991,24 @@ function openConfigModal() {
 }
 
 function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('open');
+  if (id === 'viewerModal' && activeBlobUrl) {
+    URL.revokeObjectURL(activeBlobUrl);
+    activeBlobUrl = null;
+  }
 }
 
 function saveClientIdOnly() {
   const cid = document.getElementById('cfgClientId').value.trim();
-  if (!cid) return alert('Por favor pega tu Client ID.');
+  if (!cid) return showToast('Por favor pega tu Client ID.', 'warning');
   localStorage.setItem(CLIENT_ID_KEY, cid);
-  alert('Client ID guardado correctamente.');
+  showToast('Client ID guardado correctamente.', 'success');
 }
 
 function saveConfigAndConnect() {
   const cid = document.getElementById('cfgClientId').value.trim();
-  if (!cid) return alert('Pega primero tu Client ID de Google Cloud.');
+  if (!cid) return showToast('Pega primero tu Client ID de Google Cloud.', 'warning');
   localStorage.setItem(CLIENT_ID_KEY, cid);
   closeModal('configModal');
   handleGoogleAuth();
@@ -1495,7 +2021,7 @@ function handleGoogleAuth() {
     return;
   }
   if (!window.google || !google.accounts || !google.accounts.oauth2) {
-    alert('La librería de Google aún está cargando. Verifica tu conexión a internet e intenta de nuevo en 2 segundos.');
+    showToast('La librería de Google aún está cargando. Intenta en 2 segundos.', 'warning');
     return;
   }
   tokenClient = google.accounts.oauth2.initTokenClient({
@@ -1503,15 +2029,21 @@ function handleGoogleAuth() {
     scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar.events',
     callback: async (resp) => {
       if (resp.error) {
-        alert('Error de autorización: ' + resp.error);
+        showToast('Error de autorización: ' + resp.error, 'danger');
         return;
       }
       accessToken = resp.access_token;
       updateSyncUI(true, 'Sincronizando Drive...');
-      await ensureDriveWorkspace();
-      await loadFromGoogleDrive();
-      await syncGoogleCalendar();
-      updateSyncUI(true, 'Drive & Calendar Activos');
+      try {
+        await ensureDriveWorkspace();
+        await loadFromGoogleDrive();
+        await syncGoogleCalendar();
+        updateSyncUI(true, 'Drive & Calendar Activos');
+        showToast('Conectado con Google Drive y Calendar.', 'success');
+      } catch (err) {
+        updateSyncUI(false, 'Guardado Local');
+        showToast('No se pudo completar la sincronización inicial.', 'danger');
+      }
     }
   });
   tokenClient.requestAccessToken({ prompt: 'consent' });
@@ -1529,6 +2061,8 @@ function updateSyncUI(connected, label) {
   } else {
     badge.classList.add('offline');
     badge.innerHTML = `<i data-lucide="hard-drive" style="width:14px;height:14px;"></i> Guardado Local`;
+    syncBtn.style.display = 'none';
+    sideBtn.innerHTML = `<i data-lucide="cloud"></i> Conectar Google Drive`;
   }
   safeIcons();
 }
@@ -1536,12 +2070,19 @@ function updateSyncUI(connected, label) {
 async function driveFetch(url, options = {}) {
   const headers = { Authorization: `Bearer ${accessToken}`, ...(options.headers || {}) };
   const res = await fetch(url, { ...options, headers });
+  if (res.status === 401) {
+    accessToken = null;
+    updateSyncUI(false, 'Guardado Local');
+    showToast('Tu sesión de Google expiró. Vuelve a conectar Drive.', 'warning');
+    throw new Error('Token expirado (401)');
+  }
   if (!res.ok) throw new Error('Error Drive API: ' + res.status);
   return res;
 }
 
 async function findOrCreateFolder(name, parentId = null) {
-  let q = `name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+  const safeName = name.replace(/'/g, "\\'");
+  let q = `name='${safeName}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
   if (parentId) q += ` and '${parentId}' in parents`;
   const searchRes = await driveFetch(`https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&fields=files(id,name)`);
   const searchData = await searchRes.json();
@@ -1578,9 +2119,11 @@ async function loadFromGoogleDrive() {
     localStorage.setItem(DRIVE_META_KEY, JSON.stringify(driveMeta));
     const fileRes = await driveFetch(`https://www.googleapis.com/drive/v3/files/${driveMeta.dataFileId}?alt=media`);
     const remoteJson = await fileRes.json();
-    appData = { ...JSON.parse(JSON.stringify(DEFAULT_DATA)), ...remoteJson };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-    renderAll();
+    if (remoteJson && typeof remoteJson === 'object' && !Array.isArray(remoteJson)) {
+      appData = { ...JSON.parse(JSON.stringify(DEFAULT_DATA)), ...remoteJson };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+      renderAll();
+    }
   } else {
     await syncToGoogleDrive();
   }
@@ -1617,7 +2160,7 @@ async function syncToGoogleDrive() {
     updateSyncUI(true, 'Sincronizado');
   } catch (e) {
     console.error(e);
-    updateSyncUI(true, 'Error al sincronizar');
+    if (accessToken) updateSyncUI(true, 'Error al sincronizar');
   }
 }
 
@@ -1626,7 +2169,13 @@ async function uploadFileToDriveFolder(file, folderId) {
   const boundary = '-------314159265358979323846';
   const metadata = { name: file.name, parents: [folderId] };
   const arrayBuffer = await file.arrayBuffer();
-  const base64Data = btoa(new Uint8Array(arrayBuffer).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+  const bytes = new Uint8Array(arrayBuffer);
+  let binary = '';
+  const chunkSize = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+  }
+  const base64Data = btoa(binary);
 
   const multipartBody =
     `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n` +
@@ -1641,23 +2190,27 @@ async function uploadFileToDriveFolder(file, folderId) {
 }
 
 async function syncGoogleCalendar() {
-  if (!accessToken) return;
+  if (!accessToken) {
+    showToast('Conecta Google Drive/Calendar para sincronizar tus eventos.', 'info');
+    return;
+  }
   try {
     const timeMin = new Date(new Date().setDate(new Date().getDate() - 15)).toISOString();
     const res = await driveFetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${encodeURIComponent(timeMin)}&singleEvents=true&orderBy=startTime&maxResults=40`);
     const data = await res.json();
     if (data.items) {
       const remoteEvents = data.items.map(ev => ({
-        id: 'gcal_' + ev.id,
+        id: 'gcal_' + safeId(ev.id),
         googleId: ev.id,
         title: ev.summary || '(Sin título)',
         category: 'Google Calendar',
         date: (ev.start.dateTime || ev.start.date || '').split('T')[0],
         time: ev.start.dateTime ? ev.start.dateTime.split('T')[1].substring(0, 5) : 'Todo el día'
       }));
-      const localOnly = appData.personalEvents.filter(e => !e.id.startsWith('gcal_'));
+      const localOnly = appData.personalEvents.filter(e => !String(e.id).startsWith('gcal_'));
       appData.personalEvents = [...localOnly, ...remoteEvents];
       saveData();
+      showToast('Eventos de Google Calendar actualizados.', 'success');
     }
   } catch (e) {
     console.error('Error sincronizando Calendar:', e);
@@ -1671,13 +2224,15 @@ async function pushEventToGoogleCalendar(evObj) {
     const endHour = String(Math.min(23, parseInt(evObj.time.split(':')[0], 10) + 1)).padStart(2, '0');
     const endIso = `${evObj.date}T${endHour}:${evObj.time.split(':')[1]}:00`;
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Lima';
+    const rruleMap = { Diaria: 'FREQ=DAILY', Semanal: 'FREQ=WEEKLY', Quincenal: 'FREQ=WEEKLY;INTERVAL=2', Mensual: 'FREQ=MONTHLY', Anual: 'FREQ=YEARLY' };
     await driveFetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         summary: `[${evObj.category}] ${evObj.title}`,
         start: { dateTime: startIso, timeZone: tz },
-        end: { dateTime: endIso, timeZone: tz }
+        end: { dateTime: endIso, timeZone: tz },
+        ...(evObj.recurrence && rruleMap[evObj.recurrence] ? { recurrence: ['RRULE:' + rruleMap[evObj.recurrence]] } : {})
       })
     });
   } catch (e) {
@@ -1690,9 +2245,9 @@ async function pushEventToGoogleCalendar(evObj) {
 ============================================================================ */
 const VIEW_META = {
   dashboard: ['Resumen General', 'Vista ejecutiva de prioridades, equilibrio y alertas inmediatas'],
-  work: ['Espacio Laboral', 'Gestión GTD por proyectos, responsables, analítica y vencimientos'],
-  personal: ['Espacio Personal', 'Equilibrio integral, salud, finanzas inteligentes, sueños y bienestar'],
-  energy: ['Espacio Energía', 'Calendario de limpieza, biblioteca documental y bitácora de rastreo']
+  work: ['Laboral', 'Gestión de tareas por proyectos, responsables, analítica y vencimientos'],
+  personal: ['Personal', 'Equilibrio integral, salud, finanzas inteligentes, sueños y bienestar'],
+  energy: ['Energía', 'Calendario de limpieza, biblioteca documental y bitácora de rastreo']
 };
 
 function switchView(viewId) {
@@ -1719,17 +2274,25 @@ function switchPersonalTab(tabId) {
   renderPersonal();
 }
 
-function addCategoryPrompt(listKey) {
-  const name = prompt('Ingresa el nombre de la nueva categoría:');
-  if (!name || !name.trim()) return;
-  if (!appData[listKey].includes(name.trim())) {
-    appData[listKey].push(name.trim());
-    saveData();
-  }
+function promptNewCategory(listKey, titleText) {
+  openPromptModal({
+    title: titleText,
+    label: 'Nombre de la nueva categoría',
+    placeholder: 'Escribe el nombre...'
+  }, (name) => {
+    if (!name) return;
+    if (!appData[listKey].includes(name)) {
+      appData[listKey].push(name);
+      saveData();
+      showToast(`Categoría "${name}" agregada.`, 'success');
+    } else {
+      showToast('Esa categoría ya existe.', 'info');
+    }
+  });
 }
 
 /* ============================================================================
-   4. ESPACIO LABORAL: PROCESADOR DE TEXTO, GRÁFICOS Y GESTIÓN GTD
+   4. LABORAL: PROCESADOR DE TEXTO, GRÁFICOS Y GESTIÓN
 ============================================================================ */
 function extractSmartDate(text) {
   const lower = text.toLowerCase();
@@ -1748,7 +2311,7 @@ function extractSmartDate(text) {
 let parsedWorkQueue = [];
 function parseWorkText() {
   const raw = document.getElementById('workImportText').value.trim();
-  if (!raw) return;
+  if (!raw) return showToast('Pega primero el texto con tareas para procesar.', 'warning');
   const lines = raw.split(/\r?\n/).map(l => l.replace(/^[\-\*\•\d\.\)]+\s*/, '').trim()).filter(Boolean);
   parsedWorkQueue = lines.map(line => {
     const projMatch = line.match(/#([^\s#@]+)/);
@@ -1786,31 +2349,33 @@ function parseWorkText() {
             <tr>
               <td><input type="text" value="${escapeHTML(item.title)}" onchange="parsedWorkQueue[${idx}].title=this.value" /></td>
               <td><input type="text" value="${escapeHTML(item.project)}" onchange="parsedWorkQueue[${idx}].project=this.value" /></td>
-              <td><select onchange="parsedWorkQueue[${idx}].type=this.value">${appData.workTypes.map(t => `<option ${t===item.type?'selected':''}>${escapeHTML(t)}</option>`).join('')}</select></td>
+              <td><select onchange="parsedWorkQueue[${idx}].type=this.value">${appData.workTypes.map(t => `<option value="${escapeHTML(t)}" ${t===item.type?'selected':''}>${escapeHTML(t)}</option>`).join('')}</select></td>
               <td><input type="text" value="${escapeHTML(item.responsible)}" onchange="parsedWorkQueue[${idx}].responsible=this.value" /></td>
-              <td><input type="date" value="${item.dueDate}" onchange="parsedWorkQueue[${idx}].dueDate=this.value" /></td>
+              <td><input type="text" inputmode="numeric" maxlength="10" placeholder="dd-mm-aaaa" value="${fmtDate(item.dueDate)}" oninput="autoDMY(this)" onchange="parsedWorkQueue[${idx}].dueDate=dmyToIso(this.value)||parsedWorkQueue[${idx}].dueDate" /></td>
             </tr>
           `).join('')}
         </tbody>
       </table>
     </div>
-    <button type="button" class="btn btn-primary" style="margin-top:10px;" onclick="confirmWorkImport()"><i data-lucide="check-circle"></i> Confirmar y Agregar ${parsedWorkQueue.length} Tareas</button>
+    <button type="button" class="btn btn-primary btn-sm" style="margin-top:10px;" onclick="confirmWorkImport()"><i data-lucide="check-circle"></i> Confirmar y Agregar ${parsedWorkQueue.length} Tareas</button>
   `;
   safeIcons();
 }
 
 function confirmWorkImport() {
+  const addedCount = parsedWorkQueue.length;
   parsedWorkQueue.forEach(item => {
     appData.workTasks.push({
       id: 'w_' + Date.now() + Math.random().toString(36).slice(2, 6),
       ...item,
-      status: 'Bandeja GTD'
+      status: 'Bandeja'
     });
   });
   parsedWorkQueue = [];
   document.getElementById('workImportText').value = '';
   document.getElementById('workImportPreview').innerHTML = '';
   saveData();
+  showToast(`${addedCount} tareas agregadas al espacio laboral.`, 'success');
 }
 
 function addWorkTask(e) {
@@ -1826,7 +2391,9 @@ function addWorkTask(e) {
   });
   e.target.reset();
   document.getElementById('wtResponsible').value = 'Mariela';
+  document.getElementById('wtDueDate').value = offsetDate(2);
   saveData();
+  showToast('Tarea laboral registrada.', 'success');
 }
 
 function toggleWorkStatus(id, newStatus) {
@@ -1840,6 +2407,7 @@ function toggleWorkStatus(id, newStatus) {
 function deleteWorkTask(id) {
   appData.workTasks = appData.workTasks.filter(t => t.id !== id);
   saveData();
+  showToast('Tarea eliminada.', 'info');
 }
 
 function isOverdue(task) {
@@ -1891,19 +2459,20 @@ function renderWork() {
 
   document.getElementById('workTasksTable').innerHTML = filtered.length ? filtered.map(t => {
     const over = isOverdue(t);
+    const sid = safeId(t.id);
     return `
       <tr style="${over ? 'background:#FFF5F5;' : ''}">
-        <td>
-          <select onchange="toggleWorkStatus('${t.id}', this.value)" style="padding:4px 8px;font-size:0.78rem;">
-            ${['Bandeja GTD', 'En Progreso', 'En Espera', 'Completado'].map(st => `<option ${st===t.status?'selected':''}>${st}</option>`).join('')}
-          </select>
-        </td>
         <td><strong>${escapeHTML(t.title)}</strong> ${over ? '<span class="badge badge-danger">Vencida</span>' : ''}</td>
         <td><span class="badge badge-lavender">${escapeHTML(t.project)}</span></td>
         <td>${escapeHTML(t.type)}</td>
         <td>${escapeHTML(t.responsible)}</td>
-        <td style="color:${over ? 'var(--danger)' : 'inherit'};font-weight:${over ? '700' : '400'};">${escapeHTML(t.dueDate)}</td>
-        <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="deleteWorkTask('${t.id}')">✕</button></td>
+        <td>
+          <select onchange="toggleWorkStatus('${sid}', this.value)" class="mini-select">
+            ${['Bandeja', 'En Progreso', 'En Espera', 'Completado'].map(st => `<option value="${st}" ${st===t.status?'selected':''}>${st}</option>`).join('')}
+          </select>
+        </td>
+        <td style="color:${over ? 'var(--danger)' : 'inherit'};font-weight:${over ? '700' : '400'};">${escapeHTML(fmtDate(t.dueDate))}</td>
+        <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="deleteWorkTask('${sid}')">✕</button></td>
       </tr>
     `;
   }).join('') : `<tr><td colspan="7" style="text-align:center;color:var(--text-muted);">No hay tareas con los filtros seleccionados.</td></tr>`;
@@ -1911,48 +2480,85 @@ function renderWork() {
   renderWorkCharts(projects, responsibles);
 }
 
+const valueLabelsPlugin = {
+  id: 'valueLabels',
+  afterDatasetsDraw(chart) {
+    const ctx = chart.ctx;
+    ctx.save();
+    ctx.font = '600 11px sans-serif';
+    ctx.textBaseline = 'middle';
+    chart.data.datasets.forEach((ds, i) => {
+      const meta = chart.getDatasetMeta(i);
+      if (meta.hidden) return;
+      meta.data.forEach((bar, j) => {
+        const v = ds.data[j];
+        if (!v) return;
+        const txt = ds.fmt ? ds.fmt(v) : String(v);
+        if (ds.labelOutside) {
+          ctx.fillStyle = '#552F57'; ctx.textAlign = 'left';
+          ctx.fillText(txt, bar.x + 6, bar.y);
+        } else {
+          const pt = bar.getCenterPoint();
+          ctx.fillStyle = ds.labelColor || '#FFFFFF'; ctx.textAlign = 'center';
+          ctx.fillText(txt, pt.x, pt.y);
+        }
+      });
+    });
+    ctx.restore();
+  }
+};
+const centerTextPlugin = {
+  id: 'centerText',
+  afterDraw(chart) {
+    const t = chart.options.plugins && chart.options.plugins.centerText;
+    if (!t || !t.text) return;
+    const a = chart.chartArea, ctx = chart.ctx;
+    const cx = (a.left + a.right) / 2, cy = (a.top + a.bottom) / 2;
+    ctx.save(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#552F57'; ctx.font = '600 15px sans-serif'; ctx.fillText(t.text, cx, cy + 8);
+    ctx.fillStyle = '#705F73'; ctx.font = '11px sans-serif'; ctx.fillText(t.sub || '', cx, cy - 10);
+    ctx.restore();
+  }
+};
+const intScale = { beginAtZero: true, ticks: { precision: 0, stepSize: 1 }, grid: { display: false }, border: { display: false } };
+const catScale = { grid: { display: false }, border: { display: false } };
+const legendOpts = { position: 'bottom', labels: { boxWidth: 10, boxHeight: 10, font: { size: 11 } } };
+
 function renderWorkCharts(projects, responsibles) {
   if (!window.Chart) return;
-  const ctxP = document.getElementById('chartWorkProjects');
-  if (ctxP) {
-    if (charts.workProj) charts.workProj.destroy();
-    const onTimeData = projects.map(p => appData.workTasks.filter(t => t.project === p && !isOverdue(t)).length);
-    const overdueData = projects.map(p => appData.workTasks.filter(t => t.project === p && isOverdue(t)).length);
-    charts.workProj = new Chart(ctxP, {
+  const mk = (id, key, labels, sets, empty) => {
+    const ctx = document.getElementById(id);
+    if (!ctx) return;
+    if (charts[key]) charts[key].destroy();
+    charts[key] = new Chart(ctx, {
       type: 'bar',
-      data: {
-        labels: projects.length ? projects : ['Sin proyectos'],
-        datasets: [
-          { label: 'Al día / Completadas', data: onTimeData, backgroundColor: '#A5DFF1', borderRadius: 6 },
-          { label: 'Vencidas', data: overdueData, backgroundColor: '#D64550', borderRadius: 6 }
-        ]
-      },
-      options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } }
+      data: { labels: labels.length ? labels : [empty], datasets: sets },
+      plugins: [valueLabelsPlugin],
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        scales: { x: { ...intScale, stacked: true }, y: { ...catScale, stacked: true } },
+        plugins: { legend: legendOpts }
+      }
     });
-  }
-
-  const ctxR = document.getElementById('chartWorkResponsibles');
-  if (ctxR) {
-    if (charts.workResp) charts.workResp.destroy();
-    const respCounts = responsibles.map(r => appData.workTasks.filter(t => t.responsible === r && t.status !== 'Completado').length);
-    charts.workResp = new Chart(ctxR, {
-      type: 'bar',
-      data: {
-        labels: responsibles.length ? responsibles : ['Sin asignar'],
-        datasets: [{ label: 'Tareas Activas', data: respCounts, backgroundColor: '#825E77', borderRadius: 6 }]
-      },
-      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { beginAtZero: true } } }
-    });
-  }
+  };
+  const W = appData.workTasks;
+  mk('chartWorkProjects', 'workProj', projects, [
+    { label: 'Al día / Completadas', data: projects.map(p => W.filter(t => t.project === p && !isOverdue(t)).length), backgroundColor: '#8E4F8F', borderRadius: 4, barThickness: 16 },
+    { label: 'Vencidas', data: projects.map(p => W.filter(t => t.project === p && isOverdue(t)).length), backgroundColor: '#D6457A', borderRadius: 4, barThickness: 16 }
+  ], 'Sin proyectos');
+  mk('chartWorkResponsibles', 'workResp', responsibles, [
+    { label: 'Activas al día', data: responsibles.map(r => W.filter(t => t.responsible === r && t.status !== 'Completado' && !isOverdue(t)).length), backgroundColor: '#8E4F8F', borderRadius: 4, barThickness: 16 },
+    { label: 'Vencidas', data: responsibles.map(r => W.filter(t => t.responsible === r && isOverdue(t)).length), backgroundColor: '#D6457A', borderRadius: 4, barThickness: 16 }
+  ], 'Sin asignar');
 }
 
 /* ============================================================================
-   5. ESPACIO PERSONAL: IMPORTADOR, EQUILIBRIO, SALUD, FINANZAS, SUEÑOS, PAREJA, OCIO
+   5. PERSONAL: IMPORTADOR, EQUILIBRIO, SALUD, FINANZAS, SUEÑOS, PAREJA, OCIO
 ============================================================================ */
 let parsedPersonalQueue = [];
 function parsePersonalText() {
   const raw = document.getElementById('personalImportText').value.trim();
-  if (!raw) return;
+  if (!raw) return showToast('Escribe o pega notas primero.', 'warning');
   const lines = raw.split(/\r?\n/).map(l => l.replace(/^[\-\*\•\d\.\)]+\s*/, '').trim()).filter(Boolean);
   parsedPersonalQueue = lines.map(line => {
     let cat = 'Ocio';
@@ -1967,45 +2573,48 @@ function parsePersonalText() {
   document.getElementById('personalImportPreview').innerHTML = `
     <div class="table-wrap" style="background:#FFF;">
       <table>
-        <thead><tr><th>Nota / Actividad</th><th>Espacio Destino</th><th>Fecha</th></tr></thead>
+        <thead><tr><th>Nota / Actividad</th><th>Módulo Destino</th><th>Fecha</th></tr></thead>
         <tbody>
           ${parsedPersonalQueue.map((item, idx) => `
             <tr>
               <td><input type="text" value="${escapeHTML(item.text)}" onchange="parsedPersonalQueue[${idx}].text=this.value" /></td>
               <td>
                 <select onchange="parsedPersonalQueue[${idx}].category=this.value">
-                  ${['Salud', 'Ejercicio', 'Ocio', 'Pareja', 'Sueños'].map(c => `<option ${c===item.category?'selected':''}>${c}</option>`).join('')}
+                  ${['Salud', 'Ejercicio', 'Ocio', 'Pareja', 'Sueños'].map(c => `<option value="${c}" ${c===item.category?'selected':''}>${c}</option>`).join('')}
                 </select>
               </td>
-              <td><input type="date" value="${item.date}" onchange="parsedPersonalQueue[${idx}].date=this.value" /></td>
+              <td><input type="text" inputmode="numeric" maxlength="10" placeholder="dd-mm-aaaa" value="${fmtDate(item.date)}" oninput="autoDMY(this)" onchange="parsedPersonalQueue[${idx}].date=dmyToIso(this.value)||parsedPersonalQueue[${idx}].date" /></td>
             </tr>
           `).join('')}
         </tbody>
       </table>
     </div>
-    <button type="button" class="btn btn-primary" style="margin-top:10px;" onclick="confirmPersonalImport()"><i data-lucide="check"></i> Guardar en sus Espacios</button>
+    <button type="button" class="btn btn-primary btn-sm" style="margin-top:10px;" onclick="confirmPersonalImport()"><i data-lucide="check"></i> Guardar en sus Módulos</button>
   `;
   safeIcons();
 }
 
 function confirmPersonalImport() {
+  const count = parsedPersonalQueue.length;
   parsedPersonalQueue.forEach(item => {
+    const uid = Date.now() + Math.random().toString(36).slice(2, 6);
     if (item.category === 'Ejercicio') {
-      appData.exercises.push({ id: 'ex_' + Date.now() + Math.random(), date: item.date, activity: item.text, minutes: 30, notes: 'Importado' });
+      appData.exercises.push({ id: 'ex_' + uid, date: item.date, activity: item.text, minutes: 30, notes: 'Importado' });
     } else if (item.category === 'Salud') {
-      appData.medicalRecords.push({ id: 'med_' + Date.now() + Math.random(), date: item.date, specialty: 'Otros', place: 'Por confirmar', exams: item.text, nextDate: item.date, treatment: '' });
+      appData.medicalRecords.push({ id: 'med_' + uid, date: item.date, specialty: 'Otros', place: 'Por confirmar', exams: item.text, nextDate: item.date, treatment: '' });
     } else if (item.category === 'Sueños') {
-      appData.dreamIdeas.push({ id: 'dr_' + Date.now() + Math.random(), title: item.text, comment: 'Importado', done: false });
+      appData.dreamIdeas.push({ id: 'dr_' + uid, title: item.text, comment: 'Importado', done: false });
     } else if (item.category === 'Pareja') {
-      appData.couple.push({ id: 'cp_' + Date.now() + Math.random(), title: item.text, date: item.date, note: '' });
+      appData.couple.push({ id: 'cp_' + uid, title: item.text, date: item.date, note: '', status: 'Programado' });
     } else {
-      appData.leisure.push({ id: 'oc_' + Date.now() + Math.random(), title: item.text, date: item.date, note: '' });
+      appData.leisure.push({ id: 'oc_' + uid, title: item.text, date: item.date, note: '' });
     }
   });
   parsedPersonalQueue = [];
   document.getElementById('personalImportText').value = '';
   document.getElementById('personalImportPreview').innerHTML = '';
   saveData();
+  showToast(`${count} notas clasificadas y guardadas.`, 'success');
 }
 
 function updateWheelScore(idx, val) {
@@ -2013,11 +2622,45 @@ function updateWheelScore(idx, val) {
   saveData();
 }
 
-function addWheelArea() {
-  const name = prompt('Nombre de la nueva área de vida:');
-  if (!name || !name.trim()) return;
-  appData.wheelAreas.push({ name: name.trim(), score: 7 });
-  saveData();
+function promptNewWheelArea() {
+  openPromptModal({
+    title: 'Nueva Área en Rueda de la Vida',
+    label: 'Nombre del área de equilibrio',
+    placeholder: 'Ej. Espiritualidad, Hogar...'
+  }, (name) => {
+    if (!name) return;
+    appData.wheelAreas.push({ name, score: 7 });
+    saveData();
+    showToast(`Área "${name}" añadida.`, 'success');
+  });
+}
+
+function togglePePeriod() {
+  document.getElementById('pePeriod').style.display = document.getElementById('peRecurring').value === 'si' ? '' : 'none';
+}
+
+function nextOccurrence(ev) {
+  if (!ev.recurrence) return ev.date;
+  const today = todayStr();
+  let [y, m, d] = ev.date.split('-').map(Number);
+  const baseDay = d;
+  let cur = ev.date, guard = 0;
+  while (cur < today && guard++ < 5000) {
+    const dt = new Date(y, m - 1, d);
+    if (ev.recurrence === 'Diaria') dt.setDate(dt.getDate() + 1);
+    else if (ev.recurrence === 'Semanal') dt.setDate(dt.getDate() + 7);
+    else if (ev.recurrence === 'Quincenal') dt.setDate(dt.getDate() + 14);
+    else {
+      const step = ev.recurrence === 'Anual' ? 12 : 1;
+      const tm = new Date(y, m - 1 + step, 1);
+      const last = new Date(tm.getFullYear(), tm.getMonth() + 1, 0).getDate();
+      tm.setDate(Math.min(baseDay, last));
+      dt.setTime(tm.getTime());
+    }
+    y = dt.getFullYear(); m = dt.getMonth() + 1; d = dt.getDate();
+    cur = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+  }
+  return cur;
 }
 
 async function addPersonalEvent(e) {
@@ -2027,11 +2670,15 @@ async function addPersonalEvent(e) {
     title: document.getElementById('peTitle').value.trim(),
     category: document.getElementById('peCategory').value,
     date: document.getElementById('peDate').value,
-    time: document.getElementById('peTime').value
+    time: document.getElementById('peTime').value,
+    recurrence: document.getElementById('peRecurring').value === 'si' ? document.getElementById('pePeriod').value : ''
   };
   appData.personalEvents.push(ev);
   e.target.reset();
+  document.getElementById('peDate').value = todayStr();
+  togglePePeriod();
   saveData();
+  showToast('Evento agendado.', 'success');
   if (accessToken) await pushEventToGoogleCalendar(ev);
 }
 
@@ -2045,10 +2692,22 @@ function getLast7Days() {
 
 function addHabit() {
   const inp = document.getElementById('newHabitName');
-  if (!inp.value.trim()) return;
+  if (!inp.value.trim()) return showToast('Escribe el nombre del hábito.', 'warning');
   appData.habits.push({ id: 'h_' + Date.now(), name: inp.value.trim(), days: {} });
   inp.value = '';
   saveData();
+  showToast('Hábito agregado al seguimiento.', 'success');
+}
+
+let habitMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+let habitFilter = '';
+function changeHabitMonth(delta) {
+  habitMonth = new Date(habitMonth.getFullYear(), habitMonth.getMonth() + delta, 1);
+  renderPersonal();
+}
+function setHabitFilter(v) {
+  habitFilter = v;
+  renderPersonal();
 }
 
 function toggleHabitDay(habitId, dateStr) {
@@ -2068,7 +2727,9 @@ function addExercise(e) {
     notes: document.getElementById('exNotes').value.trim()
   });
   e.target.reset();
+  document.getElementById('exDate').value = todayStr();
   saveData();
+  showToast('Actividad física registrada.', 'success');
 }
 
 function addMedicalRecord(e) {
@@ -2083,7 +2744,9 @@ function addMedicalRecord(e) {
     treatment: document.getElementById('medTreatment').value.trim()
   });
   e.target.reset();
+  document.getElementById('medDate').value = todayStr();
   saveData();
+  showToast('Control médico guardado.', 'success');
 }
 
 function initFinanceFilters() {
@@ -2117,10 +2780,11 @@ function renderIconPicker() {
 
 function saveNewFinCategory() {
   const name = document.getElementById('newFinCatName').value.trim();
-  if (!name) return;
+  if (!name) return showToast('Ingresa un nombre para la categoría.', 'warning');
   appData.financeCategories.push({ name, icon: selectedLinearIcon });
   closeModal('finCatModal');
   saveData();
+  showToast(`Categoría "${name}" creada.`, 'success');
 }
 
 function toggleTxCategory() {
@@ -2143,7 +2807,9 @@ function addFinanceTx(e) {
   });
   e.target.reset();
   document.getElementById('txDate').value = todayStr();
+  toggleTxCategory();
   saveData();
+  showToast('Movimiento registrado.', 'success');
 }
 
 function addInvestment(e) {
@@ -2158,6 +2824,7 @@ function addInvestment(e) {
   });
   e.target.reset();
   saveData();
+  showToast('Inversión agregada al portafolio.', 'success');
 }
 
 function classifyMerchant(desc) {
@@ -2190,50 +2857,56 @@ async function handleStatementFile(event) {
   const ext = file.name.split('.').pop().toLowerCase();
   let rows = [];
 
-  if (ext === 'csv' || ext === 'xlsx' || ext === 'xls') {
-    const buf = await file.arrayBuffer();
-    const wb = XLSX.read(buf, { type: 'array' });
-    const sheet = wb.Sheets[wb.SheetNames[0]];
-    const jsonRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-    jsonRows.forEach(r => {
-      if (!r || r.length < 2) return;
-      const joined = r.join(' ');
-      const amounts = r.filter(c => typeof c === 'number' && c > 0);
-      if (amounts.length > 0) {
-        const desc = r.filter(c => typeof c === 'string' && c.length > 2).join(' - ') || 'Movimiento tarjeta';
-        if (/pago tarjeta|gracias por su pago|abono/i.test(desc)) return;
-        rows.push({
-          desc: desc.substring(0, 80),
-          amount: amounts[amounts.length - 1],
-          category: classifyMerchant(desc),
-          installments: detectInstallments(joined),
-          date: todayStr()
-        });
+  try {
+    if (ext === 'csv' || ext === 'xlsx' || ext === 'xls') {
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, { type: 'array' });
+      const sheet = wb.Sheets[wb.SheetNames[0]];
+      const jsonRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+      jsonRows.forEach(r => {
+        if (!r || r.length < 2) return;
+        const joined = r.join(' ');
+        const amounts = r.filter(c => typeof c === 'number' && c > 0);
+        if (amounts.length > 0) {
+          const desc = r.filter(c => typeof c === 'string' && c.length > 2).join(' - ') || 'Movimiento tarjeta';
+          if (/pago tarjeta|gracias por su pago|abono/i.test(desc)) return;
+          rows.push({
+            desc: desc.substring(0, 80),
+            amount: amounts[amounts.length - 1],
+            category: classifyMerchant(desc),
+            installments: detectInstallments(joined),
+            date: todayStr()
+          });
+        }
+      });
+    } else if (ext === 'pdf') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const buf = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+      let fullText = '';
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const tc = await page.getTextContent();
+        fullText += tc.items.map(it => it.str).join(' ') + '\n';
       }
-    });
-  } else if (ext === 'pdf') {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    const buf = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
-    let fullText = '';
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const tc = await page.getTextContent();
-      fullText += tc.items.map(it => it.str).join(' ') + '\n';
+      const lineMatches = fullText.match(/([A-ZÁÉÍÓÚÑ0-9\s\.\-\/]{6,45})\s+(\d{1,3}(?:,\d{3})*\.\d{2})/g) || [];
+      lineMatches.slice(0, 40).forEach(lm => {
+        const parts = lm.match(/^(.*?)\s+(\d{1,3}(?:,\d{3})*\.\d{2})$/);
+        if (parts && !/pago|saldo anterior|total/i.test(parts[1])) {
+          rows.push({
+            desc: parts[1].trim(),
+            amount: parseFloat(parts[2].replace(/,/g, '')),
+            category: classifyMerchant(parts[1]),
+            installments: detectInstallments(parts[1]),
+            date: todayStr()
+          });
+        }
+      });
     }
-    const lineMatches = fullText.match(/([A-ZÁÉÍÓÚÑ0-9\s\.\-\/]{6,45})\s+(\d{1,3}(?:,\d{3})*\.\d{2})/g) || [];
-    lineMatches.slice(0, 40).forEach(lm => {
-      const parts = lm.match(/^(.*?)\s+(\d{1,3}(?:,\d{3})*\.\d{2})$/);
-      if (parts && !/pago|saldo anterior|total/i.test(parts[1])) {
-        rows.push({
-          desc: parts[1].trim(),
-          amount: parseFloat(parts[2].replace(/,/g, '')),
-          category: classifyMerchant(parts[1]),
-          installments: detectInstallments(parts[1]),
-          date: todayStr()
-        });
-      }
-    });
+  } catch (err) {
+    console.error('Error leyendo estado de cuenta:', err);
+    showToast('No se pudo leer el archivo seleccionado.', 'danger');
+    return;
   }
 
   pendingStatementTxs = rows;
@@ -2253,7 +2926,7 @@ async function handleStatementFile(event) {
             ${rows.map((r, i) => `
               <tr>
                 <td><input type="text" value="${escapeHTML(r.desc)}" onchange="pendingStatementTxs[${i}].desc=this.value" /></td>
-                <td><select onchange="pendingStatementTxs[${i}].category=this.value">${appData.financeCategories.map(c => `<option ${c.name===r.category?'selected':''}>${escapeHTML(c.name)}</option>`).join('')}</select></td>
+                <td><select onchange="pendingStatementTxs[${i}].category=this.value">${appData.financeCategories.map(c => `<option value="${escapeHTML(c.name)}" ${c.name===r.category?'selected':''}>${escapeHTML(c.name)}</option>`).join('')}</select></td>
                 <td><input type="text" value="${escapeHTML(r.installments)}" placeholder="Ej. 02/06" onchange="pendingStatementTxs[${i}].installments=this.value" /></td>
                 <td><input type="number" step="0.01" value="${r.amount}" onchange="pendingStatementTxs[${i}].amount=parseFloat(this.value)||0" /></td>
               </tr>
@@ -2270,6 +2943,7 @@ function confirmStatementImport() {
   const cur = document.getElementById('statementCurrency').value;
   const due = document.getElementById('statementDueDate').value;
   const total = pendingStatementTxs.reduce((s, x) => s + x.amount, 0);
+  const count = pendingStatementTxs.length;
 
   pendingStatementTxs.forEach(tx => {
     appData.financeTxs.push({
@@ -2297,22 +2971,45 @@ function confirmStatementImport() {
   document.getElementById('statementPreviewArea').innerHTML = '';
   document.getElementById('statementFileInput').value = '';
   saveData();
+  showToast(`${count} consumos importados correctamente.`, 'success');
 }
 
+/* 4A + 2A: Subida de imagen al Collage con compresión y modal */
 async function handleDreamImageUpload(event) {
   const file = event.target.files[0];
+  event.target.value = '';
   if (!file) return;
-  const caption = prompt('Título o frase para esta imagen en tu collage:', file.name.replace(/\.[^/.]+$/, '')) || 'Mi Sueño';
-  const reader = new FileReader();
-  reader.onload = async (e) => {
-    let imgSrc = e.target.result;
-    if (accessToken && driveMeta.dreamsId) {
-      uploadFileToDriveFolder(file, driveMeta.dreamsId).catch(console.error);
+  const defaultTitle = file.name.replace(/\.[^/.]+$/, '');
+
+  openPromptModal({
+    title: 'Añadir Imagen al Collage',
+    label: 'Título o frase inspiradora',
+    placeholder: 'Ej. Viaje soñado, Nuevo hogar...',
+    defaultValue: defaultTitle
+  }, async (caption) => {
+    try {
+      const compressedSrc = await compressImageFile(file, 800, 0.78);
+      if (accessToken && driveMeta.dreamsId) {
+        uploadFileToDriveFolder(file, driveMeta.dreamsId).catch(console.error);
+      }
+      appData.dreamsCollage.push({
+        id: 'img_' + Date.now(),
+        src: compressedSrc,
+        caption: caption || 'Mi Sueño'
+      });
+      saveData();
+      showToast('Imagen optimizada y agregada a tu collage.', 'success');
+    } catch (err) {
+      console.error(err);
+      showToast('No se pudo procesar la imagen.', 'danger');
     }
-    appData.dreamsCollage.push({ id: 'img_' + Date.now(), src: imgSrc, caption });
-    saveData();
-  };
-  reader.readAsDataURL(file);
+  });
+}
+
+function deleteDreamImage(id) {
+  appData.dreamsCollage = appData.dreamsCollage.filter(x => x.id !== id);
+  saveData();
+  showToast('Imagen eliminada del collage.', 'info');
 }
 
 function addDreamIdea(e) {
@@ -2325,6 +3022,7 @@ function addDreamIdea(e) {
   });
   e.target.reset();
   saveData();
+  showToast('Idea agregada al tablero.', 'success');
 }
 
 function toggleDreamIdea(id) {
@@ -2343,6 +3041,7 @@ function addDreamMatrix(e) {
   });
   e.target.reset();
   saveData();
+  showToast('Objetivo añadido a la matriz.', 'success');
 }
 
 function addSimplePersonalItem(e, key) {
@@ -2351,10 +3050,17 @@ function addSimplePersonalItem(e, key) {
     id: key + '_' + Date.now(),
     title: document.getElementById(key + 'Title').value.trim(),
     date: document.getElementById(key + 'Date').value,
-    note: document.getElementById(key + 'Note').value.trim()
+    note: document.getElementById(key + 'Note').value.trim(),
+    status: (document.getElementById(key + 'Status') || {}).value || ''
   });
   e.target.reset();
   saveData();
+  showToast('Registro guardado.', 'success');
+}
+
+function setPersonalStatus(key, id, val) {
+  const it = appData[key].find(x => x.id === id);
+  if (it) { it.status = val; saveData(); }
 }
 
 function renderPersonal() {
@@ -2363,9 +3069,9 @@ function renderPersonal() {
   document.getElementById('wheelSliders').innerHTML = appData.wheelAreas.map((a, idx) => `
     <div style="background:var(--lavender-mist);padding:8px 12px;border-radius:var(--radius-sm);">
       <div style="display:flex;justify-content:space-between;font-size:0.8rem;font-weight:600;">
-        <span>${escapeHTML(a.name)}</span><span>${a.score}/10</span>
+        <span>${escapeHTML(a.name)}</span><span>${Number(a.score) || 0}/10</span>
       </div>
-      <input type="range" min="1" max="10" value="${a.score}" onchange="updateWheelScore(${idx}, this.value)" />
+      <input type="range" min="1" max="10" value="${Number(a.score) || 5}" onchange="updateWheelScore(${idx}, this.value)" />
     </div>
   `).join('');
 
@@ -2379,102 +3085,139 @@ function renderPersonal() {
         datasets: [{
           label: 'Nivel Actual',
           data: appData.wheelAreas.map(a => a.score),
-          backgroundColor: 'rgba(165, 223, 241, 0.45)',
-          borderColor: '#825E77',
-          pointBackgroundColor: '#825E77'
+          backgroundColor: 'rgba(249, 184, 207, 0.45)',
+          borderColor: '#8E4F8F',
+          pointBackgroundColor: '#8E4F8F'
         }]
       },
       options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 10 } } }
     });
   }
 
-  const sortedEv = [...appData.personalEvents].sort((a, b) => a.date.localeCompare(b.date));
-  document.getElementById('personalEventsList').innerHTML = sortedEv.length ? sortedEv.map(ev => `
+  const sortedEv = [...appData.personalEvents].sort((a, b) => nextOccurrence(a).localeCompare(nextOccurrence(b)));
+  document.getElementById('personalEventsList').innerHTML = sortedEv.length ? sortedEv.map(ev => {
+    const sid = safeId(ev.id);
+    return `
     <div style="background:#FFF;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--frosted-blue);display:flex;justify-content:space-between;align-items:center;">
       <div>
         <span class="badge badge-lavender">${escapeHTML(ev.category)}</span>
+        ${ev.recurrence ? `<span class="badge badge-cyan">↻ ${escapeHTML(ev.recurrence)}</span>` : ''}
         <strong style="margin-left:6px;font-size:0.88rem;">${escapeHTML(ev.title)}</strong>
-        <div style="font-size:0.78rem;color:var(--text-muted);">${escapeHTML(ev.date)} • ${escapeHTML(ev.time)}</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);">${ev.recurrence ? 'Próxima: ' : ''}${escapeHTML(fmtDate(nextOccurrence(ev)))} • ${escapeHTML(ev.time)}</div>
       </div>
-      ${!ev.id.startsWith('gcal_') ? `<button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.personalEvents=appData.personalEvents.filter(x=>x.id!=='${ev.id}');saveData()">✕</button>` : ''}
-    </div>
-  `).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);">Sin eventos próximos registrados.</p>`;
+      ${!String(ev.id).startsWith('gcal_') ? `<button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.personalEvents=appData.personalEvents.filter(x=>x.id!=='${sid}');saveData()">✕</button>` : ''}
+    </div>`;
+  }).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);">Sin eventos próximos registrados.</p>`;
 
-  const days7 = getLast7Days();
+  const hy = habitMonth.getFullYear(), hmo = habitMonth.getMonth();
+  const hn = new Date(hy, hmo + 1, 0).getDate();
+  const hToday = todayStr();
+  const hDates = Array.from({ length: hn }, (_, i) => `${hy}-${String(hmo + 1).padStart(2, '0')}-${String(i + 1).padStart(2, '0')}`);
+  const hElapsed = hDates.filter(d => d <= hToday).length;
+  const hMonthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  document.getElementById('habitMonthTitle').textContent = `${hMonthNames[hmo]} ${hy}`;
+  if (habitFilter && !appData.habits.some(h => h.id === habitFilter)) habitFilter = '';
+  document.getElementById('habitFilterSel').innerHTML = `<option value="">Todos los hábitos</option>` +
+    appData.habits.map(h => `<option value="${safeId(h.id)}" ${h.id===habitFilter?'selected':''}>${escapeHTML(h.name)}</option>`).join('');
+
   document.getElementById('habitTableHead').innerHTML = `<th>Hábito</th>` +
-    days7.map(d => `<th style="text-align:center;">${d.slice(5)}</th>`).join('') + `<th>Racha</th><th></th>`;
+    hDates.map((d, i) => `<th style="text-align:center;padding:6px 2px;font-size:0.7rem;">${i + 1}</th>`).join('') + `<th>Mes</th><th></th>`;
 
-  document.getElementById('habitTableBody').innerHTML = appData.habits.map(h => {
-    const count = days7.filter(d => h.days[d]).length;
+  document.getElementById('habitTableBody').innerHTML = appData.habits.filter(h => !habitFilter || h.id === habitFilter).map(h => {
+    const sid = safeId(h.id);
+    const daysMap = h.days || {};
+    const count = hDates.filter(d => daysMap[d]).length;
+    const pct = hElapsed ? Math.round(count / hElapsed * 100) : 0;
     return `
       <tr>
         <td><strong>${escapeHTML(h.name)}</strong></td>
-        ${days7.map(d => `
-          <td style="text-align:center;">
-            <button type="button" class="habit-day-btn ${h.days[d]?'done':''}" onclick="toggleHabitDay('${h.id}','${d}')">✓</button>
+        ${hDates.map(d => `
+          <td style="text-align:center;padding:3px 2px;">
+            <button type="button" class="habit-day-btn hm ${daysMap[d]?'done':''} ${d>hToday?'future':''}" onclick="toggleHabitDay('${sid}','${d}')" aria-label="${fmtDate(d)}">✓</button>
           </td>
         `).join('')}
-        <td><span class="badge badge-cyan">${count}/7 días</span></td>
-        <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.habits=appData.habits.filter(x=>x.id!=='${h.id}');saveData()">✕</button></td>
+        <td><span class="badge badge-cyan">${count}/${hElapsed} · ${pct}%</span></td>
+        <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.habits=appData.habits.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
       </tr>
     `;
-  }).join('');
+  }).join('') || `<tr><td colspan="${hn + 3}" style="text-align:center;color:var(--text-muted);">Aún no hay hábitos registrados.</td></tr>`;
 
-  document.getElementById('medSpecialty').innerHTML = appData.medicalSpecialties.map(s => `<option>${escapeHTML(s)}</option>`).join('');
-  document.getElementById('exerciseList').innerHTML = appData.exercises.slice().reverse().map(ex => `
+  document.getElementById('medSpecialty').innerHTML = appData.medicalSpecialties.map(s => `<option value="${escapeHTML(s)}">${escapeHTML(s)}</option>`).join('');
+  document.getElementById('exerciseList').innerHTML = appData.exercises.slice().reverse().map(ex => {
+    const sid = safeId(ex.id);
+    return `
     <div style="background:#FFF;padding:9px 12px;border-radius:var(--radius-sm);border:1px solid var(--frosted-blue);display:flex;justify-content:space-between;align-items:center;">
-      <div><strong>${escapeHTML(ex.activity)}</strong> <span class="badge badge-cyan">${escapeHTML(ex.minutes)} min</span> <span style="font-size:0.78rem;color:var(--text-muted);">(${escapeHTML(ex.date)}) ${escapeHTML(ex.notes)}</span></div>
-      <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.exercises=appData.exercises.filter(x=>x.id!=='${ex.id}');saveData()">✕</button>
-    </div>
-  `).join('');
+      <div><strong>${escapeHTML(ex.activity)}</strong> <span class="badge badge-cyan">${escapeHTML(ex.minutes)} min</span> <span style="font-size:0.78rem;color:var(--text-muted);">(${escapeHTML(fmtDate(ex.date))}) ${escapeHTML(ex.notes)}</span></div>
+      <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.exercises=appData.exercises.filter(x=>x.id!=='${sid}');saveData()">✕</button>
+    </div>`;
+  }).join('') || `<p style="font-size:0.83rem;color:var(--text-muted);">Sin sesiones de ejercicio registradas.</p>`;
 
-  document.getElementById('medicalTableBody').innerHTML = appData.medicalRecords.slice().reverse().map(m => `
+  document.getElementById('medicalTableBody').innerHTML = appData.medicalRecords.slice().reverse().map(m => {
+    const sid = safeId(m.id);
+    return `
     <tr>
-      <td>${escapeHTML(m.date)}</td>
+      <td>${escapeHTML(fmtDate(m.date))}</td>
       <td><span class="badge badge-lavender">${escapeHTML(m.specialty)}</span></td>
       <td>${escapeHTML(m.place)}</td>
       <td>${escapeHTML(m.exams)} ${m.treatment ? `<br><small style="color:var(--text-muted);">${escapeHTML(m.treatment)}</small>` : ''}</td>
-      <td>${m.nextDate ? `<span class="badge badge-warning">${escapeHTML(m.nextDate)}</span>` : '—'}</td>
-      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.medicalRecords=appData.medicalRecords.filter(x=>x.id!=='${m.id}');saveData()">✕</button></td>
-    </tr>
-  `).join('');
+      <td>${m.nextDate ? `<span class="badge badge-warning">${escapeHTML(fmtDate(m.nextDate))}</span>` : '—'}</td>
+      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.medicalRecords=appData.medicalRecords.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">Aún no hay registros médicos.</td></tr>`;
 
   renderFinance();
 
-  document.getElementById('dreamsCollageGrid').innerHTML = appData.dreamsCollage.length ? appData.dreamsCollage.map(img => `
+  document.getElementById('dreamsCollageGrid').innerHTML = appData.dreamsCollage.length ? appData.dreamsCollage.map(img => {
+    const sid = safeId(img.id);
+    const validSrc = safeImgSrc(img.src);
+    if (!validSrc) return '';
+    return `
     <div class="collage-item">
-      <img src="${img.src}" alt="${escapeHTML(img.caption)}" />
+      <img src="${validSrc}" alt="${escapeHTML(img.caption)}" />
+      <button type="button" class="collage-del-btn" title="Eliminar imagen" onclick="deleteDreamImage('${sid}')">✕</button>
       <div class="collage-caption">${escapeHTML(img.caption)}</div>
-    </div>
-  `).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);">Sube fotos de tus metas y lugares soñados para armar tu collage visual.</p>`;
+    </div>`;
+  }).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);grid-column:1/-1;">Sube fotos de tus metas y lugares soñados para armar tu collage visual.</p>`;
 
-  document.getElementById('dreamIdeasList').innerHTML = appData.dreamIdeas.map(d => `
+  document.getElementById('dreamIdeasList').innerHTML = appData.dreamIdeas.map(d => {
+    const sid = safeId(d.id);
+    return `
     <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--lavender-mist);border-radius:var(--radius-sm);">
       <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-        <input type="checkbox" style="width:18px;height:18px;" ${d.done?'checked':''} onchange="toggleDreamIdea('${d.id}')" />
+        <input type="checkbox" style="width:18px;height:18px;" ${d.done?'checked':''} onchange="toggleDreamIdea('${sid}')" />
         <span style="${d.done?'text-decoration:line-through;color:var(--text-muted);':''}"><strong>${escapeHTML(d.title)}</strong> ${d.comment ? `— <em>${escapeHTML(d.comment)}</em>` : ''}</span>
       </label>
-      <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.dreamIdeas=appData.dreamIdeas.filter(x=>x.id!=='${d.id}');saveData()">✕</button>
-    </div>
-  `).join('');
+      <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.dreamIdeas=appData.dreamIdeas.filter(x=>x.id!=='${sid}');saveData()">✕</button>
+    </div>`;
+  }).join('') || `<p style="font-size:0.83rem;color:var(--text-muted);">Aún no hay ideas registradas.</p>`;
 
-  document.getElementById('dreamMatrixBody').innerHTML = appData.dreamMatrix.map(m => `
+  document.getElementById('dreamMatrixBody').innerHTML = appData.dreamMatrix.map(m => {
+    const sid = safeId(m.id);
+    return `
     <tr>
       <td><strong>${escapeHTML(m.objective)}</strong></td>
       <td>${escapeHTML(m.actions)}</td>
-      <td><span class="badge badge-cyan">${escapeHTML(m.deadline)}</span></td>
+      <td><span class="badge badge-cyan">${escapeHTML(fmtDate(m.deadline))}</span></td>
       <td><span class="badge badge-lavender">${escapeHTML(m.status)}</span></td>
-      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.dreamMatrix=appData.dreamMatrix.filter(x=>x.id!=='${m.id}');saveData()">✕</button></td>
-    </tr>
-  `).join('');
+      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.dreamMatrix=appData.dreamMatrix.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Aún no hay objetivos en la matriz.</td></tr>`;
 
   ['couple', 'leisure'].forEach(k => {
-    document.getElementById(k + 'List').innerHTML = appData[k].map(it => `
-      <div style="background:#FFF;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-soft);display:flex;justify-content:space-between;align-items:center;">
-        <div><strong>${escapeHTML(it.title)}</strong> ${it.date ? `<span class="badge badge-lavender">${escapeHTML(it.date)}</span>` : ''} <span style="font-size:0.82rem;color:var(--text-muted);">${escapeHTML(it.note)}</span></div>
-        <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData['${k}']=appData['${k}'].filter(x=>x.id!=='${it.id}');saveData()">✕</button>
-      </div>
-    `).join('');
+    document.getElementById(k + 'List').innerHTML = appData[k].map(it => {
+      const sid = safeId(it.id);
+      return `
+      <div style="background:#FFF;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-soft);display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+        <div style="flex:1;min-width:0;">
+          <strong>${escapeHTML(it.title)}</strong> ${it.date ? `<span class="badge badge-lavender">${escapeHTML(fmtDate(it.date))}</span>` : ''}
+          ${it.note ? `<div class="note-text">${escapeHTML(it.note)}</div>` : ''}
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          ${k === 'couple' ? `<select class="mini-select" onchange="setPersonalStatus('couple','${sid}',this.value)">${['Programado','Culminado'].map(st => `<option value="${st}" ${st===(it.status||'Programado')?'selected':''}>${st}</option>`).join('')}</select>` : ''}
+          <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData['${k}']=appData['${k}'].filter(x=>x.id!=='${sid}');saveData()">✕</button>
+        </div>
+      </div>`;
+    }).join('') || `<p style="font-size:0.83rem;color:var(--text-muted);">Sin elementos registrados todavía.</p>`;
   });
 }
 
@@ -2491,9 +3234,9 @@ function renderFinance() {
     return d.getMonth() === m && d.getFullYear() === y && tx.currency === cur;
   });
 
-  const income = periodTxs.filter(t => t.type === 'Ingreso').reduce((s, t) => s + t.amount, 0);
-  const expense = periodTxs.filter(t => t.type === 'Gasto').reduce((s, t) => s + t.amount, 0);
-  const savings = periodTxs.filter(t => t.type === 'Ahorro').reduce((s, t) => s + t.amount, 0);
+  const income = periodTxs.filter(t => t.type === 'Ingreso').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+  const expense = periodTxs.filter(t => t.type === 'Gasto').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+  const savings = periodTxs.filter(t => t.type === 'Ahorro').reduce((s, t) => s + (Number(t.amount) || 0), 0);
   const net = income - expense - savings;
 
   document.getElementById('financeKpis').innerHTML = `
@@ -2503,73 +3246,98 @@ function renderFinance() {
     <div class="kpi-card"><span class="kpi-label">Saldo Disponible</span><span class="kpi-value">${sym} ${net.toFixed(2)}</span><span class="kpi-sub">Ingresos − Gastos − Ahorro</span></div>
   `;
 
-  document.getElementById('financeTxTable').innerHTML = periodTxs.slice().reverse().map(tx => `
+  document.getElementById('financeTxTable').innerHTML = periodTxs.slice().reverse().map(tx => {
+    const sid = safeId(tx.id);
+    return `
     <tr>
-      <td>${escapeHTML(tx.date)}</td>
+      <td>${escapeHTML(fmtDate(tx.date))}</td>
       <td><span class="badge ${tx.type==='Ingreso'?'badge-success':tx.type==='Ahorro'?'badge-cyan':'badge-lavender'}">${escapeHTML(tx.type)}</span></td>
       <td>${escapeHTML(tx.category)}</td>
       <td>${escapeHTML(tx.desc)} ${tx.installments ? `<span class="badge badge-warning">Cuotas: ${escapeHTML(tx.installments)}</span>` : ''}</td>
-      <td><strong>${sym} ${tx.amount.toFixed(2)}</strong></td>
-      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.financeTxs=appData.financeTxs.filter(x=>x.id!=='${tx.id}');saveData()">✕</button></td>
-    </tr>
-  `).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">No hay movimientos en este mes y moneda.</td></tr>`;
+      <td><strong>${sym} ${(Number(tx.amount) || 0).toFixed(2)}</strong></td>
+      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.financeTxs=appData.financeTxs.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">No hay movimientos en este mes y moneda.</td></tr>`;
 
   document.getElementById('investmentsTable').innerHTML = appData.investments.map(inv => {
+    const sid = safeId(inv.id);
     const s = inv.currency === 'USD' ? '$' : 'S/';
-    const diff = inv.current - inv.capital;
-    const pct = inv.capital ? ((diff / inv.capital) * 100).toFixed(1) : '0.0';
+    const cap = Number(inv.capital) || 0;
+    const curr = Number(inv.current) || 0;
+    const diff = curr - cap;
+    const pct = cap ? ((diff / cap) * 100).toFixed(1) : '0.0';
     return `
       <tr>
         <td><strong>${escapeHTML(inv.entity)}</strong></td>
-        <td>${s} ${inv.capital.toFixed(2)}</td>
-        <td><strong>${s} ${inv.current.toFixed(2)}</strong></td>
+        <td>${s} ${cap.toFixed(2)}</td>
+        <td><strong>${s} ${curr.toFixed(2)}</strong></td>
         <td><span class="badge ${diff>=0?'badge-success':'badge-danger'}">${diff>=0?'+':''}${pct}%</span></td>
-        <td>${escapeHTML(inv.maturity || '—')}</td>
-        <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.investments=appData.investments.filter(x=>x.id!=='${inv.id}');saveData()">✕</button></td>
+        <td>${escapeHTML(fmtDate(inv.maturity) || '—')}</td>
+        <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.investments=appData.investments.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
       </tr>
     `;
-  }).join('');
+  }).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">Sin inversiones registradas.</td></tr>`;
 
   if (!window.Chart) return;
   const ctxFO = document.getElementById('chartFinOverview');
+  const money = v => `${sym} ${Math.round(v).toLocaleString('es-PE')}`;
   if (ctxFO) {
+    ctxFO.parentElement.style.height = '210px';
     if (charts.finOver) charts.finOver.destroy();
     charts.finOver = new Chart(ctxFO, {
       type: 'bar',
       data: {
         labels: ['Ingresos', 'Gastos', 'Ahorro'],
         datasets: [{
-          label: `Monto (${sym})`,
+          label: 'Monto',
           data: [income, expense, savings],
-          backgroundColor: ['#A5DFF1', '#825E77', '#3B8EA5'],
-          borderRadius: 8
+          backgroundColor: ['#8E4F8F', '#D6457A', '#B07BB1'],
+          borderRadius: 6, barThickness: 24, labelOutside: true, fmt: money
         }]
       },
-      options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+      plugins: [valueLabelsPlugin],
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        layout: { padding: { right: 70 } },
+        scales: { x: { display: false, beginAtZero: true }, y: { ...catScale } },
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => money(c.parsed.x) } } }
+      }
     });
   }
 
   const ctxFC = document.getElementById('chartFinCategories');
   if (ctxFC) {
+    ctxFC.parentElement.style.height = '210px';
     if (charts.finCat) charts.finCat.destroy();
-    const catNames = appData.financeCategories.map(c => c.name);
-    const catTotals = catNames.map(cn => periodTxs.filter(t => t.type === 'Gasto' && t.category === cn).reduce((s, t) => s + t.amount, 0));
+    const pairs = appData.financeCategories
+      .map(c => [c.name, periodTxs.filter(t => t.type === 'Gasto' && t.category === c.name).reduce((s, t) => s + (Number(t.amount) || 0), 0)])
+      .filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+    const totalExp = pairs.reduce((s, x) => s + x[1], 0);
     charts.finCat = new Chart(ctxFC, {
       type: 'doughnut',
       data: {
-        labels: catNames,
+        labels: pairs.length ? pairs.map(x => x[0]) : ['Sin gastos'],
         datasets: [{
-          data: catTotals,
-          backgroundColor: ['#825E77', '#A5DFF1', '#E9D2F4', '#3B8EA5', '#B589A8', '#7CC6DE', '#D4A5E5', '#5C8D9E', '#C39BD3']
+          data: pairs.length ? pairs.map(x => x[1]) : [1],
+          backgroundColor: pairs.length ? ['#8E4F8F', '#D6457A', '#B07BB1', '#F9B8CF', '#5BC0DE', '#C98BCB', '#F06A95', '#9A6FB0', '#F0D9F0'] : ['#F0D9F0'],
+          borderWidth: 2, borderColor: '#FFFFFF'
         }]
       },
-      options: { responsive: true, maintainAspectRatio: false }
+      plugins: [centerTextPlugin],
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '68%',
+        plugins: {
+          legend: { position: 'right', labels: { boxWidth: 10, boxHeight: 10, font: { size: 11 } } },
+          centerText: { text: money(totalExp), sub: 'Gastos' },
+          tooltip: { callbacks: { label: c => pairs.length ? `${c.label}: ${money(c.parsed)} (${Math.round(c.parsed / totalExp * 100)}%)` : 'Sin gastos' } }
+        }
+      }
     });
   }
 }
 
 /* ============================================================================
-   6. ESPACIO ENERGÍA: CALENDARIO, BITÁCORA, RESUMEN, ACCIONES Y BIBLIOTECA
+   6. ENERGÍA: CALENDARIO, BITÁCORA, RESUMEN, ACCIONES Y BIBLIOTECA (IDB)
 ============================================================================ */
 function changeEnergyMonth(delta) {
   energyCalDate.setMonth(energyCalDate.getMonth() + delta);
@@ -2581,11 +3349,14 @@ function toggleEnergyCleanDay(dateStr) {
   saveData();
 }
 
+const ENERGY_LOG_ACTIONS = ['Eliminado', 'Por Eliminar', 'Consultar'];
+const ENERGY_LETTER_ACTIONS = ['En proceso', 'Culminado', 'Por Incinerar'];
+const ENERGY_TASK_STATES = ['Por hacer', 'Por Incinerar', 'Por Eliminar', 'Culminado'];
+const optList = (arr, cur) => arr.map(o => `<option value="${escapeHTML(o)}" ${o===cur?'selected':''}>${escapeHTML(o)}</option>`).join('');
+
 function toggleEnergyTypeFields() {
   const val = document.getElementById('enType').value;
   document.getElementById('enSubtypeGroup').style.display = (val === 'Huellas Causales') ? 'flex' : 'none';
-  document.getElementById('enCardFields').style.display = (val === 'Cartas') ? 'block' : 'none';
-  document.getElementById('enStandardDescGroup').style.display = (val === 'Cartas') ? 'none' : 'flex';
 }
 
 function addEnergyLog(e) {
@@ -2594,19 +3365,15 @@ function addEnergyLog(e) {
   const subtype = type === 'Huellas Causales' ? document.getElementById('enSubtype').value : '';
   const linkedAction = document.getElementById('enLinkedAction').value.trim();
 
-  const log = {
+  appData.energyLogs.push({
     id: 'en_' + Date.now(),
     date: document.getElementById('enDate').value,
     type,
     subtype,
-    description: type === 'Cartas' ? '' : document.getElementById('enDescription').value.trim(),
-    cardName: type === 'Cartas' ? document.getElementById('enCardName').value.trim() : '',
-    cardEvent: type === 'Cartas' ? document.getElementById('enCardEvent').value.trim() : '',
-    cardComments: type === 'Cartas' ? document.getElementById('enCardComments').value.trim() : '',
+    description: document.getElementById('enDescription').value.trim(),
+    action: document.getElementById('enAction').value,
     linkedAction
-  };
-
-  appData.energyLogs.push(log);
+  });
 
   if (linkedAction) {
     appData.energyActions.push({
@@ -2614,6 +3381,7 @@ function addEnergyLog(e) {
       type,
       subtype,
       task: linkedAction,
+      status: 'Por hacer',
       done: false
     });
   }
@@ -2622,6 +3390,32 @@ function addEnergyLog(e) {
   document.getElementById('enDate').value = todayStr();
   toggleEnergyTypeFields();
   saveData();
+  showToast('Hallazgo guardado en bitácora.', 'success');
+}
+
+function setEnergyLogAction(id, val) {
+  const it = appData.energyLogs.find(x => x.id === id);
+  if (it) { it.action = val; saveData(); }
+}
+
+function addEnergyLetter(e) {
+  e.preventDefault();
+  appData.energyLetters.push({
+    id: 'let_' + Date.now(),
+    date: document.getElementById('letDate').value,
+    person: document.getElementById('letPerson').value.trim(),
+    description: document.getElementById('letDesc').value.trim(),
+    action: document.getElementById('letAction').value
+  });
+  e.target.reset();
+  document.getElementById('letDate').value = todayStr();
+  saveData();
+  showToast('Carta registrada en bitácora.', 'success');
+}
+
+function setEnergyLetterAction(id, val) {
+  const it = appData.energyLetters.find(x => x.id === id);
+  if (it) { it.action = val; saveData(); }
 }
 
 function addEnergyAction(e) {
@@ -2631,87 +3425,149 @@ function addEnergyAction(e) {
     type: document.getElementById('eaType').value,
     subtype: document.getElementById('eaSubtype').value,
     task: document.getElementById('eaTask').value.trim(),
-    done: false
+    comment: document.getElementById('eaComment').value.trim(),
+    status: document.getElementById('eaStatus').value,
+    done: document.getElementById('eaStatus').value === 'Culminado'
   });
   e.target.reset();
   saveData();
+  showToast('Actividad energética agregada.', 'success');
 }
 
-function toggleEnergyActionDone(id) {
+function setEnergyActionComment(id, val) {
+  const item = appData.energyActions.find(x => x.id === id);
+  if (item) { item.comment = val.trim(); saveData(); }
+}
+
+function setEnergyActionStatus(id, val) {
   const item = appData.energyActions.find(x => x.id === id);
   if (item) {
-    item.done = !item.done;
+    item.status = val;
+    item.done = val === 'Culminado';
     saveData();
   }
 }
 
-function createLibrarySubfolder() {
-  const folder = prompt('Nombre de la nueva subcarpeta temática (ej. Protocolos, Biomagnetismo, Cartas):');
-  if (!folder || !folder.trim()) return;
-  appData.energyLibrary.push({
-    id: 'lib_folder_' + Date.now(),
-    name: folder.trim(),
-    folder: folder.trim(),
-    isFolderMarker: true
+function promptNewLibrarySubfolder() {
+  openPromptModal({
+    title: 'Nueva Subcarpeta en Biblioteca',
+    label: 'Nombre de la carpeta temática',
+    placeholder: 'Ej. Protocolos, Biomagnetismo, Cartas...'
+  }, (folder) => {
+    if (!folder) return;
+    appData.energyLibrary.push({
+      id: 'lib_folder_' + Date.now(),
+      name: folder,
+      folder,
+      isFolderMarker: true
+    });
+    saveData();
+    showToast(`Subcarpeta "${folder}" creada.`, 'success');
   });
-  saveData();
 }
 
+/* 4A + 2A: Subida a Biblioteca usando IndexedDB + Google Drive (sin saturar localStorage) */
 async function uploadToEnergyLibrary(event) {
   const file = event.target.files[0];
-  if (!file) return;
-  const folder = document.getElementById('energyLibFolderFilter').value || prompt('¿En qué carpeta deseas clasificar este archivo?', 'General') || 'General';
-
-  let driveFileId = null;
-  let webViewLink = null;
-  if (accessToken && driveMeta.energyId) {
-    const targetFolderId = folder === 'General' ? driveMeta.energyId : await findOrCreateFolder(folder, driveMeta.energyId);
-    const uploaded = await uploadFileToDriveFolder(file, targetFolderId);
-    if (uploaded) {
-      driveFileId = uploaded.id;
-      webViewLink = uploaded.webViewLink;
-    }
-  }
-
-  let localDataUrl = null;
-  if (file.size < 1800000) {
-    localDataUrl = await new Promise(res => {
-      const r = new FileReader();
-      r.onload = ev => res(ev.target.result);
-      r.readAsDataURL(file);
-    });
-  }
-
-  appData.energyLibrary.push({
-    id: 'lib_' + Date.now(),
-    name: file.name,
-    folder,
-    mimeType: file.type,
-    driveFileId,
-    webViewLink,
-    localDataUrl,
-    uploadedAt: todayStr()
-  });
   event.target.value = '';
-  saveData();
+  if (!file) return;
+
+  const existingFolders = [...new Set(['General', ...appData.energyLibrary.map(x => x.folder).filter(Boolean)])];
+  const currentFilter = document.getElementById('energyLibFolderFilter').value;
+
+  const finalizeUpload = async (folder) => {
+    const itemId = 'lib_' + Date.now();
+    let driveFileId = null;
+    let webViewLink = null;
+
+    if (accessToken && driveMeta.energyId) {
+      try {
+        const targetFolderId = folder === 'General' ? driveMeta.energyId : await findOrCreateFolder(folder, driveMeta.energyId);
+        const uploaded = await uploadFileToDriveFolder(file, targetFolderId);
+        if (uploaded) {
+          driveFileId = uploaded.id;
+          webViewLink = uploaded.webViewLink;
+        }
+      } catch (err) {
+        console.error('Error subiendo a Drive:', err);
+      }
+    }
+
+    const savedInIDB = await PlanificadorIDB.put(itemId, file, file.type);
+
+    appData.energyLibrary.push({
+      id: itemId,
+      name: file.name,
+      folder: folder || 'General',
+      mimeType: file.type,
+      driveFileId,
+      webViewLink,
+      hasLocalBlob: savedInIDB,
+      uploadedAt: todayStr()
+    });
+    saveData();
+    showToast(`Archivo "${file.name}" guardado en ${folder}.`, 'success');
+  };
+
+  if (currentFilter) {
+    await finalizeUpload(currentFilter);
+  } else {
+    openPromptModal({
+      title: 'Clasificar Documento',
+      selectLabel: 'Elige una carpeta de destino',
+      selectOptions: [
+        ...existingFolders.map(f => ({ value: f, text: `📁 ${f}` })),
+        { value: '__NEW__', text: '+ Crear nueva carpeta...' }
+      ],
+      label: 'Nombre de la nueva carpeta',
+      placeholder: 'Ej. Protocolos'
+    }, finalizeUpload);
+  }
 }
 
-function openLibraryItem(id) {
+async function deleteLibraryItem(id) {
+  await PlanificadorIDB.remove(id);
+  appData.energyLibrary = appData.energyLibrary.filter(x => x.id !== id);
+  saveData();
+  showToast('Documento eliminado de la biblioteca.', 'info');
+}
+
+async function openLibraryItem(id) {
   const item = appData.energyLibrary.find(x => x.id === id);
   if (!item) return;
   document.getElementById('viewerModalTitle').textContent = item.name;
   const body = document.getElementById('viewerModalBody');
 
-  if (item.driveFileId) {
+  if (activeBlobUrl) {
+    URL.revokeObjectURL(activeBlobUrl);
+    activeBlobUrl = null;
+  }
+
+  const localRecord = await PlanificadorIDB.get(id);
+  if (localRecord && localRecord.blob) {
+    activeBlobUrl = URL.createObjectURL(localRecord.blob);
+    const mime = localRecord.mimeType || item.mimeType || '';
+    if (mime.startsWith('image/')) {
+      body.innerHTML = `<img src="${activeBlobUrl}" style="max-width:100%;max-height:100%;object-fit:contain;" />`;
+    } else if (mime === 'application/pdf' || item.name.toLowerCase().endsWith('.pdf')) {
+      body.innerHTML = `<iframe src="${activeBlobUrl}" style="width:100%;height:100%;border:none;"></iframe>`;
+    } else {
+      body.innerHTML = `
+        <div style="text-align:center;padding:24px;">
+          <p style="margin-bottom:14px;font-weight:600;">Archivo listo para abrir o descargar:</p>
+          <a href="${activeBlobUrl}" download="${escapeHTML(item.name)}" class="btn btn-primary">Descargar ${escapeHTML(item.name)}</a>
+        </div>`;
+    }
+  } else if (item.driveFileId) {
     body.innerHTML = `<iframe src="https://drive.google.com/file/d/${encodeURIComponent(item.driveFileId)}/preview" style="width:100%;height:100%;border:none;"></iframe>`;
   } else if (item.localDataUrl) {
     if ((item.mimeType || '').startsWith('image/')) {
-      body.innerHTML = `<img src="${item.localDataUrl}" style="max-width:100%;max-height:100%;object-fit:contain;" />`;
+      body.innerHTML = `<img src="${safeImgSrc(item.localDataUrl)}" style="max-width:100%;max-height:100%;object-fit:contain;" />`;
     } else {
       body.innerHTML = `<iframe src="${item.localDataUrl}" style="width:100%;height:100%;border:none;"></iframe>`;
     }
   } else {
-    body.innerHTML = `<p style="padding:20px;">Conecta tu Google Drive para previsualizar archivos grandes almacenados en la nube.</p>`;
+    body.innerHTML = `<p style="padding:20px;text-align:center;">Conecta tu Google Drive para previsualizar archivos respaldados en la nube.</p>`;
   }
   document.getElementById('viewerModal').classList.add('open');
 }
@@ -2743,56 +3599,77 @@ function renderEnergy() {
   document.getElementById('energyCalendarGrid').innerHTML = html;
   document.getElementById('energyStreakBadge').textContent = `${monthCleaned} días limpios este mes`;
 
-  const typeCounts = appData.energyTypes.map(t => appData.energyLogs.filter(l => l.type === t).length);
+  const typeLabels = [...appData.energyTypes, 'Cartas'];
+  const typeCounts = [...appData.energyTypes.map(t => appData.energyLogs.filter(l => l.type === t).length), appData.energyLetters.length];
   const ctxET = document.getElementById('chartEnergyTypes');
   if (ctxET && window.Chart) {
     if (charts.energyT) charts.energyT.destroy();
     charts.energyT = new Chart(ctxET, {
       type: 'bar',
       data: {
-        labels: appData.energyTypes,
-        datasets: [{ label: 'Hallazgos registrados', data: typeCounts, backgroundColor: '#825E77', borderRadius: 6 }]
+        labels: typeLabels,
+        datasets: [{ label: 'Registros', data: typeCounts, backgroundColor: '#8E4F8F', borderRadius: 4, barThickness: 14 }]
       },
-      options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+      plugins: [valueLabelsPlugin],
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        scales: { x: { ...intScale }, y: { ...catScale } },
+        plugins: { legend: { display: false } }
+      }
     });
   }
 
   const subtypes = ['Personas', 'Cuerpo', 'Yo', 'Actitud'];
   document.getElementById('energySubtypeSummary').innerHTML =
-    `<strong style="font-size:0.8rem;color:var(--dusty-dark);width:100%;">Desglose Huellas Causales:</strong>` +
+    `<strong style="font-size:0.78rem;color:var(--dusty-dark);width:100%;">Huellas Causales:</strong>` +
     subtypes.map(st => {
       const c = appData.energyLogs.filter(l => l.type === 'Huellas Causales' && l.subtype === st).length;
       return `<span class="badge badge-cyan">${st}: ${c}</span>`;
     }).join('');
 
   document.getElementById('energyLogsTable').innerHTML = appData.energyLogs.slice().reverse().map(l => {
-    const detail = l.type === 'Cartas'
-      ? `<strong>Carta:</strong> ${escapeHTML(l.cardName)} | <strong>Evento:</strong> ${escapeHTML(l.cardEvent)} | <em>${escapeHTML(l.cardComments)}</em>`
-      : escapeHTML(l.description);
+    const sid = safeId(l.id);
     return `
       <tr>
-        <td>${escapeHTML(l.date)}</td>
+        <td>${escapeHTML(fmtDate(l.date))}</td>
         <td><span class="badge badge-lavender">${escapeHTML(l.type)}</span> ${l.subtype ? `<span class="badge badge-cyan">${escapeHTML(l.subtype)}</span>` : ''}</td>
-        <td>${detail}</td>
-        <td>${l.linkedAction ? `<span class="badge badge-warning">${escapeHTML(l.linkedAction)}</span>` : '—'}</td>
-        <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.energyLogs=appData.energyLogs.filter(x=>x.id!=='${l.id}');saveData()">✕</button></td>
-      </tr>
-    `;
+        <td>${escapeHTML(l.description)}</td>
+        <td><select class="mini-select" onchange="setEnergyLogAction('${sid}', this.value)">${optList(ENERGY_LOG_ACTIONS, l.action || 'Consultar')}</select></td>
+        <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.energyLogs=appData.energyLogs.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+      </tr>`;
   }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Aún no hay registros en tu bitácora energética.</td></tr>`;
 
-  document.getElementById('energyActionsList').innerHTML = appData.energyActions.map(a => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--lavender-mist);border-radius:var(--radius-sm);">
-      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-        <input type="checkbox" style="width:18px;height:18px;" ${a.done?'checked':''} onchange="toggleEnergyActionDone('${a.id}')" />
-        <span style="${a.done?'text-decoration:line-through;color:var(--text-muted);':''}">
+  document.getElementById('energyLettersTable').innerHTML = appData.energyLetters.slice().sort((a, b) => (b.date || '').localeCompare(a.date || '')).map(l => {
+    const sid = safeId(l.id);
+    return `
+      <tr>
+        <td>${escapeHTML(fmtDate(l.date))}</td>
+        <td><strong>${escapeHTML(l.person)}</strong></td>
+        <td>${escapeHTML(l.description)}</td>
+        <td><select class="mini-select" onchange="setEnergyLetterAction('${sid}', this.value)">${optList(ENERGY_LETTER_ACTIONS, l.action || 'En proceso')}</select></td>
+        <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.energyLetters=appData.energyLetters.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+      </tr>`;
+  }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Aún no hay cartas registradas.</td></tr>`;
+
+  document.getElementById('energyActionsList').innerHTML = appData.energyActions.map(a => {
+    const sid = safeId(a.id);
+    const st = a.status || (a.done ? 'Culminado' : 'Por hacer');
+    return `
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;background:var(--lavender-mist);border-radius:var(--radius-sm);flex-wrap:wrap;">
+      <div style="flex:1;min-width:220px;">
+        <div style="${st==='Culminado'?'text-decoration:line-through;color:var(--text-muted);':''}">
           <span class="badge badge-lavender">${escapeHTML(a.type)}</span>
           ${a.subtype ? `<span class="badge badge-cyan">${escapeHTML(a.subtype)}</span>` : ''}
           <strong style="margin-left:6px;">${escapeHTML(a.task)}</strong>
-        </span>
-      </label>
-      <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.energyActions=appData.energyActions.filter(x=>x.id!=='${a.id}');saveData()">✕</button>
-    </div>
-  `).join('');
+        </div>
+        <input type="text" class="mini-select" style="width:100%;margin-top:6px;" placeholder="Agregar comentario..." value="${escapeHTML(a.comment || '')}" onchange="setEnergyActionComment('${sid}', this.value)" />
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <select class="mini-select" onchange="setEnergyActionStatus('${sid}', this.value)">${optList(ENERGY_TASK_STATES, st)}</select>
+        <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.energyActions=appData.energyActions.filter(x=>x.id!=='${sid}');saveData()">✕</button>
+      </div>
+    </div>`;
+  }).join('') || `<p style="font-size:0.83rem;color:var(--text-muted);">No hay actividades energéticas pendientes.</p>`;
 
   renderEnergyLibrary();
 }
@@ -2806,19 +3683,21 @@ function renderEnergyLibrary() {
   const q = (document.getElementById('energyLibSearch').value || '').toLowerCase();
   const docs = appData.energyLibrary.filter(item => !item.isFolderMarker && (!curF || item.folder === curF) && (item.name.toLowerCase().includes(q) || (item.folder || '').toLowerCase().includes(q)));
 
-  document.getElementById('energyLibraryList').innerHTML = docs.length ? docs.map(d => `
+  document.getElementById('energyLibraryList').innerHTML = docs.length ? docs.map(d => {
+    const sid = safeId(d.id);
+    return `
     <div style="background:#FFF;padding:12px;border-radius:var(--radius-md);border:1px solid var(--frosted-blue);display:flex;flex-direction:column;justify-content:space-between;gap:8px;">
       <div>
         <span class="badge badge-cyan">📁 ${escapeHTML(d.folder || 'General')}</span>
         <div style="font-weight:700;font-size:0.88rem;margin-top:6px;word-break:break-word;">${escapeHTML(d.name)}</div>
-        <div style="font-size:0.74rem;color:var(--text-muted);">Subido: ${escapeHTML(d.uploadedAt || '')}</div>
+        <div style="font-size:0.74rem;color:var(--text-muted);">Subido: ${escapeHTML(fmtDate(d.uploadedAt) || '')}</div>
       </div>
       <div style="display:flex;gap:6px;">
-        <button type="button" class="btn btn-sm btn-primary" style="flex:1;" onclick="openLibraryItem('${d.id}')"><i data-lucide="eye" style="width:14px;height:14px;"></i> Visualizar</button>
-        <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.energyLibrary=appData.energyLibrary.filter(x=>x.id!=='${d.id}');saveData()">✕</button>
+        <button type="button" class="btn btn-sm btn-primary" style="flex:1;" onclick="openLibraryItem('${sid}')"><i data-lucide="eye" style="width:14px;height:14px;"></i> Visualizar</button>
+        <button type="button" class="btn btn-sm btn-danger-soft" onclick="deleteLibraryItem('${sid}')">✕</button>
       </div>
-    </div>
-  `).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);grid-column:1/-1;">Sube tus PDF, Word, Excel o imágenes de referencia para consultarlos y visualizarlos aquí.</p>`;
+    </div>`;
+  }).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);grid-column:1/-1;">Sube tus PDF, Word, Excel o imágenes de referencia para consultarlos y visualizarlos aquí.</p>`;
   safeIcons();
 }
 
@@ -2832,7 +3711,7 @@ function renderDashboard() {
 
   const days7 = getLast7Days();
   const totalHabitSlots = appData.habits.length * 7;
-  const doneHabitSlots = appData.habits.reduce((acc, h) => acc + days7.filter(d => h.days[d]).length, 0);
+  const doneHabitSlots = appData.habits.reduce((acc, h) => acc + days7.filter(d => (h.days || {})[d]).length, 0);
   const habitPct = totalHabitSlots ? Math.round((doneHabitSlots / totalHabitSlots) * 100) : 0;
 
   const curMonth = new Date().getMonth();
@@ -2841,11 +3720,11 @@ function renderDashboard() {
     const d = new Date(t.date + 'T00:00:00');
     return d.getMonth() === curMonth && d.getFullYear() === curYear && t.currency === 'PEN';
   });
-  const mInc = monthTxs.filter(t => t.type === 'Ingreso').reduce((s, t) => s + t.amount, 0);
-  const mExp = monthTxs.filter(t => t.type === 'Gasto').reduce((s, t) => s + t.amount, 0);
-  const mSav = monthTxs.filter(t => t.type === 'Ahorro').reduce((s, t) => s + t.amount, 0);
+  const mInc = monthTxs.filter(t => t.type === 'Ingreso').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+  const mExp = monthTxs.filter(t => t.type === 'Gasto').reduce((s, t) => s + (Number(t.amount) || 0), 0);
+  const mSav = monthTxs.filter(t => t.type === 'Ahorro').reduce((s, t) => s + (Number(t.amount) || 0), 0);
 
-  const energyPending = appData.energyActions.filter(a => !a.done).length;
+  const energyPending = appData.energyActions.filter(a => (a.status || (a.done ? 'Culminado' : 'Por hacer')) !== 'Culminado').length;
 
   document.getElementById('dashboardKpis').innerHTML = `
     <div class="kpi-card"><span class="kpi-label">Avance Laboral</span><span class="kpi-value">${workPct}%</span><span class="kpi-sub">${workDone} de ${workTotal} tareas cerradas</span></div>
@@ -2861,7 +3740,7 @@ function renderDashboard() {
     alerts.push({
       badge: over ? 'Laboral Vencida' : 'Vence Pronto',
       cls: over ? 'badge-danger' : 'badge-warning',
-      text: `${t.title} (${t.project}) — ${t.dueDate}`
+      text: `${t.title} (${t.project}) — ${fmtDate(t.dueDate)}`
     });
   });
 
@@ -2869,7 +3748,7 @@ function renderDashboard() {
     alerts.push({
       badge: 'Control Médico',
       cls: 'badge-cyan',
-      text: `${m.specialty} en ${m.place} — ${m.nextDate}`
+      text: `${m.specialty} en ${m.place} — ${fmtDate(m.nextDate)}`
     });
   });
 
@@ -2877,7 +3756,7 @@ function renderDashboard() {
     alerts.push({
       badge: 'Pago Tarjeta',
       cls: 'badge-warning',
-      text: `Fecha límite: ${ca.dueDate} (${ca.currency === 'USD' ? '$' : 'S/'} ${ca.total})`
+      text: `Fecha límite: ${fmtDate(ca.dueDate)} (${ca.currency === 'USD' ? '$' : 'S/'} ${ca.total})`
     });
   });
 
@@ -2889,46 +3768,61 @@ function renderDashboard() {
     </div>
   `).join('') : `<p style="font-size:0.85rem;color:var(--text-muted);">¡Todo al día! No tienes alertas críticas pendientes.</p>`;
 
-  const ctxDW = document.getElementById('chartDashWheel');
-  if (ctxDW && window.Chart) {
-    if (charts.dashWheel) charts.dashWheel.destroy();
-    charts.dashWheel = new Chart(ctxDW, {
-      type: 'radar',
-      data: {
-        labels: appData.wheelAreas.map(a => a.name),
-        datasets: [{
-          label: 'Equilibrio',
-          data: appData.wheelAreas.map(a => a.score),
-          backgroundColor: 'rgba(233, 210, 244, 0.55)',
-          borderColor: '#825E77',
-          pointBackgroundColor: '#3B8EA5'
-        }]
-      },
-      options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 10 } } }
-    });
-  }
-
   const activeWork = appData.workTasks.filter(t => t.status !== 'Completado').slice(0, 5);
   document.getElementById('dashboardTodayTasks').innerHTML = activeWork.length ? activeWork.map(t => `
     <div style="padding:8px 0;border-bottom:1px solid var(--border-soft);display:flex;justify-content:space-between;align-items:center;">
       <span style="font-size:0.86rem;"><strong>${escapeHTML(t.title)}</strong> <small style="color:var(--text-muted);">(${escapeHTML(t.project)})</small></span>
-      <span class="badge ${isOverdue(t)?'badge-danger':'badge-lavender'}">${escapeHTML(t.dueDate)}</span>
+      <span class="badge ${isOverdue(t)?'badge-danger':'badge-lavender'}">${escapeHTML(fmtDate(t.dueDate))}</span>
     </div>
   `).join('') : `<p style="font-size:0.85rem;color:var(--text-muted);">Sin tareas laborales pendientes.</p>`;
 
-  const cleanCount = Object.values(appData.energyCleanDays).filter(Boolean).length;
-  document.getElementById('dashboardPulseSummary').innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
-      <div>✦ <strong>Limpiezas energéticas registradas:</strong> ${cleanCount} días</div>
-      <div>✦ <strong>Hallazgos en bitácora de energía:</strong> ${appData.energyLogs.length} registros</div>
-      <div>✦ <strong>Inversiones activas:</strong> ${appData.investments.length} instrumentos</div>
-      <div>✦ <strong>Ideas en tablero de sueños:</strong> ${appData.dreamIdeas.length} metas registradas</div>
-    </div>
-  `;
+  const today = todayStr();
+  const pRow = (main, sub, badge, cls) => `
+    <div style="padding:8px 0;border-bottom:1px solid var(--border-soft);display:flex;justify-content:space-between;gap:8px;align-items:flex-start;">
+      <div style="min-width:0;font-size:0.84rem;"><strong>${escapeHTML(main)}</strong>${sub ? `<div style="font-size:0.74rem;color:var(--text-muted);">${escapeHTML(sub)}</div>` : ''}</div>
+      <span class="badge ${cls}" style="white-space:nowrap;">${escapeHTML(badge)}</span>
+    </div>`;
+  const pGroup = (title, rows) => rows.length ? `<div style="font-size:0.76rem;font-weight:700;color:var(--dusty-lavender);margin:10px 0 2px;">${title} (${rows.length})</div>${rows.join('')}` : '';
+
+  const workRows = appData.workTasks.filter(t => t.status !== 'Completado').sort((a, b) => (a.dueDate || '').localeCompare(b.dueDate || ''))
+    .map(t => pRow(t.title, `${t.project} · vence ${fmtDate(t.dueDate)}`, t.status, isOverdue(t) ? 'badge-danger' : 'badge-lavender'));
+  const coupleRows = appData.couple.filter(c => (c.status || 'Programado') !== 'Culminado')
+    .map(c => pRow(c.title, c.date ? fmtDate(c.date) : '', 'Programado', 'badge-lavender'));
+  const medRows = appData.medicalRecords.filter(m => m.nextDate && m.nextDate >= today).sort((a, b) => a.nextDate.localeCompare(b.nextDate))
+    .map(m => pRow(m.specialty, m.place || '', fmtDate(m.nextDate), 'badge-warning'));
+  const dreamRows = appData.dreamIdeas.filter(d => !d.done).map(d => pRow(d.title, d.comment || '', 'Idea', 'badge-cyan'));
+  const enActRows = appData.energyActions.filter(a => (a.status || (a.done ? 'Culminado' : 'Por hacer')) !== 'Culminado')
+    .map(a => pRow(a.task, [a.type, a.comment].filter(Boolean).join(' · '), a.status || 'Por hacer', 'badge-lavender'));
+  const enLetRows = appData.energyLetters.filter(l => l.action === 'En proceso' || l.action === 'Por Incinerar')
+    .map(l => pRow(l.person, l.description || '', l.action, 'badge-warning'));
+  const enLogRows = appData.energyLogs.filter(l => l.action === 'Por Eliminar')
+    .map(l => pRow(l.description, l.type, 'Por Eliminar', 'badge-danger'));
+
+  const secs = [
+    { name: 'Laboral', view: 'work', groups: [['Tareas pendientes', workRows]] },
+    { name: 'Personal', view: 'personal', groups: [['Pareja programada', coupleRows], ['Controles médicos próximos', medRows], ['Ideas de sueños', dreamRows]] },
+    { name: 'Energía', view: 'energy', groups: [['Actividades por hacer', enActRows], ['Cartas', enLetRows], ['Rastreo por eliminar', enLogRows]] }
+  ];
+  let pendTotal = 0;
+  document.getElementById('dashboardPending').innerHTML = secs.map(sc => {
+    const n = sc.groups.reduce((a, g) => a + g[1].length, 0);
+    pendTotal += n;
+    return `
+      <div style="background:#FFF;border:1px solid var(--border-soft);border-radius:var(--radius-md);padding:12px 14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <strong style="color:var(--dusty-dark);">${sc.name}</strong>
+          <span><span class="badge badge-lavender">${n}</span> <button type="button" class="btn btn-sm btn-outline" onclick="switchView('${sc.view}')">Ver</button></span>
+        </div>
+        <div style="max-height:340px;overflow-y:auto;">
+          ${sc.groups.map(g => pGroup(g[0], g[1])).join('') || `<p style="font-size:0.84rem;color:var(--text-muted);margin-top:10px;">Sin pendientes.</p>`}
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('pendingTotalBadge').textContent = `${pendTotal} pendientes`;
 }
 
 /* ============================================================================
-   8. INICIALIZACIÓN Y RESPALDO JSON
+   8. INICIALIZACIÓN, NORMALIZACIÓN Y RESPALDO JSON
 ============================================================================ */
 function exportBackupJSON() {
   const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
@@ -2938,20 +3832,28 @@ function exportBackupJSON() {
   a.download = `respaldo_planificador_${todayStr()}.json`;
   a.click();
   URL.revokeObjectURL(url);
+  showToast('Respaldo JSON descargado.', 'success');
 }
 
 function importBackupJSON(event) {
   const file = event.target.files[0];
+  event.target.value = '';
   if (!file) return;
   const reader = new FileReader();
   reader.onload = (e) => {
     try {
       const parsed = JSON.parse(e.target.result);
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        throw new Error('Formato inválido');
+      }
+      delete parsed.__proto__;
+      delete parsed.constructor;
       appData = { ...JSON.parse(JSON.stringify(DEFAULT_DATA)), ...parsed };
       saveData();
-      alert('Respaldo restaurado exitosamente.');
+      closeModal('configModal');
+      showToast('Respaldo restaurado exitosamente.', 'success');
     } catch (err) {
-      alert('El archivo JSON no tiene un formato válido.');
+      showToast('El archivo JSON no tiene un formato válido.', 'danger');
     }
   };
   reader.readAsText(file);
@@ -2963,10 +3865,10 @@ function registerDynamicPWAManifest() {
     short_name: 'Planificador',
     start_url: '.',
     display: 'standalone',
-    background_color: '#F1EFFB',
-    theme_color: '#825E77',
+    background_color: '#FBF4FB',
+    theme_color: '#8E4F8F',
     icons: [{
-      src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="%23825E77"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="white">✦</text></svg>',
+      src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="%238E4F8F"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="white">✦</text></svg>',
       sizes: '192x192',
       type: 'image/svg+xml'
     }]
@@ -2978,7 +3880,74 @@ function registerDynamicPWAManifest() {
   document.head.appendChild(link);
 }
 
+async function migrateLegacyLibraryBlobsToIDB() {
+  let changed = false;
+  for (const item of appData.energyLibrary) {
+    if (item.localDataUrl && item.localDataUrl.startsWith('data:')) {
+      try {
+        const res = await fetch(item.localDataUrl);
+        const blob = await res.blob();
+        const ok = await PlanificadorIDB.put(item.id, blob, item.mimeType || blob.type);
+        if (ok) {
+          delete item.localDataUrl;
+          item.hasLocalBlob = true;
+          changed = true;
+        }
+      } catch (e) { /* conservar fallback si falla */ }
+    }
+  }
+  if (changed) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); } catch (e) {}
+  }
+}
+
+function normalizeData() {
+  const d = appData;
+  const arrayKeys = [
+    'workTasks', 'workTypes', 'wheelAreas', 'habits', 'personalEvents',
+    'exercises', 'medicalRecords', 'medicalSpecialties', 'financeCategories',
+    'financeTxs', 'cardAlerts', 'investments', 'dreamsCollage', 'dreamIdeas',
+    'dreamMatrix', 'couple', 'leisure', 'energyTypes', 'energyLogs',
+    'energyLetters', 'energyActions', 'energyLibrary'
+  ];
+  arrayKeys.forEach(k => { if (!Array.isArray(d[k])) d[k] = []; });
+  if (!d.energyCleanDays || typeof d.energyCleanDays !== 'object') d.energyCleanDays = {};
+
+  d.workTasks.forEach(t => { if (t.status === 'Bandeja GTD') t.status = 'Bandeja'; });
+  d.habits.forEach(h => {
+    if (h.name) h.name = h.name.replace(/\s*GTD$/, '');
+    if (!h.days || typeof h.days !== 'object') h.days = {};
+  });
+  if (!d._wheelFamiliaAmigos) {
+    d._wheelFamiliaAmigos = true;
+    ['Familia', 'Amigos'].forEach(n => { if (!d.wheelAreas.some(a => a.name === n)) d.wheelAreas.push({ name: n, score: 7 }); });
+  }
+  const wi = d.wheelAreas.findIndex(a => /^salud\s*y\s*energ[ií]a$/i.test(String(a.name).trim()));
+  if (wi >= 0) {
+    const sc = d.wheelAreas[wi].score;
+    d.wheelAreas.splice(wi, 1, { name: 'Salud', score: sc }, { name: 'Energía', score: sc });
+  }
+  if (!d._tipoTrabajosEnergeticos) {
+    d._tipoTrabajosEnergeticos = true;
+    if (!d.energyTypes.includes('Trabajos energéticos')) d.energyTypes.push('Trabajos energéticos');
+  }
+  d.energyTypes = d.energyTypes.filter(t => t !== 'Cartas');
+  d.energyLogs = d.energyLogs.filter(l => {
+    if (l.type !== 'Cartas') return true;
+    d.energyLetters.push({
+      id: 'let_' + l.id, date: l.date, person: l.cardName || '',
+      description: [l.cardEvent, l.cardComments].filter(Boolean).join(' — '),
+      action: 'En proceso'
+    });
+    return false;
+  });
+  d.energyLogs.forEach(l => { if (!l.action) l.action = 'Consultar'; });
+  d.energyActions.forEach(a => { if (!a.status) a.status = a.done ? 'Culminado' : 'Por hacer'; });
+  d.couple.forEach(c => { if (!c.status) c.status = 'Programado'; });
+}
+
 function renderAll() {
+  normalizeData();
   renderDashboard();
   renderWork();
   renderPersonal();
@@ -2986,15 +3955,26 @@ function renderAll() {
   safeIcons();
 }
 
+initDateInputs();
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-backdrop.open').forEach(m => closeModal(m.id));
+  }
+});
+
 window.addEventListener('DOMContentLoaded', () => {
   registerDynamicPWAManifest();
+  applySavedDrawerStates();
   document.getElementById('wtDueDate').value = offsetDate(2);
   document.getElementById('peDate').value = todayStr();
   document.getElementById('exDate').value = todayStr();
   document.getElementById('medDate').value = todayStr();
   document.getElementById('txDate').value = todayStr();
   document.getElementById('enDate').value = todayStr();
+  document.getElementById('letDate').value = todayStr();
   renderAll();
+  migrateLegacyLibraryBlobsToIDB();
 });
 </script>
 </body>
