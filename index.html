@@ -824,9 +824,207 @@
       .grid-4 { grid-template-columns: repeat(2, 1fr); }
       .grid-3, .grid-2, .energy-top, .equil-top { grid-template-columns: 1fr; }
     }
+
+    /* =========================================================================
+       PANTALLA DE INICIO DE SESIÓN (ORQUÍDEA ROSA)
+    ========================================================================= */
+    body.app-locked .app-container,
+    body.app-locked .mobile-nav,
+    body.app-locked .toast-container,
+    body.app-locked .modal-backdrop {
+      display: none !important;
+    }
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(249, 184, 207, 0.45) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(142, 79, 143, 0.22) 0%, transparent 50%),
+        linear-gradient(135deg, #FDF8FD 0%, #FBF4FB 50%, #FFE6EE 100%);
+    }
+    .auth-overlay.hidden {
+      display: none !important;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 410px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      box-shadow: 0 20px 50px rgba(85, 47, 87, 0.14);
+    }
+    .auth-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .auth-brand-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--dusty-lavender), var(--teal-accent));
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 20px rgba(142, 79, 143, 0.28);
+    }
+    .auth-brand h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      color: var(--dusty-dark);
+      margin: 0 0 4px;
+      letter-spacing: -0.02em;
+    }
+    .auth-brand p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .auth-field {
+      margin-bottom: 16px;
+    }
+    .auth-field label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--dusty-dark);
+      margin-bottom: 6px;
+    }
+    .auth-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .auth-input-wrap input {
+      width: 100%;
+      padding: 11px 42px 11px 14px;
+      border: 1.5px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.94rem;
+      color: var(--text-main);
+      background: var(--lavender-mist);
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .auth-input-wrap input:focus {
+      outline: none;
+      border-color: var(--dusty-lavender);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(142, 79, 143, 0.14);
+    }
+    .auth-toggle-pwd {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+    }
+    .auth-toggle-pwd:hover {
+      color: var(--dusty-lavender);
+      background: var(--thistle-soft);
+    }
+    .auth-error {
+      display: none;
+      background: #FDECEC;
+      color: #D64550;
+      border: 1px solid rgba(214, 69, 80, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      align-items: center;
+      gap: 8px;
+    }
+    .auth-error.visible {
+      display: flex;
+    }
+    .auth-submit-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .auth-footnote {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+    .gcal-filter-select {
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--frosted-blue);
+      background: #FFFFFF;
+      color: var(--dusty-dark);
+      max-width: 195px;
+      cursor: pointer;
+    }
   </style>
 </head>
-<body>
+<body class="app-locked">
+
+<!-- Pantalla de Inicio de Sesión -->
+<div id="appAuthOverlay" class="auth-overlay" role="dialog" aria-modal="true" aria-labelledby="authHeading">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="auth-brand-icon"><i data-lucide="sparkles" style="width:28px;height:28px;"></i></div>
+      <h1 id="authHeading">Mi Planificador Integral</h1>
+      <p>Vida • Trabajo • Energía</p>
+    </div>
+
+    <form id="appAuthForm" onsubmit="handleAppLogin(event)" novalidate>
+      <div class="auth-field">
+        <label for="authUsername">Usuario</label>
+        <div class="auth-input-wrap">
+          <input type="text" id="authUsername" autocomplete="username" placeholder="Ingresa tu usuario" required />
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="authPassword">Contraseña</label>
+        <div class="auth-input-wrap">
+          <input type="password" id="authPassword" autocomplete="current-password" placeholder="Ingresa tu contraseña" required />
+          <button type="button" class="auth-toggle-pwd" onclick="toggleAuthPasswordVisibility()" aria-label="Mostrar u ocultar contraseña" title="Mostrar/Ocultar contraseña">
+            <i id="authEyeIcon" data-lucide="eye" style="width:18px;height:18px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="authErrorBox" class="auth-error" role="alert">
+        <i data-lucide="alert-circle" style="width:16px;height:16px;flex-shrink:0;"></i>
+        <span id="authErrorText">Usuario o contraseña incorrectos.</span>
+      </div>
+
+      <button type="submit" id="authSubmitBtn" class="btn btn-primary auth-submit-btn">
+        <i data-lucide="lock-open" style="width:17px;height:17px;"></i> Ingresar al Planificador
+      </button>
+    </form>
+
+    <div class="auth-footnote">
+      Sesión protegida por pestaña • Espacio personal privado
+    </div>
+  </div>
+</div>
 
 <div class="app-container">
   <!-- Desktop Sidebar -->
@@ -857,6 +1055,9 @@
     <div class="sidebar-footer">
       <button type="button" class="btn btn-outline" onclick="openConfigModal()">
         <i data-lucide="settings"></i> Configuración &amp; Respaldo
+      </button>
+      <button type="button" class="btn btn-danger-soft" onclick="logoutAppSession()" title="Cerrar sesión">
+        <i data-lucide="log-out"></i> Cerrar Sesión
       </button>
     </div>
   </aside>
@@ -1084,7 +1285,10 @@
           <div class="card card-cyan">
             <div class="card-header">
               <h3 class="card-title"><i data-lucide="calendar"></i> Agenda Personal &amp; Calendar</h3>
-              <div class="header-actions">
+              <div class="header-actions" style="flex-wrap:wrap;">
+                <select id="googleCalendarSelect" class="gcal-filter-select" onchange="onGoogleCalendarFilterChange(this.value)" aria-label="Seleccionar calendario de Google">
+                  <option value="__ALL__">Todos mis calendarios</option>
+                </select>
                 <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-pe-form" onclick="toggleDrawer('drawer-pe-form', this)">
                   <i data-lucide="calendar-plus"></i> Nuevo Evento
                 </button>
@@ -1105,6 +1309,9 @@
                   </select>
                 </div>
                 <div class="form-row">
+                  <select id="peTargetCalendar" aria-label="Calendario de destino en Google">
+                    <option value="primary">Calendario Principal</option>
+                  </select>
                   <select id="peRecurring" onchange="togglePePeriod()" aria-label="¿Es recurrente?">
                     <option value="no">No recurrente</option>
                     <option value="si">Recurrente</option>
@@ -1460,11 +1667,15 @@
             </button>
           </div>
           <div id="drawer-couple" class="collapsible-drawer">
-            <form onsubmit="addSimplePersonalItem(event, 'couple')" style="background:#FFFFFF;padding:14px;border-radius:var(--radius-md);border:1px solid var(--border-soft);">
+            <form onsubmit="addCouplePlan(event)" style="background:#FFFFFF;padding:14px;border-radius:var(--radius-md);border:1px solid var(--border-soft);">
               <div class="form-row">
                 <div class="form-group">
                   <label>Fecha programada</label>
                   <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="coupleDate" />
+                </div>
+                <div class="form-group">
+                  <label>Hora (opcional)</label>
+                  <input type="time" id="coupleTime" />
                 </div>
                 <div class="form-group" style="grid-column: span 2;">
                   <label>Actividad *</label>
@@ -1475,10 +1686,23 @@
                   <select id="coupleStatus"><option>Programado</option><option>Culminado</option></select>
                 </div>
               </div>
-              <div class="form-row" style="margin-bottom:0;">
+              <div class="form-row">
                 <div class="form-group" style="grid-column: 1 / -1;">
                   <label>Comentarios</label>
                   <textarea id="coupleNote" rows="2" placeholder="Comentarios, lugar, detalles o ideas..."></textarea>
+                </div>
+              </div>
+              <div class="form-row" style="margin-bottom:0;align-items:center;">
+                <div class="form-group" style="grid-column: span 2;">
+                  <label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;color:var(--dusty-dark);margin:0;">
+                    <input type="checkbox" id="coupleSyncGcal" checked style="width:16px;height:16px;accent-color:var(--dusty-lavender);" />
+                    <span>Sincronizar con Google Calendar</span>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <select id="coupleCalendarSelect" aria-label="Calendario de destino para Pareja">
+                    <option value="primary">Calendario Principal</option>
+                  </select>
                 </div>
                 <div class="form-group" style="justify-content:flex-end;">
                   <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar Plan</button>
@@ -1490,7 +1714,7 @@
             <table>
               <thead>
                 <tr>
-                  <th>Fecha programada</th>
+                  <th>Fecha y hora</th>
                   <th>Actividad</th>
                   <th>Comentarios</th>
                   <th>Estado</th>
@@ -1790,7 +2014,7 @@
     </div>
 
     <div style="background:var(--lavender-mist);padding:14px;border-radius:var(--radius-md);margin-bottom:14px;font-size:0.84rem;">
-      <strong>Arquitectura Privada:</strong> Tus datos se almacenan exclusivamente en tu Google Drive dentro de la carpeta dedicada <code>Mi Planificador - Datos</code> (permiso limitado <code>drive.file</code> + <code>calendar.events</code>).
+      <strong>Arquitectura Privada:</strong> Tus datos se almacenan exclusivamente en tu Google Drive dentro de la carpeta dedicada <code>Mi Planificador - Datos</code> (permisos limitados <code>drive.file</code> + <code>calendar.events</code> + <code>calendar.readonly</code>).
     </div>
 
     <div id="cfgConnectionStatus" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-soft);background:#FAF8FD;margin-bottom:14px;font-size:0.82rem;">
@@ -1816,6 +2040,43 @@
         <i data-lucide="upload"></i> Importar Respaldo JSON
         <input type="file" accept=".json" style="display:none;" onchange="importBackupJSON(event)" />
       </label>
+    </div>
+
+    <hr style="border:none;border-top:1px solid var(--border-soft);margin:16px 0;" />
+
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+      <span style="font-size:0.82rem;color:var(--text-muted);">Sesión activa en esta pestaña (usuario: <strong>marie22</strong>)</span>
+      <button type="button" class="btn btn-sm btn-danger-soft" onclick="closeModal('configModal');logoutAppSession();">
+        <i data-lucide="log-out"></i> Cerrar Sesión
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================================
+     MODAL: SINCRONIZAR PLAN DE PAREJA CON GOOGLE CALENDAR
+========================================================================== -->
+<div class="modal-backdrop" id="coupleGcalModal">
+  <div class="modal-box" style="max-width:440px;">
+    <div class="card-header">
+      <h3 class="card-title"><i data-lucide="calendar-heart"></i> Sincronizar Plan con Google Calendar</h3>
+      <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('coupleGcalModal')">✕</button>
+    </div>
+    <input type="hidden" id="coupleGcalItemId" />
+    <div id="coupleGcalItemSummary" style="background:var(--lavender-mist);padding:10px 12px;border-radius:var(--radius-sm);font-size:0.85rem;margin-bottom:12px;"></div>
+    <div class="form-group" style="margin-bottom:12px;">
+      <label>Calendario de destino</label>
+      <select id="coupleGcalModalSelect">
+        <option value="primary">Calendario Principal</option>
+      </select>
+    </div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label>Hora del evento (dejar vacío para evento de todo el día)</label>
+      <input type="time" id="coupleGcalModalTime" />
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button type="button" class="btn btn-outline" onclick="closeModal('coupleGcalModal')">Cancelar</button>
+      <button type="button" class="btn btn-primary" onclick="confirmCoupleGcalSync()"><i data-lucide="calendar-check"></i> Subir a Calendar</button>
     </div>
   </div>
 </div>
@@ -2437,6 +2698,105 @@ function saveConfigAndConnect() {
   handleGoogleAuth();
 }
 
+const GCAL_LIST_KEY = 'mi_planificador_gcal_list_v1';
+const GCAL_SELECTED_KEY = 'mi_planificador_gcal_selected_v1';
+let googleCalendars = [];
+try {
+  googleCalendars = JSON.parse(localStorage.getItem(GCAL_LIST_KEY) || '[]');
+  if (!Array.isArray(googleCalendars)) googleCalendars = [];
+} catch (e) {
+  googleCalendars = [];
+}
+let selectedGoogleCalendarId = localStorage.getItem(GCAL_SELECTED_KEY) || '__ALL__';
+
+function addDaysToIso(isoDate, days) {
+  if (!isoDate || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) return isoDate;
+  const [y, m, d] = isoDate.split('-').map(Number);
+  const dt = new Date(y, m - 1, d + days);
+  return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+}
+
+function getCalendarDisplayName(calId) {
+  if (!calId || calId === 'primary') {
+    const prim = googleCalendars.find(c => c.primary);
+    return prim ? (prim.summary || 'Principal') : 'Principal';
+  }
+  const found = googleCalendars.find(c => c.id === calId);
+  return found ? (found.summary || 'Google Calendar') : 'Google Calendar';
+}
+
+function populateGoogleCalendarSelectors() {
+  const filterSel = document.getElementById('googleCalendarSelect');
+  const peSel = document.getElementById('peTargetCalendar');
+  const coupleSel = document.getElementById('coupleCalendarSelect');
+  const modalSel = document.getElementById('coupleGcalModalSelect');
+
+  const allCals = googleCalendars.length
+    ? googleCalendars
+    : [{ id: 'primary', summary: 'Calendario Principal', primary: true, accessRole: 'owner' }];
+
+  if (filterSel) {
+    const validIds = new Set(['__ALL__', ...allCals.map(c => c.id)]);
+    if (!validIds.has(selectedGoogleCalendarId)) selectedGoogleCalendarId = '__ALL__';
+    filterSel.innerHTML = `<option value="__ALL__" ${selectedGoogleCalendarId === '__ALL__' ? 'selected' : ''}>Todos mis calendarios</option>` +
+      allCals.map(c => {
+        const label = c.primary ? `${c.summary} (Principal)` : c.summary;
+        return `<option value="${escapeHTML(c.id)}" ${selectedGoogleCalendarId === c.id ? 'selected' : ''}>${escapeHTML(label)}</option>`;
+      }).join('');
+  }
+
+  const writableCals = allCals.filter(c => !c.accessRole || c.accessRole === 'owner' || c.accessRole === 'writer');
+  const targetList = writableCals.length ? writableCals : allCals;
+  const defaultTarget = (selectedGoogleCalendarId !== '__ALL__' && targetList.some(c => c.id === selectedGoogleCalendarId))
+    ? selectedGoogleCalendarId
+    : ((targetList.find(c => c.primary) || targetList[0]).id);
+
+  [peSel, coupleSel, modalSel].forEach(sel => {
+    if (!sel) return;
+    const prev = sel.value;
+    sel.innerHTML = targetList.map(c => {
+      const label = c.primary ? `${c.summary} (Principal)` : c.summary;
+      return `<option value="${escapeHTML(c.id)}">${escapeHTML(label)}</option>`;
+    }).join('');
+    if (prev && targetList.some(c => c.id === prev)) {
+      sel.value = prev;
+    } else {
+      sel.value = defaultTarget;
+    }
+  });
+}
+
+async function fetchGoogleCalendars() {
+  if (!accessToken) return [];
+  try {
+    const res = await driveFetch('https://www.googleapis.com/calendar/v3/users/me/calendarList?minAccessRole=reader');
+    const data = await res.json();
+    if (Array.isArray(data.items) && data.items.length > 0) {
+      googleCalendars = data.items.map(c => ({
+        id: c.id,
+        summary: c.summaryOverride || c.summary || 'Calendario',
+        primary: !!c.primary,
+        accessRole: c.accessRole || 'reader',
+        backgroundColor: c.backgroundColor || ''
+      }));
+      localStorage.setItem(GCAL_LIST_KEY, JSON.stringify(googleCalendars));
+      populateGoogleCalendarSelectors();
+    }
+  } catch (e) {
+    console.error('Error listando calendarios de Google:', e);
+  }
+  return googleCalendars;
+}
+
+function onGoogleCalendarFilterChange(val) {
+  selectedGoogleCalendarId = val || '__ALL__';
+  localStorage.setItem(GCAL_SELECTED_KEY, selectedGoogleCalendarId);
+  populateGoogleCalendarSelectors();
+  if (accessToken) {
+    syncGoogleCalendar();
+  }
+}
+
 function handleGoogleAuth() {
   const cid = localStorage.getItem(CLIENT_ID_KEY);
   if (!cid) {
@@ -2449,7 +2809,7 @@ function handleGoogleAuth() {
   }
   tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: cid,
-    scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar.events',
+    scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly',
     callback: async (resp) => {
       if (resp.error) {
         showToast('Error de autorización: ' + resp.error, 'danger');
@@ -2460,6 +2820,7 @@ function handleGoogleAuth() {
       try {
         await ensureDriveWorkspace();
         await loadFromGoogleDrive();
+        await fetchGoogleCalendars();
         await syncGoogleCalendar();
         updateSyncUI(true, 'Drive & Calendar Activos');
         showToast('Conectado con Google Drive y Calendar.', 'success');
@@ -2624,37 +2985,71 @@ async function syncGoogleCalendar() {
     return;
   }
   try {
-    const timeMin = new Date(new Date().setDate(new Date().getDate() - 15)).toISOString();
-    const res = await driveFetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${encodeURIComponent(timeMin)}&singleEvents=true&orderBy=startTime&maxResults=40`);
-    const data = await res.json();
-    if (data.items) {
-      const remoteEvents = data.items.map(ev => ({
-        id: 'gcal_' + safeId(ev.id),
-        googleId: ev.id,
-        title: ev.summary || '(Sin título)',
-        category: 'Google Calendar',
-        date: (ev.start.dateTime || ev.start.date || '').split('T')[0],
-        time: ev.start.dateTime ? ev.start.dateTime.split('T')[1].substring(0, 5) : 'Todo el día'
-      }));
-      const localOnly = appData.personalEvents.filter(e => !String(e.id).startsWith('gcal_'));
-      appData.personalEvents = [...localOnly, ...remoteEvents];
-      saveData();
-      showToast('Eventos de Google Calendar actualizados.', 'success');
+    if (!googleCalendars.length) {
+      await fetchGoogleCalendars();
     }
+    const availableCals = googleCalendars.length
+      ? googleCalendars
+      : [{ id: 'primary', summary: 'Principal', primary: true }];
+
+    const targetCals = selectedGoogleCalendarId === '__ALL__'
+      ? availableCals
+      : availableCals.filter(c => c.id === selectedGoogleCalendarId);
+    const calsToFetch = targetCals.length ? targetCals : [{ id: 'primary', summary: 'Principal', primary: true }];
+
+    const timeMin = new Date(new Date().setDate(new Date().getDate() - 15)).toISOString();
+    const results = await Promise.allSettled(
+      calsToFetch.map(async cal => {
+        const res = await driveFetch(
+          `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cal.id)}/events?timeMin=${encodeURIComponent(timeMin)}&singleEvents=true&orderBy=startTime&maxResults=40`
+        );
+        const data = await res.json();
+        const calLabel = cal.primary ? 'Principal' : (cal.summary || 'Google Calendar');
+        return (data.items || []).map(ev => ({
+          id: 'gcal_' + safeId(cal.id + '_' + ev.id),
+          googleId: ev.id,
+          calendarId: cal.id,
+          calendarName: calLabel,
+          title: ev.summary || '(Sin título)',
+          category: calLabel,
+          date: (ev.start && (ev.start.dateTime || ev.start.date) ? (ev.start.dateTime || ev.start.date).split('T')[0] : ''),
+          time: ev.start && ev.start.dateTime ? ev.start.dateTime.split('T')[1].substring(0, 5) : 'Todo el día'
+        }));
+      })
+    );
+
+    const remoteEvents = [];
+    results.forEach(r => {
+      if (r.status === 'fulfilled' && Array.isArray(r.value)) {
+        remoteEvents.push(...r.value);
+      }
+    });
+
+    const localOnly = appData.personalEvents.filter(e => !String(e.id).startsWith('gcal_'));
+    appData.personalEvents = [...localOnly, ...remoteEvents];
+    saveData();
+    const scopeLabel = selectedGoogleCalendarId === '__ALL__'
+      ? 'todos tus calendarios'
+      : getCalendarDisplayName(selectedGoogleCalendarId);
+    showToast(`Eventos actualizados desde ${scopeLabel} (${remoteEvents.length}).`, 'success');
   } catch (e) {
     console.error('Error sincronizando Calendar:', e);
+    showToast('Error al sincronizar eventos de Google Calendar.', 'danger');
   }
 }
 
-async function pushEventToGoogleCalendar(evObj) {
-  if (!accessToken) return;
+async function pushEventToGoogleCalendar(evObj, calendarId = 'primary') {
+  if (!accessToken) return null;
   try {
     const startIso = `${evObj.date}T${evObj.time}:00`;
-    const endHour = String(Math.min(23, parseInt(evObj.time.split(':')[0], 10) + 1)).padStart(2, '0');
-    const endIso = `${evObj.date}T${endHour}:${evObj.time.split(':')[1]}:00`;
+    const [hh, mm] = evObj.time.split(':').map(Number);
+    const endDate = hh === 23 ? addDaysToIso(evObj.date, 1) : evObj.date;
+    const endHour = hh === 23 ? '00' : String(hh + 1).padStart(2, '0');
+    const endIso = `${endDate}T${endHour}:${String(mm).padStart(2, '0')}:00`;
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Lima';
     const rruleMap = { Diaria: 'FREQ=DAILY', Semanal: 'FREQ=WEEKLY', Quincenal: 'FREQ=WEEKLY;INTERVAL=2', Mensual: 'FREQ=MONTHLY', Anual: 'FREQ=YEARLY' };
-    await driveFetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+    const targetCal = calendarId || 'primary';
+    const res = await driveFetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(targetCal)}/events`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -2664,8 +3059,10 @@ async function pushEventToGoogleCalendar(evObj) {
         ...(evObj.recurrence && rruleMap[evObj.recurrence] ? { recurrence: ['RRULE:' + rruleMap[evObj.recurrence]] } : {})
       })
     });
+    return await res.json();
   } catch (e) {
     console.error('No se pudo crear evento en Google Calendar:', e);
+    return null;
   }
 }
 
@@ -3094,10 +3491,13 @@ function nextOccurrence(ev) {
 
 async function addPersonalEvent(e) {
   e.preventDefault();
+  const targetCal = (document.getElementById('peTargetCalendar') || {}).value || 'primary';
   const ev = {
     id: 'pe_' + Date.now(),
     title: document.getElementById('peTitle').value.trim(),
     category: document.getElementById('peCategory').value,
+    calendarId: targetCal,
+    calendarName: getCalendarDisplayName(targetCal),
     date: document.getElementById('peDate').value,
     time: document.getElementById('peTime').value,
     recurrence: document.getElementById('peRecurring').value === 'si' ? document.getElementById('pePeriod').value : ''
@@ -3105,10 +3505,16 @@ async function addPersonalEvent(e) {
   appData.personalEvents.push(ev);
   e.target.reset();
   document.getElementById('peDate').value = todayStr();
+  populateGoogleCalendarSelectors();
   togglePePeriod();
   saveData();
   showToast('Evento agendado.', 'success');
-  if (accessToken) await pushEventToGoogleCalendar(ev);
+  if (accessToken) {
+    const created = await pushEventToGoogleCalendar(ev, targetCal);
+    if (created && created.id) {
+      showToast(`Sincronizado en "${getCalendarDisplayName(targetCal)}".`, 'info');
+    }
+  }
 }
 
 function getLast7Days() {
@@ -3491,6 +3897,134 @@ function addSimplePersonalItem(e, key) {
   showToast('Registro guardado.', 'success');
 }
 
+async function pushCoupleItemToGoogleCalendar(item, calendarId = 'primary') {
+  if (!accessToken || !item || !item.date) return null;
+  const targetCal = calendarId || item.googleCalendarId || 'primary';
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Lima';
+  let startObj, endObj;
+
+  if (item.time && /^\d{2}:\d{2}$/.test(item.time)) {
+    const [hh, mm] = item.time.split(':').map(Number);
+    const endDate = hh === 23 ? addDaysToIso(item.date, 1) : item.date;
+    const endHour = hh === 23 ? '00' : String(hh + 1).padStart(2, '0');
+    startObj = { dateTime: `${item.date}T${item.time}:00`, timeZone: tz };
+    endObj = { dateTime: `${endDate}T${endHour}:${String(mm).padStart(2, '0')}:00`, timeZone: tz };
+  } else {
+    startObj = { date: item.date };
+    endObj = { date: addDaysToIso(item.date, 1) };
+  }
+
+  try {
+    const res = await driveFetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(targetCal)}/events`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        summary: `[Pareja] ${item.title}`,
+        description: item.note || 'Plan registrado desde Mi Planificador Integral (Pareja)',
+        start: startObj,
+        end: endObj
+      })
+    });
+    const created = await res.json();
+    if (created && created.id) {
+      item.googleEventId = created.id;
+      item.googleCalendarId = targetCal;
+      item.googleCalendarName = getCalendarDisplayName(targetCal);
+      saveData();
+    }
+    return created;
+  } catch (e) {
+    console.error('Error enviando plan de pareja a Google Calendar:', e);
+    return null;
+  }
+}
+
+async function addCouplePlan(e) {
+  e.preventDefault();
+  const title = document.getElementById('coupleTitle').value.trim();
+  const date = document.getElementById('coupleDate').value;
+  const time = (document.getElementById('coupleTime') || {}).value || '';
+  const note = document.getElementById('coupleNote').value.trim();
+  const status = (document.getElementById('coupleStatus') || {}).value || 'Programado';
+  const syncChecked = !!(document.getElementById('coupleSyncGcal') && document.getElementById('coupleSyncGcal').checked);
+  const targetCal = (document.getElementById('coupleCalendarSelect') || {}).value || 'primary';
+
+  const newItem = {
+    id: 'couple_' + Date.now(),
+    title,
+    date,
+    time,
+    note,
+    status,
+    googleCalendarId: syncChecked ? targetCal : '',
+    googleCalendarName: syncChecked ? getCalendarDisplayName(targetCal) : '',
+    googleEventId: ''
+  };
+
+  appData.couple.push(newItem);
+  e.target.reset();
+  document.getElementById('coupleDate').value = todayStr();
+  if (document.getElementById('coupleSyncGcal')) document.getElementById('coupleSyncGcal').checked = true;
+  populateGoogleCalendarSelectors();
+  saveData();
+
+  if (syncChecked) {
+    if (!date) {
+      showToast('Plan guardado localmente (agrega una fecha para enviarlo a Google Calendar).', 'warning');
+    } else if (accessToken) {
+      const created = await pushCoupleItemToGoogleCalendar(newItem, targetCal);
+      if (created && created.id) {
+        showToast(`Plan guardado y enviado a "${getCalendarDisplayName(targetCal)}".`, 'success');
+      } else {
+        showToast('Plan guardado localmente, pero falló el envío a Google Calendar.', 'warning');
+      }
+    } else {
+      showToast('Plan guardado localmente. Conecta Google y usa 📅 en la fila para sincronizar.', 'info');
+    }
+  } else {
+    showToast('Plan de pareja guardado.', 'success');
+  }
+}
+
+function openCoupleGcalModal(id) {
+  const it = appData.couple.find(x => x.id === id);
+  if (!it) return;
+  if (!it.date) {
+    showToast('Este plan no tiene fecha programada para enviar a Calendar.', 'warning');
+    return;
+  }
+  document.getElementById('coupleGcalItemId').value = it.id;
+  document.getElementById('coupleGcalItemSummary').innerHTML =
+    `<strong>${escapeHTML(it.title)}</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">Fecha: ${escapeHTML(fmtDate(it.date))}</span>`;
+  populateGoogleCalendarSelectors();
+  const sel = document.getElementById('coupleGcalModalSelect');
+  if (sel && it.googleCalendarId) sel.value = it.googleCalendarId;
+  document.getElementById('coupleGcalModalTime').value = it.time || '';
+  document.getElementById('coupleGcalModal').classList.add('open');
+}
+
+async function confirmCoupleGcalSync() {
+  const id = document.getElementById('coupleGcalItemId').value;
+  const it = appData.couple.find(x => x.id === id);
+  if (!it) return;
+  if (!accessToken) {
+    closeModal('coupleGcalModal');
+    showToast('Conecta Google Drive/Calendar primero para sincronizar este plan.', 'warning');
+    return;
+  }
+  const targetCal = document.getElementById('coupleGcalModalSelect').value || 'primary';
+  const chosenTime = document.getElementById('coupleGcalModalTime').value || '';
+  it.time = chosenTime;
+  saveData();
+  closeModal('coupleGcalModal');
+  const created = await pushCoupleItemToGoogleCalendar(it, targetCal);
+  if (created && created.id) {
+    showToast(`Plan sincronizado con "${getCalendarDisplayName(targetCal)}".`, 'success');
+  } else {
+    showToast('No se pudo sincronizar el plan con Google Calendar.', 'danger');
+  }
+}
+
 function setPersonalStatus(key, id, val) {
   const it = appData[key].find(x => x.id === id);
   if (it) { it.status = val; saveData(); }
@@ -3641,9 +4175,14 @@ function renderPersonal() {
 
   document.getElementById('coupleList').innerHTML = appData.couple.slice().reverse().map(it => {
     const sid = safeId(it.id);
+    const dateBadge = it.date ? `<span class="badge badge-lavender">${escapeHTML(fmtDate(it.date))}</span>` : '—';
+    const timeBadge = it.time ? ` <span class="badge badge-cyan">${escapeHTML(it.time)}</span>` : '';
+    const gcalBadge = it.googleEventId
+      ? `<div style="margin-top:4px;"><span class="badge badge-success" style="font-size:0.7rem;">📅 ${escapeHTML(it.googleCalendarName || 'Google Calendar')}</span></div>`
+      : '';
     return `
     <tr>
-      <td>${it.date ? `<span class="badge badge-lavender">${escapeHTML(fmtDate(it.date))}</span>` : '—'}</td>
+      <td>${dateBadge}${timeBadge}${gcalBadge}</td>
       <td><strong>${escapeHTML(it.title)}</strong></td>
       <td>${it.note ? `<div class="note-text" style="margin-top:0;">${escapeHTML(it.note)}</div>` : '—'}</td>
       <td>
@@ -3651,7 +4190,10 @@ function renderPersonal() {
           ${['Programado','Culminado'].map(st => `<option value="${st}" ${st===(it.status||'Programado')?'selected':''}>${st}</option>`).join('')}
         </select>
       </td>
-      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.couple=appData.couple.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+      <td style="white-space:nowrap;">
+        <button type="button" class="btn btn-sm btn-cyan" title="Sincronizar con Google Calendar" onclick="openCoupleGcalModal('${sid}')"><i data-lucide="calendar-plus" style="width:14px;height:14px;"></i></button>
+        <button type="button" class="btn btn-sm btn-danger-soft" title="Eliminar" onclick="appData.couple=appData.couple.filter(x=>x.id!=='${sid}');saveData()">✕</button>
+      </td>
     </tr>`;
   }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Sin planes de pareja registrados todavía.</td></tr>`;
 
@@ -4549,9 +5091,174 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
+/* ============================================================================
+   AUTENTICACIÓN POR PESTAÑA (sessionStorage + SHA-256)
+============================================================================ */
+const APP_SESSION_KEY = 'mi_planificador_session_v1';
+const EXPECTED_USER_HASH = '5714ec8b03a739fa6273708b4444822ff083b4fd1786269277543122ed15ccb4';
+const EXPECTED_PASS_HASH = 'a7cc19cf59b80e8a75cf588b429a426495264fca7a8991cfc876de6a94e2b184';
+let authFailedAttempts = 0;
+let authLockUntil = 0;
+
+function sha256Hex(ascii) {
+  function rightRotate(value, amount) {
+    return (value >>> amount) | (value << (32 - amount));
+  }
+  const mathPow = Math.pow;
+  const maxWord = mathPow(2, 32);
+  let result = '';
+  const words = [];
+  const utf8 = unescape(encodeURIComponent(ascii));
+  const asciiBitLength = utf8.length * 8;
+  const hash = [];
+  const k = [];
+  let primeCounter = 0;
+  const isComposite = {};
+  for (let candidate = 2; primeCounter < 64; candidate++) {
+    if (!isComposite[candidate]) {
+      for (let i = 0; i < 313; i += candidate) isComposite[i] = candidate;
+      hash[primeCounter] = (mathPow(candidate, 0.5) * maxWord) | 0;
+      k[primeCounter++] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
+    }
+  }
+  let padded = utf8 + '\x80';
+  while ((padded.length % 64) - 56) padded += '\x00';
+  for (let i = 0; i < padded.length; i++) {
+    const j = padded.charCodeAt(i);
+    words[i >> 2] |= j << (((3 - i) % 4) * 8);
+  }
+  words[words.length] = (asciiBitLength / maxWord) | 0;
+  words[words.length] = asciiBitLength;
+  for (let j = 0; j < words.length;) {
+    const w = words.slice(j, (j += 16));
+    const oldHash = hash.slice(0);
+    for (let i = 0; i < 64; i++) {
+      const w15 = w[i - 15], w2 = w[i - 2];
+      const a = hash[0], e = hash[4];
+      const temp1 = hash[7] +
+        (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) +
+        ((e & hash[5]) ^ (~e & hash[6])) +
+        k[i] +
+        (w[i] = i < 16 ? w[i] : (
+          w[i - 16] +
+          (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3)) +
+          w[i - 7] +
+          (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))
+        ) | 0);
+      const temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) +
+        ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+      hash.unshift((temp1 + temp2) | 0);
+      hash.pop();
+      hash[4] = (hash[4] + temp1) | 0;
+    }
+    for (let i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+  }
+  for (let i = 0; i < 8; i++) {
+    for (let j = 3; j + 1; j--) {
+      const b = (hash[i] >> (j * 8)) & 255;
+      result += (b < 16 ? '0' : '') + b.toString(16);
+    }
+  }
+  return result;
+}
+
+function isAppAuthenticated() {
+  try {
+    return sessionStorage.getItem(APP_SESSION_KEY) === 'authenticated';
+  } catch (e) {
+    return false;
+  }
+}
+
+function applyAuthLockState() {
+  const overlay = document.getElementById('appAuthOverlay');
+  if (isAppAuthenticated()) {
+    document.body.classList.remove('app-locked');
+    if (overlay) overlay.classList.add('hidden');
+  } else {
+    document.body.classList.add('app-locked');
+    if (overlay) overlay.classList.remove('hidden');
+    const uInput = document.getElementById('authUsername');
+    if (uInput) setTimeout(() => uInput.focus(), 50);
+  }
+}
+
+function toggleAuthPasswordVisibility() {
+  const pwd = document.getElementById('authPassword');
+  const icon = document.getElementById('authEyeIcon');
+  if (!pwd) return;
+  const show = pwd.type === 'password';
+  pwd.type = show ? 'text' : 'password';
+  if (icon) {
+    icon.setAttribute('data-lucide', show ? 'eye-off' : 'eye');
+    safeIcons();
+  }
+}
+
+function handleAppLogin(e) {
+  e.preventDefault();
+  const errBox = document.getElementById('authErrorBox');
+  const errText = document.getElementById('authErrorText');
+  const now = Date.now();
+  if (now < authLockUntil) {
+    const secs = Math.ceil((authLockUntil - now) / 1000);
+    errText.textContent = `Demasiados intentos fallidos. Espera ${secs}s para volver a intentar.`;
+    errBox.classList.add('visible');
+    return;
+  }
+  const userVal = (document.getElementById('authUsername').value || '').trim();
+  const passVal = document.getElementById('authPassword').value || '';
+  if (!userVal || !passVal) {
+    errText.textContent = 'Completa tu usuario y contraseña.';
+    errBox.classList.add('visible');
+    return;
+  }
+  const uOk = sha256Hex(userVal) === EXPECTED_USER_HASH;
+  const pOk = sha256Hex(passVal) === EXPECTED_PASS_HASH;
+  if (uOk && pOk) {
+    authFailedAttempts = 0;
+    errBox.classList.remove('visible');
+    try {
+      sessionStorage.setItem(APP_SESSION_KEY, 'authenticated');
+    } catch (err) {}
+    document.getElementById('authPassword').value = '';
+    applyAuthLockState();
+    renderAll();
+    showToast('¡Bienvenida, marie22!', 'success');
+  } else {
+    authFailedAttempts += 1;
+    if (authFailedAttempts >= 5) {
+      authLockUntil = Date.now() + 15000;
+      authFailedAttempts = 0;
+      errText.textContent = 'Demasiados intentos fallidos. Espera 15 segundos.';
+    } else {
+      errText.textContent = 'Usuario o contraseña incorrectos.';
+    }
+    errBox.classList.add('visible');
+    document.getElementById('authPassword').value = '';
+    document.getElementById('authPassword').focus();
+  }
+}
+
+function logoutAppSession() {
+  try {
+    sessionStorage.removeItem(APP_SESSION_KEY);
+  } catch (e) {}
+  const form = document.getElementById('appAuthForm');
+  if (form) form.reset();
+  const errBox = document.getElementById('authErrorBox');
+  if (errBox) errBox.classList.remove('visible');
+  applyAuthLockState();
+  safeIcons();
+}
+
+applyAuthLockState();
+
 window.addEventListener('DOMContentLoaded', () => {
+  applyAuthLockState();
   registerDynamicPWAManifest();
   applySavedDrawerStates();
+  populateGoogleCalendarSelectors();
   document.getElementById('wtDueDate').value = offsetDate(2);
   document.getElementById('peDate').value = todayStr();
   document.getElementById('exDate').value = todayStr();
