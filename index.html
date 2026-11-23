@@ -7,16 +7,16 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Mi Planificador" />
   <meta name="theme-color" content="#8E4F8F" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.googleusercontent.com https://drive.google.com; frame-src 'self' blob: https://drive.google.com https://docs.google.com https://accounts.google.com; connect-src 'self' https://*.googleapis.com https://accounts.google.com https://www.googleapis.com;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.googleusercontent.com https://drive.google.com; frame-src 'self' blob: https://drive.google.com https://docs.google.com https://accounts.google.com; connect-src 'self' https://*.googleapis.com https://accounts.google.com https://www.googleapis.com;" />
   <title>Mi Planificador Integral — Vida, Trabajo &amp; Energía</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- Libraries: Lucide Icons, Chart.js, SheetJS (Excel/CSV), PDF.js -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -54,7 +54,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg-app);
       color: var(--text-main);
       line-height: 1.5;
@@ -63,7 +63,7 @@
     }
 
     h1, h2, h3, h4 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       color: var(--text-main);
       letter-spacing: -0.02em;
     }
@@ -337,7 +337,7 @@
     }
 
     .kpi-label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
-    .kpi-value { font-size: 1.65rem; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--dusty-lavender); }
+    .kpi-value { font-size: 1.65rem; font-weight: 800; font-family: 'Outfit', sans-serif; color: var(--dusty-lavender); }
     .kpi-sub { font-size: 0.78rem; color: var(--text-muted); }
     .kpi-card.alert-card { background: var(--danger-bg); border-color: #F5C2C7; }
     .kpi-card.alert-card .kpi-value { color: var(--danger); }
@@ -715,9 +715,7 @@
         <button type="button" class="btn btn-sm btn-outline" id="btnSyncNow" onclick="syncToGoogleDrive()" style="display:none;">
           <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Sincronizar
         </button>
-        <button type="button" class="btn btn-sm btn-secondary" onclick="openConfigModal()">
-          <i data-lucide="settings" style="width:14px;height:14px;"></i> Configurar
-        </button>
+
       </div>
     </header>
 
@@ -888,8 +886,8 @@
         <div class="subtabs" style="margin-bottom:0;flex:1;">
           <button type="button" class="subtab-btn active" data-ptab="equilibrio" onclick="switchPersonalTab('equilibrio')"><i data-lucide="compass"></i> Equilibrio, Hábitos &amp; Agenda</button>
           <button type="button" class="subtab-btn" data-ptab="salud" onclick="switchPersonalTab('salud')"><i data-lucide="heart-pulse"></i> Salud &amp; Ejercicio</button>
-          <button type="button" class="subtab-btn" data-ptab="finanzas" onclick="switchPersonalTab('finanzas')"><i data-lucide="wallet"></i> Finanzas &amp; Tarjetas</button>
-          <button type="button" class="subtab-btn" data-ptab="suenos" onclick="switchPersonalTab('suenos')"><i data-lucide="star"></i> Tablero de Sueños</button>
+          <button type="button" class="subtab-btn" data-ptab="finanzas" onclick="switchPersonalTab('finanzas')"><i data-lucide="wallet"></i> Finanzas</button>
+          <button type="button" class="subtab-btn" data-ptab="suenos" onclick="switchPersonalTab('suenos')"><i data-lucide="star"></i> Sueños</button>
           <button type="button" class="subtab-btn" data-ptab="pareja" onclick="switchPersonalTab('pareja')"><i data-lucide="heart"></i> Pareja</button>
           <button type="button" class="subtab-btn" data-ptab="ocio" onclick="switchPersonalTab('ocio')"><i data-lucide="coffee"></i> Ocio</button>
         </div>
@@ -1006,15 +1004,44 @@
             </button>
           </div>
           <div id="drawer-ex-form" class="collapsible-drawer">
-            <form onsubmit="addExercise(event)" class="form-row" style="background:#FFFFFF;padding:12px;border-radius:var(--radius-md);border:1px solid var(--frosted-blue);margin-bottom:0;">
-              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="exDate" required />
-              <input type="text" id="exActivity" required placeholder="Actividad (ej. Fuerza, Yoga, Cardio)" />
-              <input type="number" id="exMinutes" placeholder="Minutos (ej. 45)" min="1" />
-              <input type="text" id="exNotes" placeholder="Notas o sensaciones" />
-              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
+            <form onsubmit="addExercise(event)" style="background:#FFFFFF;padding:14px;border-radius:var(--radius-md);border:1px solid var(--frosted-blue);">
+              <div class="form-row" style="margin-bottom:0;">
+                <div class="form-group">
+                  <label>Fecha *</label>
+                  <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="exDate" required />
+                </div>
+                <div class="form-group">
+                  <label>Actividad *</label>
+                  <input type="text" id="exActivity" required placeholder="Ej. Fuerza, Yoga, Cardio" />
+                </div>
+                <div class="form-group">
+                  <label>Tiempo (min)</label>
+                  <input type="number" id="exMinutes" placeholder="Ej. 45" min="1" />
+                </div>
+                <div class="form-group">
+                  <label>Notas</label>
+                  <input type="text" id="exNotes" placeholder="Sensaciones o detalle..." />
+                </div>
+                <div class="form-group" style="justify-content:flex-end;">
+                  <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
+                </div>
+              </div>
             </form>
           </div>
-          <div id="exerciseList" style="display:flex;flex-direction:column;gap:8px;"></div>
+          <div class="table-wrap" style="background:#FFFFFF;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Actividad</th>
+                  <th>Tiempo</th>
+                  <th>Notas</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="exerciseList"></tbody>
+            </table>
+          </div>
         </div>
 
         <div class="card">
@@ -1207,13 +1234,13 @@
         </div>
       </div>
 
-      <!-- SUB-VISTA 3.4: TABLERO DE SUEÑOS -->
+      <!-- SUB-VISTA 3.4: SUEÑOS -->
       <div id="ptab-suenos" class="ptab-content" style="display:none;">
         <div class="card card-lavender" style="margin-bottom:20px;">
           <div class="card-header">
             <h3 class="card-title"><i data-lucide="image"></i> Collage Visual de Sueños (Vision Board)</h3>
             <label class="btn btn-sm btn-primary" style="cursor:pointer;">
-              <i data-lucide="upload"></i> Subir Foto al Collage
+              <i data-lucide="upload"></i> Subir Foto
               <input type="file" accept="image/*" style="display:none;" onchange="handleDreamImageUpload(event)" />
             </label>
           </div>
@@ -1222,7 +1249,7 @@
 
         <div class="card" style="margin-bottom:20px;">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="lightbulb"></i> Lluvia de Ideas de Sueños</h3>
+            <h3 class="card-title"><i data-lucide="lightbulb"></i> Lista de Sueños</h3>
             <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-dream-idea" onclick="toggleDrawer('drawer-dream-idea', this)">
               <i data-lucide="plus"></i> Nueva Idea
             </button>
@@ -1239,7 +1266,7 @@
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="target"></i> Matriz de Ejecución de Sueños</h3>
+            <h3 class="card-title"><i data-lucide="target"></i> Acciones</h3>
             <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-dream-matrix" onclick="toggleDrawer('drawer-dream-matrix', this)">
               <i data-lucide="plus"></i> Nuevo Objetivo
             </button>
@@ -1273,15 +1300,46 @@
             </button>
           </div>
           <div id="drawer-couple" class="collapsible-drawer">
-            <form onsubmit="addSimplePersonalItem(event, 'couple')" class="form-row" style="background:#FFFFFF;padding:12px;border-radius:var(--radius-md);border:1px solid var(--border-soft);margin-bottom:0;">
-              <input type="text" id="coupleTitle" required placeholder="Plan, cita, aniversario o detalle..." />
-              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="coupleDate" />
-              <select id="coupleStatus"><option>Programado</option><option>Culminado</option></select>
-              <textarea id="coupleNote" rows="3" class="note-area" placeholder="Notas o ideas..."></textarea>
-              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
+            <form onsubmit="addSimplePersonalItem(event, 'couple')" style="background:#FFFFFF;padding:14px;border-radius:var(--radius-md);border:1px solid var(--border-soft);">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Fecha programada</label>
+                  <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="coupleDate" />
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                  <label>Actividad *</label>
+                  <input type="text" id="coupleTitle" required placeholder="Plan, cita, aniversario o detalle..." />
+                </div>
+                <div class="form-group">
+                  <label>Estado</label>
+                  <select id="coupleStatus"><option>Programado</option><option>Culminado</option></select>
+                </div>
+              </div>
+              <div class="form-row" style="margin-bottom:0;">
+                <div class="form-group" style="grid-column: 1 / -1;">
+                  <label>Comentarios</label>
+                  <textarea id="coupleNote" rows="2" placeholder="Comentarios, lugar, detalles o ideas..."></textarea>
+                </div>
+                <div class="form-group" style="justify-content:flex-end;">
+                  <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar Plan</button>
+                </div>
+              </div>
             </form>
           </div>
-          <div id="coupleList" style="display:flex;flex-direction:column;gap:8px;"></div>
+          <div class="table-wrap" style="background:#FFFFFF;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha programada</th>
+                  <th>Actividad</th>
+                  <th>Comentarios</th>
+                  <th>Estado</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="coupleList"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -1289,20 +1347,58 @@
       <div id="ptab-ocio" class="ptab-content" style="display:none;">
         <div class="card card-cyan">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="coffee"></i> Ocio, Lecturas, Películas y Descanso</h3>
+            <h3 class="card-title"><i data-lucide="coffee"></i> Ocio, Viajes, Teatro, Cine y Descanso</h3>
             <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-leisure" onclick="toggleDrawer('drawer-leisure', this)">
-              <i data-lucide="plus"></i> Nuevo Elemento
+              <i data-lucide="plus"></i> Nuevo Plan
             </button>
           </div>
           <div id="drawer-leisure" class="collapsible-drawer">
-            <form onsubmit="addSimplePersonalItem(event, 'leisure')" class="form-row" style="background:#FFFFFF;padding:12px;border-radius:var(--radius-md);border:1px solid var(--frosted-blue);margin-bottom:0;">
-              <input type="text" id="leisureTitle" required placeholder="Libro, película, salida, hobby..." />
-              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="leisureDate" />
-              <textarea id="leisureNote" rows="3" class="note-area" placeholder="Categoría, comentario o notas..."></textarea>
-              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
+            <form onsubmit="addSimplePersonalItem(event, 'leisure')" style="background:#FFFFFF;padding:14px;border-radius:var(--radius-md);border:1px solid var(--frosted-blue);">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Fecha *</label>
+                  <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="leisureDate" required />
+                </div>
+                <div class="form-group">
+                  <label>Tipo *</label>
+                  <select id="leisureType" required>
+                    <option value="Viajes">Viajes</option>
+                    <option value="Teatro">Teatro</option>
+                    <option value="Cine">Cine</option>
+                    <option value="Hobbie">Hobbie</option>
+                    <option value="Otros">Otros</option>
+                  </select>
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                  <label>Actividad *</label>
+                  <input type="text" id="leisureTitle" required placeholder="Obra de teatro, película, escapada, hobby..." />
+                </div>
+              </div>
+              <div class="form-row" style="margin-bottom:0;">
+                <div class="form-group" style="grid-column: 1 / -1;">
+                  <label>Comentarios</label>
+                  <textarea id="leisureNote" rows="2" placeholder="Comentarios, lugar, entradas o notas..."></textarea>
+                </div>
+                <div class="form-group" style="justify-content:flex-end;">
+                  <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar Plan</button>
+                </div>
+              </div>
             </form>
           </div>
-          <div id="leisureList" style="display:flex;flex-direction:column;gap:8px;"></div>
+          <div class="table-wrap" style="background:#FFFFFF;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Tipo</th>
+                  <th>Actividad</th>
+                  <th>Comentarios</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="leisureList"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>
@@ -1350,46 +1446,18 @@
 
         <div id="drawer-en-log" class="collapsible-drawer">
           <form onsubmit="addEnergyLog(event)" style="background:#FFFFFF;padding:14px;border-radius:var(--radius-md);border:1px solid var(--border-soft);">
-            <div class="form-row">
-              <div class="form-group">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border-soft);">
+              <div class="form-group" style="max-width:220px;margin:0;">
                 <label>Fecha del rastreo *</label>
                 <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="enDate" required />
               </div>
-              <div class="form-group">
-                <label>Tipo identificado *</label>
-                <select id="enType" onchange="toggleEnergyTypeFields()"></select>
-              </div>
-              <div class="form-group" id="enSubtypeGroup" style="display:none;">
-                <label>Subtipo (Huellas Causales) *</label>
-                <select id="enSubtype">
-                  <option value="Personas">Personas</option>
-                  <option value="Cuerpo">Cuerpo</option>
-                  <option value="Yo">Yo</option>
-                  <option value="Actitud">Actitud</option>
-                </select>
-              </div>
-              <div class="form-group" id="enStandardDescGroup">
-                <label>Descripción / Hallazgo *</label>
-                <input type="text" id="enDescription" required placeholder="Detalle de lo encontrado en el rastreo..." />
-              </div>
-              <div class="form-group">
-                <label>Acción</label>
-                <select id="enAction">
-                  <option>Consultar</option>
-                  <option>Por Eliminar</option>
-                  <option>Eliminado</option>
-                </select>
-              </div>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="addEnergyFindingRow()">
+                <i data-lucide="plus"></i> Agregar otro hallazgo
+              </button>
             </div>
-
-            <div class="form-row" style="margin-bottom:0;">
-              <div class="form-group" style="grid-column: span 2;">
-                <label>Actividad por hacer asociada (opcional — se agregará a tu lista de seguimiento)</label>
-                <input type="text" id="enLinkedAction" placeholder="Ej. Realizar protocolo de liberación / meditación..." />
-              </div>
-              <div class="form-group" style="justify-content:flex-end;">
-                <button type="submit" class="btn btn-primary"><i data-lucide="plus-circle"></i> Registrar en Bitácora</button>
-              </div>
+            <div id="energyFindingsContainer" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px;"></div>
+            <div style="display:flex;justify-content:flex-end;">
+              <button type="submit" class="btn btn-primary"><i data-lucide="plus-circle"></i> Registrar en Bitácora</button>
             </div>
           </form>
         </div>
@@ -1518,6 +1586,9 @@
   </button>
   <button type="button" class="mobile-nav-btn" data-view="energy" onclick="switchView('energy')">
     <i data-lucide="sun" style="width:18px;height:18px;"></i> Energía
+  </button>
+  <button type="button" class="mobile-nav-btn" onclick="openConfigModal()">
+    <i data-lucide="settings" style="width:18px;height:18px;"></i> Config.
   </button>
 </nav>
 
@@ -2607,7 +2678,7 @@ function confirmPersonalImport() {
     } else if (item.category === 'Pareja') {
       appData.couple.push({ id: 'cp_' + uid, title: item.text, date: item.date, note: '', status: 'Programado' });
     } else {
-      appData.leisure.push({ id: 'oc_' + uid, title: item.text, date: item.date, note: '' });
+      appData.leisure.push({ id: 'oc_' + uid, title: item.text, type: 'Otros', date: item.date, note: '' });
     }
   });
   parsedPersonalQueue = [];
@@ -3050,10 +3121,14 @@ function addSimplePersonalItem(e, key) {
     id: key + '_' + Date.now(),
     title: document.getElementById(key + 'Title').value.trim(),
     date: document.getElementById(key + 'Date').value,
+    type: (document.getElementById(key + 'Type') || {}).value || '',
     note: document.getElementById(key + 'Note').value.trim(),
     status: (document.getElementById(key + 'Status') || {}).value || ''
   });
   e.target.reset();
+  if (document.getElementById(key + 'Date')) {
+    document.getElementById(key + 'Date').value = todayStr();
+  }
   saveData();
   showToast('Registro guardado.', 'success');
 }
@@ -3146,11 +3221,14 @@ function renderPersonal() {
   document.getElementById('exerciseList').innerHTML = appData.exercises.slice().reverse().map(ex => {
     const sid = safeId(ex.id);
     return `
-    <div style="background:#FFF;padding:9px 12px;border-radius:var(--radius-sm);border:1px solid var(--frosted-blue);display:flex;justify-content:space-between;align-items:center;">
-      <div><strong>${escapeHTML(ex.activity)}</strong> <span class="badge badge-cyan">${escapeHTML(ex.minutes)} min</span> <span style="font-size:0.78rem;color:var(--text-muted);">(${escapeHTML(fmtDate(ex.date))}) ${escapeHTML(ex.notes)}</span></div>
-      <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.exercises=appData.exercises.filter(x=>x.id!=='${sid}');saveData()">✕</button>
-    </div>`;
-  }).join('') || `<p style="font-size:0.83rem;color:var(--text-muted);">Sin sesiones de ejercicio registradas.</p>`;
+    <tr>
+      <td><strong>${escapeHTML(fmtDate(ex.date))}</strong></td>
+      <td>${escapeHTML(ex.activity)}</td>
+      <td><span class="badge badge-cyan">${escapeHTML(ex.minutes)} min</span></td>
+      <td>${escapeHTML(ex.notes || '—')}</td>
+      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.exercises=appData.exercises.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Sin sesiones de ejercicio registradas.</td></tr>`;
 
   document.getElementById('medicalTableBody').innerHTML = appData.medicalRecords.slice().reverse().map(m => {
     const sid = safeId(m.id);
@@ -3203,22 +3281,33 @@ function renderPersonal() {
     </tr>`;
   }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Aún no hay objetivos en la matriz.</td></tr>`;
 
-  ['couple', 'leisure'].forEach(k => {
-    document.getElementById(k + 'List').innerHTML = appData[k].map(it => {
-      const sid = safeId(it.id);
-      return `
-      <div style="background:#FFF;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-soft);display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
-        <div style="flex:1;min-width:0;">
-          <strong>${escapeHTML(it.title)}</strong> ${it.date ? `<span class="badge badge-lavender">${escapeHTML(fmtDate(it.date))}</span>` : ''}
-          ${it.note ? `<div class="note-text">${escapeHTML(it.note)}</div>` : ''}
-        </div>
-        <div style="display:flex;gap:6px;align-items:center;">
-          ${k === 'couple' ? `<select class="mini-select" onchange="setPersonalStatus('couple','${sid}',this.value)">${['Programado','Culminado'].map(st => `<option value="${st}" ${st===(it.status||'Programado')?'selected':''}>${st}</option>`).join('')}</select>` : ''}
-          <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData['${k}']=appData['${k}'].filter(x=>x.id!=='${sid}');saveData()">✕</button>
-        </div>
-      </div>`;
-    }).join('') || `<p style="font-size:0.83rem;color:var(--text-muted);">Sin elementos registrados todavía.</p>`;
-  });
+  document.getElementById('coupleList').innerHTML = appData.couple.slice().reverse().map(it => {
+    const sid = safeId(it.id);
+    return `
+    <tr>
+      <td>${it.date ? `<span class="badge badge-lavender">${escapeHTML(fmtDate(it.date))}</span>` : '—'}</td>
+      <td><strong>${escapeHTML(it.title)}</strong></td>
+      <td>${it.note ? `<div class="note-text" style="margin-top:0;">${escapeHTML(it.note)}</div>` : '—'}</td>
+      <td>
+        <select class="mini-select" onchange="setPersonalStatus('couple','${sid}',this.value)">
+          ${['Programado','Culminado'].map(st => `<option value="${st}" ${st===(it.status||'Programado')?'selected':''}>${st}</option>`).join('')}
+        </select>
+      </td>
+      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.couple=appData.couple.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Sin planes de pareja registrados todavía.</td></tr>`;
+
+  document.getElementById('leisureList').innerHTML = appData.leisure.slice().reverse().map(it => {
+    const sid = safeId(it.id);
+    return `
+    <tr>
+      <td>${it.date ? `<span class="badge badge-cyan">${escapeHTML(fmtDate(it.date))}</span>` : '—'}</td>
+      <td><span class="badge badge-lavender">${escapeHTML(it.type || 'Otros')}</span></td>
+      <td><strong>${escapeHTML(it.title)}</strong></td>
+      <td>${it.note ? `<div class="note-text" style="margin-top:0;">${escapeHTML(it.note)}</div>` : '—'}</td>
+      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.leisure=appData.leisure.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Sin planes de ocio registrados todavía.</td></tr>`;
 }
 
 function renderFinance() {
@@ -3354,43 +3443,126 @@ const ENERGY_LETTER_ACTIONS = ['En proceso', 'Culminado', 'Por Incinerar'];
 const ENERGY_TASK_STATES = ['Por hacer', 'Por Incinerar', 'Por Eliminar', 'Culminado'];
 const optList = (arr, cur) => arr.map(o => `<option value="${escapeHTML(o)}" ${o===cur?'selected':''}>${escapeHTML(o)}</option>`).join('');
 
-function toggleEnergyTypeFields() {
-  const val = document.getElementById('enType').value;
-  document.getElementById('enSubtypeGroup').style.display = (val === 'Huellas Causales') ? 'flex' : 'none';
+function buildEnergyFindingRowHTML(showRemove = false) {
+  const typeOpts = appData.energyTypes.map(t => `<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join('');
+  return `
+    <div class="energy-finding-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-soft);position:relative;">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo identificado *</label>
+          <select class="en-row-type" onchange="toggleEnergyRowSubtype(this)">${typeOpts}</select>
+        </div>
+        <div class="form-group en-row-subtype-group" style="display:none;">
+          <label>Subtipo (Huellas Causales) *</label>
+          <select class="en-row-subtype">
+            <option value="Personas">Personas</option>
+            <option value="Cuerpo">Cuerpo</option>
+            <option value="Yo">Yo</option>
+            <option value="Actitud">Actitud</option>
+          </select>
+        </div>
+        <div class="form-group" style="grid-column: span 2;">
+          <label>Descripción / Hallazgo *</label>
+          <input type="text" class="en-row-desc" required placeholder="Detalle de lo encontrado en el rastreo..." />
+        </div>
+        <div class="form-group">
+          <label>Acción</label>
+          <select class="en-row-action">
+            <option>Consultar</option>
+            <option>Por Eliminar</option>
+            <option>Eliminado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" style="margin-bottom:0;align-items:flex-end;">
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>Actividad por hacer asociada (opcional — se agregará a tu lista de seguimiento)</label>
+          <input type="text" class="en-row-linked" placeholder="Ej. Realizar protocolo de liberación / meditación..." />
+        </div>
+        ${showRemove ? `<div class="form-group" style="max-width:44px;"><button type="button" class="btn btn-sm btn-danger-soft" title="Quitar hallazgo" onclick="removeEnergyFindingRow(this)">✕</button></div>` : ''}
+      </div>
+    </div>`;
+}
+
+function toggleEnergyRowSubtype(selEl) {
+  const row = selEl.closest('.energy-finding-row');
+  if (!row) return;
+  const subGroup = row.querySelector('.en-row-subtype-group');
+  if (subGroup) subGroup.style.display = (selEl.value === 'Huellas Causales') ? 'flex' : 'none';
+}
+
+function addEnergyFindingRow() {
+  const container = document.getElementById('energyFindingsContainer');
+  if (!container) return;
+  container.insertAdjacentHTML('beforeend', buildEnergyFindingRowHTML(true));
+  updateFindingRemoveButtons();
+}
+
+function removeEnergyFindingRow(btn) {
+  const row = btn.closest('.energy-finding-row');
+  if (row) row.remove();
+  updateFindingRemoveButtons();
+}
+
+function updateFindingRemoveButtons() {
+  const container = document.getElementById('energyFindingsContainer');
+  if (!container) return;
+  const rows = container.querySelectorAll('.energy-finding-row');
+  if (rows.length === 0) {
+    container.innerHTML = buildEnergyFindingRowHTML(false);
+  }
+}
+
+function resetEnergyFindingsForm() {
+  const container = document.getElementById('energyFindingsContainer');
+  if (container) {
+    container.innerHTML = buildEnergyFindingRowHTML(false);
+  }
 }
 
 function addEnergyLog(e) {
   e.preventDefault();
-  const type = document.getElementById('enType').value;
-  const subtype = type === 'Huellas Causales' ? document.getElementById('enSubtype').value : '';
-  const linkedAction = document.getElementById('enLinkedAction').value.trim();
+  const dateVal = document.getElementById('enDate').value;
+  const rows = document.querySelectorAll('#energyFindingsContainer .energy-finding-row');
+  let added = 0;
 
-  appData.energyLogs.push({
-    id: 'en_' + Date.now(),
-    date: document.getElementById('enDate').value,
-    type,
-    subtype,
-    description: document.getElementById('enDescription').value.trim(),
-    action: document.getElementById('enAction').value,
-    linkedAction
-  });
+  rows.forEach((row, idx) => {
+    const type = row.querySelector('.en-row-type').value;
+    const subtype = type === 'Huellas Causales' ? row.querySelector('.en-row-subtype').value : '';
+    const description = row.querySelector('.en-row-desc').value.trim();
+    const action = row.querySelector('.en-row-action').value;
+    const linkedAction = row.querySelector('.en-row-linked').value.trim();
+    if (!description) return;
 
-  if (linkedAction) {
-    appData.energyActions.push({
-      id: 'ea_' + Date.now(),
+    const uid = Date.now() + '_' + idx + '_' + Math.random().toString(36).slice(2, 5);
+    appData.energyLogs.push({
+      id: 'en_' + uid,
+      date: dateVal,
       type,
       subtype,
-      task: linkedAction,
-      status: 'Por hacer',
-      done: false
+      description,
+      action,
+      linkedAction
     });
-  }
 
-  e.target.reset();
+    if (linkedAction) {
+      appData.energyActions.push({
+        id: 'ea_' + uid,
+        type,
+        subtype,
+        task: linkedAction,
+        status: 'Por hacer',
+        done: false
+      });
+    }
+    added++;
+  });
+
+  if (!added) return showToast('Ingresa al menos un hallazgo.', 'warning');
   document.getElementById('enDate').value = todayStr();
-  toggleEnergyTypeFields();
+  resetEnergyFindingsForm();
   saveData();
-  showToast('Hallazgo guardado en bitácora.', 'success');
+  showToast(added === 1 ? 'Hallazgo guardado en bitácora.' : `${added} hallazgos guardados en bitácora.`, 'success');
 }
 
 function setEnergyLogAction(id, val) {
@@ -3561,10 +3733,13 @@ async function openLibraryItem(id) {
   } else if (item.driveFileId) {
     body.innerHTML = `<iframe src="https://drive.google.com/file/d/${encodeURIComponent(item.driveFileId)}/preview" style="width:100%;height:100%;border:none;"></iframe>`;
   } else if (item.localDataUrl) {
-    if ((item.mimeType || '').startsWith('image/')) {
-      body.innerHTML = `<img src="${safeImgSrc(item.localDataUrl)}" style="max-width:100%;max-height:100%;object-fit:contain;" />`;
+    const rawUrl = String(item.localDataUrl).trim();
+    if ((item.mimeType || '').startsWith('image/') && safeImgSrc(rawUrl)) {
+      body.innerHTML = `<img src="${safeImgSrc(rawUrl)}" style="max-width:100%;max-height:100%;object-fit:contain;" />`;
+    } else if (/^data:application\/pdf;base64,[a-zA-Z0-9+/=]+$/i.test(rawUrl)) {
+      body.innerHTML = `<iframe src="${rawUrl}" sandbox="allow-same-origin" style="width:100%;height:100%;border:none;"></iframe>`;
     } else {
-      body.innerHTML = `<iframe src="${item.localDataUrl}" style="width:100%;height:100%;border:none;"></iframe>`;
+      body.innerHTML = `<p style="padding:20px;text-align:center;color:var(--danger);">Formato de archivo local no soportado por seguridad.</p>`;
     }
   } else {
     body.innerHTML = `<p style="padding:20px;text-align:center;">Conecta tu Google Drive para previsualizar archivos respaldados en la nube.</p>`;
@@ -3574,8 +3749,19 @@ async function openLibraryItem(id) {
 
 function renderEnergy() {
   const typeOpts = appData.energyTypes.map(t => `<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join('');
-  document.getElementById('enType').innerHTML = typeOpts;
-  document.getElementById('eaType').innerHTML = typeOpts;
+  const actionTypes = [...new Set([...appData.energyTypes, 'Cartas'])];
+  document.getElementById('eaType').innerHTML = actionTypes.map(t => `<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join('');
+  const findingContainer = document.getElementById('energyFindingsContainer');
+  if (findingContainer && !findingContainer.children.length) {
+    resetEnergyFindingsForm();
+  } else if (findingContainer) {
+    findingContainer.querySelectorAll('.en-row-type').forEach(sel => {
+      const prev = sel.value;
+      sel.innerHTML = typeOpts;
+      if (prev && appData.energyTypes.includes(prev)) sel.value = prev;
+      toggleEnergyRowSubtype(sel);
+    });
+  }
 
   const y = energyCalDate.getFullYear();
   const m = energyCalDate.getMonth();
@@ -3651,25 +3837,53 @@ function renderEnergy() {
       </tr>`;
   }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Aún no hay cartas registradas.</td></tr>`;
 
-  document.getElementById('energyActionsList').innerHTML = appData.energyActions.map(a => {
-    const sid = safeId(a.id);
-    const st = a.status || (a.done ? 'Culminado' : 'Por hacer');
-    return `
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;background:var(--lavender-mist);border-radius:var(--radius-sm);flex-wrap:wrap;">
-      <div style="flex:1;min-width:220px;">
-        <div style="${st==='Culminado'?'text-decoration:line-through;color:var(--text-muted);':''}">
-          <span class="badge badge-lavender">${escapeHTML(a.type)}</span>
-          ${a.subtype ? `<span class="badge badge-cyan">${escapeHTML(a.subtype)}</span>` : ''}
-          <strong style="margin-left:6px;">${escapeHTML(a.task)}</strong>
+  const allActionTypes = [...new Set([...appData.energyTypes, 'Cartas', ...appData.energyActions.map(a => a.type || 'Otros')])];
+  const groupedActionsHtml = allActionTypes.map(groupType => {
+    const itemsInGroup = appData.energyActions
+      .map((a, idx) => ({ item: a, origIdx: idx }))
+      .filter(({ item }) => (item.type || 'Otros') === groupType);
+    if (!itemsInGroup.length) return '';
+
+    itemsInGroup.sort((a, b) => {
+      const stA = a.item.status || (a.item.done ? 'Culminado' : 'Por hacer');
+      const stB = b.item.status || (b.item.done ? 'Culminado' : 'Por hacer');
+      const doneA = stA === 'Culminado' ? 1 : 0;
+      const doneB = stB === 'Culminado' ? 1 : 0;
+      if (doneA !== doneB) return doneA - doneB;
+      return b.origIdx - a.origIdx;
+    });
+
+    const pendingCount = itemsInGroup.filter(({ item }) => (item.status || (item.done ? 'Culminado' : 'Por hacer')) !== 'Culminado').length;
+    const rowsHtml = itemsInGroup.map(({ item: a }) => {
+      const sid = safeId(a.id);
+      const st = a.status || (a.done ? 'Culminado' : 'Por hacer');
+      return `
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;background:${st==='Culminado'?'#FAF8FD':'var(--lavender-mist)'};border:1px solid var(--border-soft);border-radius:var(--radius-sm);flex-wrap:wrap;opacity:${st==='Culminado'?'0.78':'1'};">
+        <div style="flex:1;min-width:220px;">
+          <div style="${st==='Culminado'?'text-decoration:line-through;color:var(--text-muted);':''}">
+            ${a.subtype ? `<span class="badge badge-cyan">${escapeHTML(a.subtype)}</span>` : ''}
+            <strong style="margin-left:${a.subtype ? '6px' : '0'};">${escapeHTML(a.task)}</strong>
+          </div>
+          <input type="text" class="mini-select" style="width:100%;margin-top:6px;" placeholder="Agregar comentario..." value="${escapeHTML(a.comment || '')}" onchange="setEnergyActionComment('${sid}', this.value)" />
         </div>
-        <input type="text" class="mini-select" style="width:100%;margin-top:6px;" placeholder="Agregar comentario..." value="${escapeHTML(a.comment || '')}" onchange="setEnergyActionComment('${sid}', this.value)" />
-      </div>
-      <div style="display:flex;gap:6px;align-items:center;">
-        <select class="mini-select" onchange="setEnergyActionStatus('${sid}', this.value)">${optList(ENERGY_TASK_STATES, st)}</select>
-        <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.energyActions=appData.energyActions.filter(x=>x.id!=='${sid}');saveData()">✕</button>
-      </div>
-    </div>`;
-  }).join('') || `<p style="font-size:0.83rem;color:var(--text-muted);">No hay actividades energéticas pendientes.</p>`;
+        <div style="display:flex;gap:6px;align-items:center;">
+          <select class="mini-select" onchange="setEnergyActionStatus('${sid}', this.value)">${optList(ENERGY_TASK_STATES, st)}</select>
+          <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.energyActions=appData.energyActions.filter(x=>x.id!=='${sid}');saveData()">✕</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    return `
+      <div style="border:1px solid var(--border-soft);border-radius:var(--radius-md);padding:12px;background:#FFFFFF;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span class="badge badge-lavender" style="font-size:0.8rem;">${escapeHTML(groupType)}</span>
+          <span style="font-size:0.76rem;color:var(--text-muted);font-weight:600;">${pendingCount} pendiente${pendingCount === 1 ? '' : 's'} de ${itemsInGroup.length}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">${rowsHtml}</div>
+      </div>`;
+  }).filter(Boolean).join('');
+
+  document.getElementById('energyActionsList').innerHTML = groupedActionsHtml || `<p style="font-size:0.83rem;color:var(--text-muted);">No hay actividades energéticas pendientes.</p>`;
 
   renderEnergyLibrary();
 }
@@ -3973,6 +4187,9 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('txDate').value = todayStr();
   document.getElementById('enDate').value = todayStr();
   document.getElementById('letDate').value = todayStr();
+  document.getElementById('coupleDate').value = todayStr();
+  document.getElementById('leisureDate').value = todayStr();
+  resetEnergyFindingsForm();
   renderAll();
   migrateLegacyLibraryBlobsToIDB();
 });
