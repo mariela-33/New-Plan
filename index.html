@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <script>
+    if (window.top !== window.self) {
+      document.documentElement.style.display = 'none';
+      try { window.top.location = window.self.location; } catch (e) {}
+    }
+  </script>
   <meta charset="UTF-8" />
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -15,11 +23,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Libraries: Lucide Icons, Chart.js, SheetJS (Excel/CSV), PDF.js -->
+  <!-- Libraries: Lucide Icons, Chart.js, SheetJS (Excel/CSV), PDF.js, Mammoth.js (Word .docx) -->
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
 
   <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -420,12 +429,36 @@
     .badge-warning { background: var(--warning-bg); color: var(--warning); }
     .badge-success { background: var(--success-bg); color: var(--success); }
 
-    .table-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border-soft); }
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      position: relative;
+    }
     table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     th { background: var(--lavender-mist); color: var(--dusty-dark); font-weight: 700; text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border-soft); }
     td { padding: 11px 14px; border-bottom: 1px solid var(--border-soft); vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: #FAF8FD; }
+    .table-wrap table th:first-child,
+    .table-wrap table td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      box-shadow: 2px 0 6px -2px rgba(85, 47, 87, 0.12);
+    }
+    .table-wrap table th:first-child {
+      z-index: 3;
+      background: var(--lavender-mist);
+    }
+    .table-wrap table td:first-child {
+      background: #FFFFFF;
+    }
+    .table-wrap table tr:hover td:first-child {
+      background: #FAF8FD;
+    }
 
     .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
@@ -816,17 +849,200 @@
       background: var(--thistle-soft);
     }
 
+    /* Visor Multiformato (Biblioteca de Energía) */
+    .viewer-modal-box {
+      max-width: 960px;
+      width: 94%;
+      height: 88dvh;
+      max-height: 88dvh;
+      display: flex;
+      flex-direction: column;
+      padding: 18px;
+    }
+    .viewer-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      background: var(--lavender-mist);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+    }
+    .viewer-toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .viewer-body-area {
+      flex: 1;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius-md);
+      background: var(--lavender-mist);
+      border: 1px solid var(--border-soft);
+      position: relative;
+    }
+    .viewer-pdf-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      min-width: fit-content;
+    }
+    .viewer-pdf-page-wrap {
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(85, 47, 87, 0.12);
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .viewer-pdf-page-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .viewer-docx-sheet {
+      max-width: 780px;
+      margin: 14px auto;
+      background: #FFFFFF;
+      padding: 24px 22px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 16px rgba(85, 47, 87, 0.08);
+      color: var(--text-main);
+      line-height: 1.65;
+      font-size: 0.94rem;
+      overflow-x: auto;
+    }
+    .viewer-docx-sheet h1, .viewer-docx-sheet h2, .viewer-docx-sheet h3 {
+      color: var(--dusty-dark);
+      margin: 14px 0 8px;
+    }
+    .viewer-docx-sheet p { margin-bottom: 10px; }
+    .viewer-docx-sheet table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 12px 0;
+    }
+    .viewer-docx-sheet td, .viewer-docx-sheet th {
+      border: 1px solid var(--border-soft);
+      padding: 6px 10px;
+    }
+    .viewer-txt-sheet {
+      margin: 14px;
+      background: #FFFFFF;
+      padding: 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+    .viewer-xlsx-wrap {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 100%;
+    }
+    .viewer-xlsx-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .viewer-xlsx-tab {
+      padding: 5px 12px;
+      border-radius: 99px;
+      border: 1px solid var(--border-soft);
+      background: #FFFFFF;
+      color: var(--dusty-dark);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .viewer-xlsx-tab.active {
+      background: var(--dusty-lavender);
+      color: #FFFFFF;
+      border-color: var(--dusty-lavender);
+    }
+
     @media (max-width: 960px) {
       .sidebar { display: none; }
-      .main-content { margin-left: 0; padding: 14px 14px 28px; }
-      .mobile-nav { display: flex; }
-      .toast-container { bottom: 76px; right: 14px; left: 14px; max-width: none; }
+      .main-content { margin-left: 0; padding: 14px 14px calc(76px + env(safe-area-inset-bottom)); }
+      .mobile-nav { display: flex; padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
+      .toast-container { bottom: calc(76px + env(safe-area-inset-bottom)); right: 14px; left: 14px; max-width: none; }
       .grid-4 { grid-template-columns: repeat(2, 1fr); }
       .grid-3, .grid-2, .energy-top, .equil-top { grid-template-columns: 1fr; }
     }
 
+    @media (max-width: 768px) {
+      body, .app-container, .main-content {
+        min-height: 100dvh;
+      }
+      .main-content {
+        padding: 12px 12px calc(78px + env(safe-area-inset-bottom));
+      }
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .topbar-actions {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+      .card {
+        padding: 14px;
+      }
+      .card-header {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      /* Evitar zoom automático en iOS Safari al enfocar inputs */
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+      /* Formularios en 1 columna al 100% de ancho en Laboral, Personal y Energía */
+      .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 10px;
+      }
+      .form-row > * {
+        grid-column: 1 / -1 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .grid-4 {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      /* Visor multiformato adaptado a pantalla móvil (96% ancho x 92dvh alto) */
+      #viewerModal {
+        padding: 8px;
+      }
+      .viewer-modal-box {
+        width: 96% !important;
+        max-width: 96% !important;
+        height: 92dvh !important;
+        max-height: 92dvh !important;
+        padding: 12px !important;
+        border-radius: 14px;
+      }
+    }
+
     /* =========================================================================
-       PANTALLA DE INICIO DE SESIÓN (ORQUÍDEA ROSA)
+       PANTALLA DE ACCESO Y BLOQUEO (GOOGLE + PIN RÁPIDO — ORQUÍDEA ROSA)
     ========================================================================= */
     body.app-locked .app-container,
     body.app-locked .mobile-nav,
@@ -837,11 +1053,14 @@
     .auth-overlay {
       position: fixed;
       inset: 0;
+      height: 100dvh;
+      min-height: 100dvh;
       z-index: 99999;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      overflow-y: auto;
+      padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
       background:
         radial-gradient(circle at 15% 20%, rgba(249, 184, 207, 0.45) 0%, transparent 45%),
         radial-gradient(circle at 85% 80%, rgba(142, 79, 143, 0.22) 0%, transparent 50%),
@@ -853,10 +1072,11 @@
     .auth-card {
       width: 100%;
       max-width: 410px;
+      margin: auto;
       background: #FFFFFF;
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-lg);
-      padding: 32px 28px;
+      padding: 28px 24px;
       box-shadow: 0 20px 50px rgba(85, 47, 87, 0.14);
     }
     .auth-brand {
@@ -864,7 +1084,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     .auth-brand-icon {
       width: 56px;
@@ -890,8 +1110,35 @@
       color: var(--text-muted);
       margin: 0;
     }
-    .auth-field {
+    .auth-subtitle-box {
+      background: var(--lavender-mist);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      color: var(--dusty-dark);
+      text-align: center;
       margin-bottom: 16px;
+      line-height: 1.45;
+    }
+    .auth-session-pill {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 6px 12px;
+      margin-bottom: 14px;
+      border-radius: 99px;
+      background: var(--success-bg);
+      color: var(--success);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+    .auth-session-pill.visible {
+      display: flex;
+    }
+    .auth-field {
+      margin-bottom: 14px;
     }
     .auth-field label {
       display: block;
@@ -911,10 +1158,18 @@
       border: 1.5px solid var(--border-soft);
       border-radius: var(--radius-sm);
       font-family: 'Nunito Sans', sans-serif;
-      font-size: 0.94rem;
+      font-size: 16px;
       color: var(--text-main);
       background: var(--lavender-mist);
       transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .auth-input-wrap input.auth-pin-input {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem !important;
+      font-weight: 800;
+      letter-spacing: 0.35em;
+      text-align: center;
+      padding-left: 42px;
     }
     .auth-input-wrap input:focus {
       outline: none;
@@ -929,7 +1184,7 @@
       border: none;
       color: var(--text-muted);
       cursor: pointer;
-      padding: 4px;
+      padding: 6px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -962,37 +1217,19 @@
       font-size: 0.95rem;
       font-weight: 700;
     }
-    .auth-divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 16px 0;
-      color: var(--text-muted);
-      font-size: 0.76rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .auth-divider::before,
-    .auth-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border-soft);
-    }
     .auth-google-btn {
       width: 100%;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 11px 16px;
+      padding: 12px 16px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--border-soft);
       background: #FFFFFF;
       color: var(--text-main);
       font-family: 'Nunito Sans', sans-serif;
-      font-size: 0.92rem;
+      font-size: 0.94rem;
       font-weight: 700;
       cursor: pointer;
       transition: background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.18s;
@@ -1010,7 +1247,7 @@
     }
     .auth-google-cid-box {
       display: none;
-      margin-top: 10px;
+      margin-bottom: 14px;
       padding: 12px;
       border-radius: var(--radius-sm);
       background: var(--lavender-mist);
@@ -1021,7 +1258,7 @@
     }
     .auth-google-cid-box label {
       display: block;
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       font-weight: 700;
       color: var(--dusty-dark);
       margin-bottom: 6px;
@@ -1032,16 +1269,37 @@
     }
     .auth-google-cid-row input {
       flex: 1;
-      padding: 8px 10px;
-      font-size: 0.82rem;
+      padding: 9px 10px;
+      font-size: 16px;
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-sm);
       background: #FFFFFF;
     }
+    .auth-secondary-links {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .auth-link-btn {
+      background: none;
+      border: none;
+      color: var(--dusty-lavender);
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 4px 6px;
+    }
+    .auth-link-btn:hover {
+      color: var(--dusty-dark);
+    }
     .auth-footnote {
       margin-top: 16px;
       text-align: center;
-      font-size: 0.76rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
     }
     .gcal-filter-select {
@@ -1059,7 +1317,7 @@
 </head>
 <body class="app-locked">
 
-<!-- Pantalla de Inicio de Sesión -->
+<!-- Pantalla de Acceso y Bloqueo (Google + PIN Rápido) -->
 <div id="appAuthOverlay" class="auth-overlay" role="dialog" aria-modal="true" aria-labelledby="authHeading">
   <div class="auth-card">
     <div class="auth-brand">
@@ -1068,56 +1326,104 @@
       <p>Vida • Trabajo • Energía</p>
     </div>
 
-    <form id="appAuthForm" onsubmit="handleAppLogin(event)" novalidate>
-      <div class="auth-field">
-        <label for="authUsername">Usuario</label>
-        <div class="auth-input-wrap">
-          <input type="text" id="authUsername" autocomplete="username" placeholder="Ingresa tu usuario" required />
+    <div id="authDriveStatusPill" class="auth-session-pill">
+      <i data-lucide="cloud-check" style="width:14px;height:14px;"></i>
+      <span>Google Drive y Calendar activos en segundo plano</span>
+    </div>
+
+    <div id="authErrorBox" class="auth-error" role="alert">
+      <i data-lucide="alert-circle" style="width:16px;height:16px;flex-shrink:0;"></i>
+      <span id="authErrorText"></span>
+    </div>
+
+    <!-- MODO 1: ACCESO CON GOOGLE (Primera vez o restablecimiento de PIN) -->
+    <div id="authModeGoogle">
+      <div id="authGoogleSubtitle" class="auth-subtitle-box">
+        Inicia sesión con tu cuenta de Google autorizada para acceder y configurar tu PIN rápido de desbloqueo.
+      </div>
+
+      <div id="authGoogleCidBox" class="auth-google-cid-box">
+        <label for="authGoogleClientIdInput">Pega tu Google Cloud Client ID (solo la primera vez en este dispositivo):</label>
+        <div class="auth-google-cid-row">
+          <input type="text" id="authGoogleClientIdInput" placeholder="123456789-abc.apps.googleusercontent.com" />
+          <button type="button" class="btn btn-sm btn-primary" onclick="saveOverlayClientIdAndLogin()">Guardar</button>
         </div>
       </div>
 
-      <div class="auth-field">
-        <label for="authPassword">Contraseña</label>
-        <div class="auth-input-wrap">
-          <input type="password" id="authPassword" autocomplete="current-password" placeholder="Ingresa tu contraseña" required />
-          <button type="button" class="auth-toggle-pwd" onclick="toggleAuthPasswordVisibility()" aria-label="Mostrar u ocultar contraseña" title="Mostrar/Ocultar contraseña">
-            <i id="authEyeIcon" data-lucide="eye" style="width:18px;height:18px;"></i>
-          </button>
-        </div>
-      </div>
-
-      <div id="authErrorBox" class="auth-error" role="alert">
-        <i data-lucide="alert-circle" style="width:16px;height:16px;flex-shrink:0;"></i>
-        <span id="authErrorText">Usuario o contraseña incorrectos.</span>
-      </div>
-
-      <button type="submit" id="authSubmitBtn" class="btn btn-primary auth-submit-btn">
-        <i data-lucide="lock-open" style="width:17px;height:17px;"></i> Ingresar al Planificador
+      <button type="button" id="authGoogleBtn" class="auth-google-btn" onclick="handleGoogleLoginFromOverlay()">
+        <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        <span>Continuar con Google</span>
       </button>
-    </form>
 
-    <div class="auth-divider">o acceso directo con Google</div>
+      <div class="auth-secondary-links">
+        <button type="button" class="auth-link-btn" onclick="toggleOverlayClientIdBox()">Configurar / cambiar Google Cloud Client ID</button>
+        <button type="button" id="authBackToPinBtn" class="auth-link-btn" style="display:none;" onclick="setAuthOverlayMode('pin')">Volver a desbloquear con PIN</button>
+      </div>
+    </div>
 
-    <button type="button" id="authGoogleBtn" class="auth-google-btn" onclick="handleGoogleLoginFromOverlay()">
-      <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
-        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-      </svg>
-      <span>Continuar con Google</span>
-    </button>
+    <!-- MODO 2: CREAR PIN RÁPIDO (4 a 6 dígitos) -->
+    <div id="authModeSetupPin" style="display:none;">
+      <div class="auth-subtitle-box">
+        <strong>Cuenta verificada.</strong> Crea un PIN numérico de <strong>4 a 6 dígitos</strong> para desbloquear rápidamente este dispositivo.
+      </div>
 
-    <div id="authGoogleCidBox" class="auth-google-cid-box">
-      <label for="authGoogleClientIdInput">Configura tu Google Cloud Client ID (solo la primera vez):</label>
-      <div class="auth-google-cid-row">
-        <input type="text" id="authGoogleClientIdInput" placeholder="123456789-abc.apps.googleusercontent.com" />
-        <button type="button" class="btn btn-sm btn-primary" onclick="saveOverlayClientIdAndLogin()">Conectar</button>
+      <form id="appPinSetupForm" onsubmit="handlePinSetupSubmit(event)" novalidate>
+        <div class="auth-field">
+          <label for="pinSetupInput">Nuevo PIN (4 a 6 dígitos)</label>
+          <div class="auth-input-wrap">
+            <input type="password" id="pinSetupInput" class="auth-pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="new-password" placeholder="••••" required />
+            <button type="button" class="auth-toggle-pwd" onclick="togglePinFieldVisibility('pinSetupInput', 'pinSetupEyeIcon')" aria-label="Mostrar u ocultar PIN">
+              <i id="pinSetupEyeIcon" data-lucide="eye" style="width:18px;height:18px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label for="pinConfirmInput">Confirmar PIN</label>
+          <div class="auth-input-wrap">
+            <input type="password" id="pinConfirmInput" class="auth-pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="new-password" placeholder="••••" required />
+            <button type="button" class="auth-toggle-pwd" onclick="togglePinFieldVisibility('pinConfirmInput', 'pinConfirmEyeIcon')" aria-label="Mostrar u ocultar confirmación">
+              <i id="pinConfirmEyeIcon" data-lucide="eye" style="width:18px;height:18px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary auth-submit-btn">
+          <i data-lucide="shield-check" style="width:17px;height:17px;"></i> Guardar PIN e Ingresar
+        </button>
+      </form>
+    </div>
+
+    <!-- MODO 3: DESBLOQUEO RÁPIDO CON PIN -->
+    <div id="authModePin" style="display:none;">
+      <form id="appPinUnlockForm" onsubmit="handlePinUnlockSubmit(event)" novalidate>
+        <div class="auth-field">
+          <label for="pinUnlockInput" style="text-align:center;">Ingresa tu PIN rápido (4 a 6 dígitos)</label>
+          <div class="auth-input-wrap">
+            <input type="password" id="pinUnlockInput" class="auth-pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="••••" required />
+            <button type="button" class="auth-toggle-pwd" onclick="togglePinFieldVisibility('pinUnlockInput', 'pinUnlockEyeIcon')" aria-label="Mostrar u ocultar PIN">
+              <i id="pinUnlockEyeIcon" data-lucide="eye" style="width:18px;height:18px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="pinUnlockSubmitBtn" class="btn btn-primary auth-submit-btn">
+          <i data-lucide="lock-open" style="width:17px;height:17px;"></i> Desbloquear Planificador
+        </button>
+      </form>
+
+      <div class="auth-secondary-links">
+        <button type="button" class="auth-link-btn" onclick="startPinResetWithGoogle()">¿Olvidaste tu PIN? Revalidar con Google</button>
       </div>
     </div>
 
     <div class="auth-footnote">
-      Bloqueo estricto SHA-256 • Espacio personal privado
+      Verificación Google + PIN cifrado SHA-256 • Auto-bloqueo 30 min
     </div>
   </div>
 </div>
@@ -1152,8 +1458,8 @@
       <button type="button" class="btn btn-outline" onclick="openConfigModal()">
         <i data-lucide="settings"></i> Configuración &amp; Respaldo
       </button>
-      <button type="button" class="btn btn-danger-soft" onclick="logoutAppSession()" title="Cerrar sesión">
-        <i data-lucide="log-out"></i> Cerrar Sesión
+      <button type="button" class="btn btn-danger-soft" onclick="lockAppSession()" title="Bloquear pantalla (mantiene Drive y Calendar activos)">
+        <i data-lucide="lock"></i> Bloquear
       </button>
     </div>
   </aside>
@@ -1172,7 +1478,9 @@
         <button type="button" class="btn btn-sm btn-outline" id="btnSyncNow" onclick="syncToGoogleDrive()" style="display:none;">
           <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Sincronizar
         </button>
-
+        <button type="button" class="btn btn-sm btn-outline" onclick="lockAppSession()" title="Bloquear pantalla">
+          <i data-lucide="lock" style="width:14px;height:14px;"></i> Bloquear
+        </button>
       </div>
     </header>
 
@@ -2029,6 +2337,7 @@
         <div class="card-header">
           <h3 class="card-title"><i data-lucide="library"></i> Biblioteca de Energía (Local + Google Drive)</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button" class="btn btn-sm btn-outline" id="btnSyncEnergyLib" onclick="syncEnergyLibraryFromDrive(false)"><i data-lucide="folder-sync"></i> Sincronizar Drive</button>
             <button type="button" class="btn btn-sm btn-outline" onclick="promptNewLibrarySubfolder()"><i data-lucide="folder-plus"></i> Nueva Subcarpeta</button>
             <label class="btn btn-sm btn-primary" style="cursor:pointer;">
               <i data-lucide="upload-cloud"></i> Subir Archivo (PDF, Word, Excel, Img)
@@ -2141,10 +2450,15 @@
     <hr style="border:none;border-top:1px solid var(--border-soft);margin:16px 0;" />
 
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
-      <span id="cfgSessionInfoText" style="font-size:0.82rem;color:var(--text-muted);">Sesión activa en esta pestaña • Verificación SHA-256</span>
-      <button type="button" class="btn btn-sm btn-danger-soft" onclick="closeModal('configModal');logoutAppSession();">
-        <i data-lucide="log-out"></i> Cerrar Sesión
-      </button>
+      <span id="cfgSessionInfoText" style="font-size:0.82rem;color:var(--text-muted);">Sesión protegida con PIN SHA-256 • Bloqueo tras 30 min</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('configModal');lockAppSession();">
+          <i data-lucide="lock"></i> Bloquear
+        </button>
+        <button type="button" class="btn btn-sm btn-danger-soft" onclick="closeModal('configModal');fullLogoutAppSession();">
+          <i data-lucide="log-out"></i> Desconectar Google
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -2200,15 +2514,16 @@
 </div>
 
 <!-- =========================================================================
-     MODAL: VISOR DE DOCUMENTOS (BIBLIOTECA ENERGÍA)
+     MODAL: VISOR MULTIFORMATO DE DOCUMENTOS (BIBLIOTECA ENERGÍA)
 ========================================================================== -->
 <div class="modal-backdrop" id="viewerModal">
-  <div class="modal-box" style="max-width:860px;height:85vh;display:flex;flex-direction:column;">
-    <div class="card-header">
-      <h3 class="card-title" id="viewerModalTitle">Vista Previa</h3>
+  <div class="modal-box viewer-modal-box">
+    <div class="card-header" style="margin-bottom:8px;">
+      <h3 class="card-title" id="viewerModalTitle" style="word-break:break-word;">Vista Previa</h3>
       <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('viewerModal')">Cerrar ✕</button>
     </div>
-    <div id="viewerModalBody" style="flex:1;overflow:auto;border-radius:var(--radius-md);background:var(--lavender-mist);display:flex;align-items:center;justify-content:center;"></div>
+    <div id="viewerToolbar" class="viewer-toolbar" style="display:none;"></div>
+    <div id="viewerModalBody" class="viewer-body-area"></div>
   </div>
 </div>
 
@@ -2960,6 +3275,7 @@ function handleGoogleAuth(options = {}) {
         updateSyncUI(true, 'Sincronizando Drive...');
         await ensureDriveWorkspace();
         await loadFromGoogleDrive();
+        await syncEnergyLibraryFromDrive(true);
         await fetchGoogleCalendars();
         await syncGoogleCalendar();
         updateSyncUI(true, 'Drive & Calendar Activos');
@@ -4674,17 +4990,134 @@ function promptNewLibrarySubfolder() {
     title: 'Nueva Subcarpeta en Biblioteca',
     label: 'Nombre de la carpeta temática',
     placeholder: 'Ej. Protocolos, Biomagnetismo, Cartas...'
-  }, (folder) => {
+  }, async (folder) => {
     if (!folder) return;
-    appData.energyLibrary.push({
-      id: 'lib_folder_' + Date.now(),
-      name: folder,
-      folder,
-      isFolderMarker: true
-    });
+    const clean = folder.trim();
+    if (!clean) return;
+    if (accessToken && driveMeta.energyId) {
+      try {
+        await findOrCreateFolder(clean, driveMeta.energyId);
+      } catch (err) {
+        console.error('Error creando subcarpeta en Drive:', err);
+      }
+    }
+    const exists = appData.energyLibrary.some(x => (x.folder || '').toLowerCase() === clean.toLowerCase());
+    if (!exists) {
+      appData.energyLibrary.push({
+        id: 'lib_folder_' + Date.now(),
+        name: clean,
+        folder: clean,
+        isFolderMarker: true
+      });
+    }
     saveData();
-    showToast(`Subcarpeta "${folder}" creada.`, 'success');
+    showToast(`Subcarpeta "${clean}" creada.`, 'success');
   });
+}
+
+async function listDriveFolderChildren(folderId) {
+  const files = [];
+  let pageToken = '';
+  do {
+    const q = `'${folderId}' in parents and trashed=false`;
+    const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&pageSize=200&fields=nextPageToken,files(id,name,mimeType,createdTime,modifiedTime,webViewLink)` +
+      (pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : '');
+    const res = await driveFetch(url);
+    const data = await res.json();
+    if (Array.isArray(data.files)) files.push(...data.files);
+    pageToken = data.nextPageToken || '';
+  } while (pageToken);
+  return files;
+}
+
+async function syncEnergyLibraryFromDrive(silent = false) {
+  if (!accessToken) {
+    if (!silent) showToast('Conecta Google Drive en Configuración para sincronizar tus carpetas.', 'warning');
+    return;
+  }
+  try {
+    if (!driveMeta.energyId) await ensureDriveWorkspace();
+    const rootChildren = await listDriveFolderChildren(driveMeta.energyId);
+    const subfolders = rootChildren.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+    const rootFiles = rootChildren.filter(f => f.mimeType !== 'application/vnd.google-apps.folder');
+
+    const remoteFiles = [];
+    rootFiles.forEach(f => {
+      remoteFiles.push({ file: f, folder: 'General' });
+    });
+
+    for (const sub of subfolders) {
+      const subChildren = await listDriveFolderChildren(sub.id);
+      subChildren
+        .filter(f => f.mimeType !== 'application/vnd.google-apps.folder')
+        .forEach(f => remoteFiles.push({ file: f, folder: sub.name }));
+    }
+
+    const remoteIds = new Set(remoteFiles.map(r => r.file.id));
+    const existingByDriveId = new Map();
+    appData.energyLibrary.forEach(item => {
+      if (item.driveFileId) existingByDriveId.set(item.driveFileId, item);
+    });
+
+    // Mantener registros locales (sin driveFileId o con copia local en IndexedDB) y actualizar los de Drive
+    const nextLibrary = [];
+    appData.energyLibrary.forEach(item => {
+      if (item.isFolderMarker) return; // reconstruimos marcadores de carpetas activas abajo
+      if (!item.driveFileId) {
+        nextLibrary.push(item);
+      } else if (remoteIds.has(item.driveFileId)) {
+        nextLibrary.push(item);
+      } else if (item.hasLocalBlob) {
+        // El archivo fue borrado en Drive pero existe localmente
+        nextLibrary.push({ ...item, driveFileId: null, webViewLink: null });
+      }
+    });
+
+    remoteFiles.forEach(({ file, folder }) => {
+      const existing = existingByDriveId.get(file.id);
+      if (existing) {
+        existing.name = file.name;
+        existing.folder = folder;
+        existing.mimeType = file.mimeType || existing.mimeType;
+        existing.webViewLink = file.webViewLink || existing.webViewLink;
+      } else {
+        const rawDate = (file.modifiedTime || file.createdTime || '').slice(0, 10);
+        nextLibrary.push({
+          id: 'lib_drv_' + file.id,
+          name: file.name,
+          folder,
+          mimeType: file.mimeType || '',
+          driveFileId: file.id,
+          webViewLink: file.webViewLink || '',
+          hasLocalBlob: false,
+          uploadedAt: /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : todayStr()
+        });
+      }
+    });
+
+    // Asegurar que las subcarpetas vacías de Drive también aparezcan en el filtro
+    const activeFolders = new Set(nextLibrary.map(x => (x.folder || '').toLowerCase()));
+    subfolders.forEach(sub => {
+      if (!activeFolders.has(sub.name.toLowerCase())) {
+        nextLibrary.push({
+          id: 'lib_folder_' + sub.id,
+          name: sub.name,
+          folder: sub.name,
+          isFolderMarker: true
+        });
+      }
+    });
+
+    appData.energyLibrary = nextLibrary;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    renderEnergyLibrary();
+    if (!silent) {
+      showToast(`Biblioteca sincronizada con Drive (${remoteFiles.length} archivos en ${subfolders.length + (rootFiles.length ? 1 : 0)} carpetas).`, 'success');
+    }
+  } catch (err) {
+    console.error('Error sincronizando Biblioteca_Energia desde Drive:', err);
+    if (!silent) showToast('No se pudieron cargar las carpetas desde Google Drive.', 'danger');
+  }
 }
 
 /* 4A + 2A: Subida a Biblioteca usando IndexedDB + Google Drive (sin saturar localStorage) */
@@ -4747,16 +5180,49 @@ async function uploadToEnergyLibrary(event) {
 }
 
 async function deleteLibraryItem(id) {
+  const target = appData.energyLibrary.find(x => x.id === id);
+  if (target && target.driveFileId && accessToken) {
+    try {
+      await driveFetch(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(target.driveFileId)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ trashed: true })
+      });
+    } catch (err) {
+      console.warn('No se pudo mover a la papelera de Drive:', err);
+    }
+  }
   await PlanificadorIDB.remove(id);
   appData.energyLibrary = appData.energyLibrary.filter(x => x.id !== id);
   saveData();
   showToast('Documento eliminado de la biblioteca.', 'info');
 }
 
+function sanitizeDocxHtml(rawHtml) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(rawHtml || '', 'text/html');
+  doc.querySelectorAll('script, iframe, object, embed, form, meta, link, style').forEach(el => el.remove());
+  doc.querySelectorAll('*').forEach(el => {
+    [...el.attributes].forEach(attr => {
+      const name = attr.name.toLowerCase();
+      const val = (attr.value || '').trim().toLowerCase();
+      if (name.startsWith('on') || val.startsWith('javascript:') || val.startsWith('data:text/html')) {
+        el.removeAttribute(attr.name);
+      }
+    });
+  });
+  return doc.body.innerHTML;
+}
+
+let viewerRenderToken = 0;
+
 async function openLibraryItem(id) {
   const item = appData.energyLibrary.find(x => x.id === id);
   if (!item) return;
+
+  const renderToken = ++viewerRenderToken;
   document.getElementById('viewerModalTitle').textContent = item.name;
+  const toolbar = document.getElementById('viewerToolbar');
   const body = document.getElementById('viewerModalBody');
 
   if (activeBlobUrl) {
@@ -4764,41 +5230,263 @@ async function openLibraryItem(id) {
     activeBlobUrl = null;
   }
 
+  toolbar.style.display = 'none';
+  toolbar.innerHTML = '';
+  body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;padding:24px;color:var(--dusty-dark);font-weight:600;">Cargando vista previa...</div>`;
+  document.getElementById('viewerModal').classList.add('open');
+
+  let fileBlob = null;
+  let mime = item.mimeType || '';
+  let effectiveName = item.name || 'documento';
+
+  // 1. Buscar primero en IndexedDB local
   const localRecord = await PlanificadorIDB.get(id);
   if (localRecord && localRecord.blob) {
-    activeBlobUrl = URL.createObjectURL(localRecord.blob);
-    const mime = localRecord.mimeType || item.mimeType || '';
-    if (mime.startsWith('image/')) {
-      body.innerHTML = `<img src="${activeBlobUrl}" style="max-width:100%;max-height:100%;object-fit:contain;" />`;
-    } else if (mime === 'application/pdf' || item.name.toLowerCase().endsWith('.pdf')) {
-      body.innerHTML = `<iframe src="${activeBlobUrl}" style="width:100%;height:100%;border:none;"></iframe>`;
-    } else {
-      body.innerHTML = `
-        <div style="text-align:center;padding:24px;">
-          <p style="margin-bottom:14px;font-weight:600;">Archivo listo para abrir o descargar:</p>
-          <a href="${activeBlobUrl}" download="${escapeHTML(item.name)}" class="btn btn-primary">Descargar ${escapeHTML(item.name)}</a>
-        </div>`;
-    }
-  } else if (item.driveFileId) {
-    body.innerHTML = `<iframe src="https://drive.google.com/file/d/${encodeURIComponent(item.driveFileId)}/preview" style="width:100%;height:100%;border:none;"></iframe>`;
+    fileBlob = localRecord.blob;
+    mime = localRecord.mimeType || mime;
   } else if (item.localDataUrl) {
+    // 2. Respaldo heredado Base64
     const rawUrl = String(item.localDataUrl).trim();
-    if ((item.mimeType || '').startsWith('image/') && safeImgSrc(rawUrl)) {
-      body.innerHTML = `<img src="${safeImgSrc(rawUrl)}" style="max-width:100%;max-height:100%;object-fit:contain;" />`;
-    } else if (/^data:application\/pdf;base64,[a-zA-Z0-9+/=]+$/i.test(rawUrl)) {
-      const b64 = rawUrl.split(',')[1];
-      const bin = atob(b64);
+    const match = /^data:([^;]+);base64,([a-zA-Z0-9+/=]+)$/i.exec(rawUrl);
+    if (match) {
+      mime = match[1];
+      const bin = atob(match[2]);
       const bytes = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-      activeBlobUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
-      body.innerHTML = `<iframe src="${activeBlobUrl}" style="width:100%;height:100%;border:none;"></iframe>`;
-    } else {
-      body.innerHTML = `<p style="padding:20px;text-align:center;color:var(--danger);">Formato de archivo local no soportado por seguridad.</p>`;
+      fileBlob = new Blob([bytes], { type: mime });
     }
-  } else {
-    body.innerHTML = `<p style="padding:20px;text-align:center;">Conecta tu Google Drive para previsualizar archivos respaldados en la nube.</p>`;
+  } else if (item.driveFileId && accessToken) {
+    // 3. Descargar desde Google Drive y guardar en caché local IndexedDB
+    try {
+      let fetchUrl = `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(item.driveFileId)}?alt=media`;
+      if (mime === 'application/vnd.google-apps.document') {
+        fetchUrl = `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(item.driveFileId)}/export?mimeType=application/pdf`;
+        mime = 'application/pdf';
+        if (!effectiveName.toLowerCase().endsWith('.pdf')) effectiveName += '.pdf';
+      } else if (mime === 'application/vnd.google-apps.spreadsheet') {
+        fetchUrl = `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(item.driveFileId)}/export?mimeType=${encodeURIComponent('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')}`;
+        mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        if (!effectiveName.toLowerCase().endsWith('.xlsx')) effectiveName += '.xlsx';
+      } else if (mime === 'application/vnd.google-apps.presentation') {
+        fetchUrl = `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(item.driveFileId)}/export?mimeType=application/pdf`;
+        mime = 'application/pdf';
+        if (!effectiveName.toLowerCase().endsWith('.pdf')) effectiveName += '.pdf';
+      }
+      const res = await driveFetch(fetchUrl);
+      fileBlob = await res.blob();
+      if (!mime && fileBlob.type) mime = fileBlob.type;
+      await PlanificadorIDB.put(id, fileBlob, mime);
+      item.hasLocalBlob = true;
+    } catch (err) {
+      console.error('Error descargando archivo desde Drive:', err);
+    }
   }
-  document.getElementById('viewerModal').classList.add('open');
+
+  if (renderToken !== viewerRenderToken) return;
+
+  if (!fileBlob) {
+    if (item.driveFileId) {
+      body.innerHTML = `<iframe src="https://drive.google.com/file/d/${encodeURIComponent(item.driveFileId)}/preview" style="width:100%;height:100%;border:none;"></iframe>`;
+    } else {
+      body.innerHTML = `<div style="padding:28px;text-align:center;color:var(--text-muted);">Conecta tu cuenta de Google Drive en <strong>Configuración &amp; Respaldo</strong> para descargar y previsualizar este documento.</div>`;
+    }
+    return;
+  }
+
+  activeBlobUrl = URL.createObjectURL(fileBlob);
+  const ext = (effectiveName.split('.').pop() || '').toLowerCase();
+  const downloadBtnHtml = `<a href="${activeBlobUrl}" download="${escapeHTML(effectiveName)}" class="btn btn-sm btn-primary"><i data-lucide="download" style="width:14px;height:14px;"></i> Descargar</a>`;
+
+  // A. IMÁGENES
+  if (mime.startsWith('image/') || ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'].includes(ext)) {
+    let imgZoom = 100;
+    toolbar.style.display = 'flex';
+    toolbar.innerHTML = `
+      <div class="viewer-toolbar-group">
+        <span class="badge badge-cyan">Imagen</span>
+        <button type="button" class="btn btn-sm btn-outline" id="imgZoomOut">−</button>
+        <span id="imgZoomLabel" style="font-size:0.78rem;font-weight:700;min-width:44px;text-align:center;">100%</span>
+        <button type="button" class="btn btn-sm btn-outline" id="imgZoomIn">+</button>
+      </div>
+      <div class="viewer-toolbar-group">${downloadBtnHtml}</div>
+    `;
+    body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100%;padding:12px;"><img id="viewerImgEl" src="${activeBlobUrl}" style="max-width:100%;max-height:100%;object-fit:contain;transition:transform 0.15s;" /></div>`;
+    const updateImgZoom = () => {
+      const imgEl = document.getElementById('viewerImgEl');
+      const lbl = document.getElementById('imgZoomLabel');
+      if (imgEl) {
+        imgEl.style.maxWidth = imgZoom === 100 ? '100%' : 'none';
+        imgEl.style.width = imgZoom === 100 ? 'auto' : `${imgZoom}%`;
+      }
+      if (lbl) lbl.textContent = `${imgZoom}%`;
+    };
+    document.getElementById('imgZoomOut').onclick = () => { imgZoom = Math.max(50, imgZoom - 25); updateImgZoom(); };
+    document.getElementById('imgZoomIn').onclick = () => { imgZoom = Math.min(250, imgZoom + 25); updateImgZoom(); };
+    safeIcons();
+    return;
+  }
+
+  // B. PDF MULTIPÁGINA CON PDF.JS (Compatible con iOS Safari y Android Chrome)
+  if (mime === 'application/pdf' || ext === 'pdf') {
+    if (!window.pdfjsLib) {
+      body.innerHTML = `<iframe src="${activeBlobUrl}" style="width:100%;height:100%;border:none;"></iframe>`;
+      return;
+    }
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const arrayBuffer = await fileBlob.arrayBuffer();
+    const pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    if (renderToken !== viewerRenderToken) return;
+
+    let pdfZoom = 1.0;
+    toolbar.style.display = 'flex';
+    toolbar.innerHTML = `
+      <div class="viewer-toolbar-group">
+        <span class="badge badge-lavender">PDF • ${pdfDoc.numPages} pág.</span>
+        <button type="button" class="btn btn-sm btn-outline" id="pdfZoomOut">−</button>
+        <span id="pdfZoomLabel" style="font-size:0.78rem;font-weight:700;min-width:44px;text-align:center;">100%</span>
+        <button type="button" class="btn btn-sm btn-outline" id="pdfZoomIn">+</button>
+      </div>
+      <div class="viewer-toolbar-group">${downloadBtnHtml}</div>
+    `;
+    body.innerHTML = `<div id="viewerPdfContainer" class="viewer-pdf-container"></div>`;
+    safeIcons();
+
+    const renderPdfPages = async () => {
+      const container = document.getElementById('viewerPdfContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      const availableWidth = Math.max(260, body.clientWidth - 36);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+        if (renderToken !== viewerRenderToken) return;
+        const page = await pdfDoc.getPage(pageNum);
+        const unscaledViewport = page.getViewport({ scale: 1 });
+        const fitScale = Math.min(1.6, availableWidth / unscaledViewport.width);
+        const finalScale = fitScale * pdfZoom;
+        const viewport = page.getViewport({ scale: finalScale });
+
+        const wrap = document.createElement('div');
+        wrap.className = 'viewer-pdf-page-wrap';
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = Math.floor(viewport.width * dpr);
+        canvas.height = Math.floor(viewport.height * dpr);
+        canvas.style.width = `${Math.floor(viewport.width)}px`;
+        canvas.style.height = `${Math.floor(viewport.height)}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const lbl = document.createElement('div');
+        lbl.className = 'viewer-pdf-page-label';
+        lbl.textContent = `Página ${pageNum} de ${pdfDoc.numPages}`;
+
+        wrap.appendChild(canvas);
+        wrap.appendChild(lbl);
+        container.appendChild(wrap);
+
+        await page.render({ canvasContext: ctx, viewport }).promise;
+      }
+      const zLbl = document.getElementById('pdfZoomLabel');
+      if (zLbl) zLbl.textContent = `${Math.round(pdfZoom * 100)}%`;
+    };
+
+    document.getElementById('pdfZoomOut').onclick = () => { pdfZoom = Math.max(0.6, +(pdfZoom - 0.2).toFixed(1)); renderPdfPages(); };
+    document.getElementById('pdfZoomIn').onclick = () => { pdfZoom = Math.min(2.2, +(pdfZoom + 0.2).toFixed(1)); renderPdfPages(); };
+    await renderPdfPages();
+    return;
+  }
+
+  // C. EXCEL Y CSV (SheetJS -> Tabla interactiva por pestañas)
+  if (['xlsx', 'xls', 'csv', 'ods'].includes(ext) || mime.includes('spreadsheet') || mime.includes('excel') || mime === 'text/csv') {
+    if (window.XLSX) {
+      const arrayBuffer = await fileBlob.arrayBuffer();
+      const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+      const sheetNames = workbook.SheetNames || [];
+
+      toolbar.style.display = 'flex';
+      toolbar.innerHTML = `
+        <div class="viewer-toolbar-group">
+          <span class="badge badge-success">Hoja de Cálculo (${sheetNames.length} ${sheetNames.length === 1 ? 'pestaña' : 'pestañas'})</span>
+        </div>
+        <div class="viewer-toolbar-group">${downloadBtnHtml}</div>
+      `;
+      safeIcons();
+
+      const renderSheetIndex = (idx) => {
+        const sName = sheetNames[idx];
+        const sheet = workbook.Sheets[sName];
+        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+        const tabsHtml = sheetNames.length > 1
+          ? `<div class="viewer-xlsx-tabs">${sheetNames.map((n, i) => `<button type="button" class="viewer-xlsx-tab ${i === idx ? 'active' : ''}" data-sheet-idx="${i}">${escapeHTML(n)}</button>`).join('')}</div>`
+          : '';
+
+        let tableHtml = '<p style="color:var(--text-muted);font-size:0.85rem;">Hoja vacía.</p>';
+        if (rows.length) {
+          const maxCols = rows.reduce((m, r) => Math.max(m, r.length), 0);
+          const headRow = rows[0] || [];
+          const thead = `<thead><tr>${Array.from({ length: maxCols }, (_, c) => `<th>${escapeHTML(headRow[c] !== undefined ? String(headRow[c]) : '')}</th>`).join('')}</tr></thead>`;
+          const tbody = `<tbody>${rows.slice(1, 500).map(r => `<tr>${Array.from({ length: maxCols }, (_, c) => `<td>${escapeHTML(r[c] !== undefined ? String(r[c]) : '')}</td>`).join('')}</tr>`).join('')}</tbody>`;
+          tableHtml = `<div class="table-wrap" style="background:#FFFFFF;flex:1;"><table>${thead}${tbody}</table></div>`;
+        }
+
+        body.innerHTML = `<div class="viewer-xlsx-wrap">${tabsHtml}${tableHtml}</div>`;
+        body.querySelectorAll('[data-sheet-idx]').forEach(btn => {
+          btn.onclick = () => renderSheetIndex(Number(btn.getAttribute('data-sheet-idx')));
+        });
+      };
+
+      renderSheetIndex(0);
+      return;
+    }
+  }
+
+  // D. WORD (.docx con Mammoth.js)
+  if (ext === 'docx' || mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+    if (window.mammoth) {
+      try {
+        const arrayBuffer = await fileBlob.arrayBuffer();
+        const result = await mammoth.convertToHtml({ arrayBuffer });
+        const cleanHtml = sanitizeDocxHtml(result.value);
+        toolbar.style.display = 'flex';
+        toolbar.innerHTML = `
+          <div class="viewer-toolbar-group"><span class="badge badge-lavender">Documento Word (.docx)</span></div>
+          <div class="viewer-toolbar-group">${downloadBtnHtml}</div>
+        `;
+        body.innerHTML = `<div class="viewer-docx-sheet">${cleanHtml || '<p style="color:var(--text-muted);">Documento sin contenido de texto visible.</p>'}</div>`;
+        safeIcons();
+        return;
+      } catch (err) {
+        console.error('Error renderizando DOCX:', err);
+      }
+    }
+  }
+
+  // E. TEXTO PLANO / MARKDOWN / LOGS (.txt, .md, .json, etc.)
+  if (mime.startsWith('text/') || ['txt', 'md', 'json', 'log', 'xml', 'yaml', 'yml'].includes(ext)) {
+    const textContent = await fileBlob.text();
+    toolbar.style.display = 'flex';
+    toolbar.innerHTML = `
+      <div class="viewer-toolbar-group"><span class="badge badge-cyan">Texto (${escapeHTML(ext.toUpperCase() || 'TXT')})</span></div>
+      <div class="viewer-toolbar-group">${downloadBtnHtml}</div>
+    `;
+    body.innerHTML = `<pre class="viewer-txt-sheet">${escapeHTML(textContent)}</pre>`;
+    safeIcons();
+    return;
+  }
+
+  // F. OTROS FORMATOS (Descarga directa)
+  toolbar.style.display = 'flex';
+  toolbar.innerHTML = `
+    <div class="viewer-toolbar-group"><span class="badge badge-lavender">Archivo (${escapeHTML(ext.toUpperCase() || 'BIN')})</span></div>
+    <div class="viewer-toolbar-group">${downloadBtnHtml}</div>
+  `;
+  body.innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:24px;gap:12px;">
+      <p style="font-weight:600;color:var(--dusty-dark);max-width:380px;">La vista previa directa no está disponible para este tipo de archivo (<code>.${escapeHTML(ext || 'archivo')}</code>), pero puedes descargarlo en tu dispositivo:</p>
+      ${downloadBtnHtml}
+    </div>`;
+  safeIcons();
 }
 
 function renderEnergy() {
@@ -4963,7 +5651,7 @@ function renderEnergyLibrary() {
         <button type="button" class="btn btn-sm btn-danger-soft" onclick="deleteLibraryItem('${sid}')">✕</button>
       </div>
     </div>`;
-  }).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);grid-column:1/-1;">Sube tus PDF, Word, Excel o imágenes de referencia para consultarlos y visualizarlos aquí.</p>`;
+  }).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);grid-column:1/-1;">Sube tus PDF, Word (.docx), Excel/CSV, TXT o imágenes aquí, o pulsa «Sincronizar Drive» para traer tus carpetas de Biblioteca_Energia.</p>`;
   safeIcons();
 }
 
@@ -5241,15 +5929,20 @@ window.addEventListener('keydown', (e) => {
 });
 
 /* ============================================================================
-   AUTENTICACIÓN POR PESTAÑA (sessionStorage + SHA-256)
+   AUTENTICACIÓN SEGURA (GOOGLE + PIN RÁPIDO SHA-256 + AUTO-BLOQUEO 30 MIN)
 ============================================================================ */
 const APP_SESSION_KEY = 'mi_planificador_session_v1';
 const APP_AUTH_METHOD_KEY = 'mi_planificador_auth_method_v1';
-const EXPECTED_USER_HASH = '5714ec8b03a739fa6273708b4444822ff083b4fd1786269277543122ed15ccb4';
-const EXPECTED_PASS_HASH = 'a7cc19cf59b80e8a75cf588b429a426495264fca7a8991cfc876de6a94e2b184';
+const APP_PIN_DATA_KEY = 'mi_planificador_pin_v1';
+const APP_PIN_LOCKOUT_KEY = 'mi_planificador_pin_lockout_v1';
+const APP_LAST_ACTIVITY_KEY = 'mi_planificador_last_activity_v1';
+const INACTIVITY_LIMIT_MS = 30 * 60 * 1000; // 30 minutos
 const EXPECTED_GOOGLE_EMAIL_HASH = 'e06dd5302ebe7f7d3a032ec69c9f017f9e9d335f6ebf5ea15257b431dc7f8d4a';
-let authFailedAttempts = 0;
-let authLockUntil = 0;
+
+let pendingPinResetMode = false;
+let pinLockCountdownTimer = null;
+let lastActivityTimestamp = Date.now();
+let lastActivityPersistTime = 0;
 
 function sha256Hex(ascii) {
   function rightRotate(value, amount) {
@@ -5313,81 +6006,133 @@ function sha256Hex(ascii) {
   return result;
 }
 
+function generateRandomSaltHex(byteLen = 16) {
+  if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+    const arr = new Uint8Array(byteLen);
+    window.crypto.getRandomValues(arr);
+    return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+  }
+  return sha256Hex(String(Date.now()) + ':' + String(Math.random())).slice(0, byteLen * 2);
+}
+
+function getStoredPinRecord() {
+  try {
+    const raw = localStorage.getItem(APP_PIN_DATA_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed.salt === 'string' && typeof parsed.hash === 'string' && parsed.hash.length === 64) {
+      return parsed;
+    }
+  } catch (e) {}
+  return null;
+}
+
+function hasConfiguredPin() {
+  return !!getStoredPinRecord();
+}
+
+function saveStoredPinRecord(pin) {
+  const salt = generateRandomSaltHex(16);
+  const hash = sha256Hex(`${salt}:${pin}`);
+  localStorage.setItem(APP_PIN_DATA_KEY, JSON.stringify({
+    salt,
+    hash,
+    updatedAt: new Date().toISOString()
+  }));
+}
+
+function verifyStoredPin(pin) {
+  const rec = getStoredPinRecord();
+  if (!rec) return false;
+  return sha256Hex(`${rec.salt}:${pin}`) === rec.hash;
+}
+
+function getPinLockoutState() {
+  try {
+    const raw = localStorage.getItem(APP_PIN_LOCKOUT_KEY);
+    if (!raw) return { count: 0, lockUntil: 0 };
+    const parsed = JSON.parse(raw);
+    return {
+      count: Number(parsed.count) || 0,
+      lockUntil: Number(parsed.lockUntil) || 0
+    };
+  } catch (e) {
+    return { count: 0, lockUntil: 0 };
+  }
+}
+
+function setPinLockoutState(state) {
+  try {
+    localStorage.setItem(APP_PIN_LOCKOUT_KEY, JSON.stringify({
+      count: Number(state.count) || 0,
+      lockUntil: Number(state.lockUntil) || 0
+    }));
+  } catch (e) {}
+}
+
+function clearPinLockoutState() {
+  try {
+    localStorage.removeItem(APP_PIN_LOCKOUT_KEY);
+  } catch (e) {}
+  if (pinLockCountdownTimer) {
+    clearInterval(pinLockCountdownTimer);
+    pinLockCountdownTimer = null;
+  }
+}
+
+function startPinLockCountdownIfNeeded() {
+  if (pinLockCountdownTimer) {
+    clearInterval(pinLockCountdownTimer);
+    pinLockCountdownTimer = null;
+  }
+  const updateLockMsg = () => {
+    const st = getPinLockoutState();
+    const now = Date.now();
+    if (st.lockUntil > now) {
+      const secs = Math.ceil((st.lockUntil - now) / 1000);
+      setAuthOverlayError(`Demasiados intentos fallidos de PIN. Espera ${secs}s o revalida con Google.`);
+      return true;
+    } else if (st.lockUntil > 0) {
+      setPinLockoutState({ count: 0, lockUntil: 0 });
+      setAuthOverlayError('');
+    }
+    return false;
+  };
+  if (updateLockMsg()) {
+    pinLockCountdownTimer = setInterval(() => {
+      if (!updateLockMsg()) {
+        clearInterval(pinLockCountdownTimer);
+        pinLockCountdownTimer = null;
+      }
+    }, 1000);
+  }
+}
+
 function isAppAuthenticated() {
   try {
-    return sessionStorage.getItem(APP_SESSION_KEY) === 'authenticated';
+    if (sessionStorage.getItem(APP_SESSION_KEY) !== 'authenticated') return false;
+    const savedLast = Number(sessionStorage.getItem(APP_LAST_ACTIVITY_KEY) || 0);
+    if (savedLast && (Date.now() - savedLast >= INACTIVITY_LIMIT_MS)) {
+      sessionStorage.removeItem(APP_SESSION_KEY);
+      sessionStorage.removeItem(APP_LAST_ACTIVITY_KEY);
+      return false;
+    }
+    return true;
   } catch (e) {
     return false;
   }
 }
 
-function applyAuthLockState() {
-  const overlay = document.getElementById('appAuthOverlay');
-  if (isAppAuthenticated()) {
-    document.body.classList.remove('app-locked');
-    if (overlay) overlay.classList.add('hidden');
-  } else {
-    document.body.classList.add('app-locked');
-    if (overlay) overlay.classList.remove('hidden');
-    const uInput = document.getElementById('authUsername');
-    if (uInput) setTimeout(() => uInput.focus(), 50);
-  }
-}
-
-function toggleAuthPasswordVisibility() {
-  const pwd = document.getElementById('authPassword');
-  const icon = document.getElementById('authEyeIcon');
-  if (!pwd) return;
-  const show = pwd.type === 'password';
-  pwd.type = show ? 'text' : 'password';
-  if (icon) {
-    icon.setAttribute('data-lucide', show ? 'eye-off' : 'eye');
-    safeIcons();
-  }
-}
-
-function handleAppLogin(e) {
-  e.preventDefault();
-  const errBox = document.getElementById('authErrorBox');
-  const errText = document.getElementById('authErrorText');
+function recordUserActivity() {
   const now = Date.now();
-  if (now < authLockUntil) {
-    const secs = Math.ceil((authLockUntil - now) / 1000);
-    errText.textContent = `Demasiados intentos fallidos. Espera ${secs}s para volver a intentar.`;
-    errBox.classList.add('visible');
-    return;
-  }
-  const userVal = (document.getElementById('authUsername').value || '').trim();
-  const passVal = document.getElementById('authPassword').value || '';
-  if (!userVal || !passVal) {
-    errText.textContent = 'Completa tu usuario y contraseña.';
-    errBox.classList.add('visible');
-    return;
-  }
-  const uOk = sha256Hex(userVal) === EXPECTED_USER_HASH;
-  const pOk = sha256Hex(passVal) === EXPECTED_PASS_HASH;
-  if (uOk && pOk) {
-    authFailedAttempts = 0;
-    errBox.classList.remove('visible');
+  lastActivityTimestamp = now;
+  if (now - lastActivityPersistTime > 5000) {
+    lastActivityPersistTime = now;
     try {
-      sessionStorage.setItem(APP_SESSION_KEY, 'authenticated');
-    } catch (err) {}
-    document.getElementById('authPassword').value = '';
-    applyAuthLockState();
-    renderAll();
-    showToast('¡Bienvenida, marie22!', 'success');
-  } else {
-    authFailedAttempts += 1;
-    if (authFailedAttempts >= 5) {
-      authLockUntil = Date.now() + 15000;
-      authFailedAttempts = 0;
-      errText.textContent = 'Demasiados intentos fallidos. Espera 15 segundos.';
-    } else {
-      errText.textContent = 'Usuario o contraseña incorrectos.';
-    }
-    errBox.classList.add('visible');
-    document.getElementById('authPassword').value = '';
-    document.getElementById('authPassword').focus();
+      if (sessionStorage.getItem(APP_SESSION_KEY) === 'authenticated') {
+        sessionStorage.setItem(APP_LAST_ACTIVITY_KEY, String(now));
+      }
+    } catch (e) {}
   }
 }
 
@@ -5403,6 +6148,105 @@ function setAuthOverlayError(msg) {
   }
 }
 
+function updateDriveBackgroundPill() {
+  const pill = document.getElementById('authDriveStatusPill');
+  if (!pill) return;
+  if (accessToken) {
+    pill.classList.add('visible');
+  } else {
+    pill.classList.remove('visible');
+  }
+}
+
+function setAuthOverlayMode(mode) {
+  const modeGoogle = document.getElementById('authModeGoogle');
+  const modeSetup = document.getElementById('authModeSetupPin');
+  const modePin = document.getElementById('authModePin');
+  const backToPinBtn = document.getElementById('authBackToPinBtn');
+  const cidBox = document.getElementById('authGoogleCidBox');
+
+  if (modeGoogle) modeGoogle.style.display = mode === 'google' ? 'block' : 'none';
+  if (modeSetup) modeSetup.style.display = mode === 'setup_pin' ? 'block' : 'none';
+  if (modePin) modePin.style.display = mode === 'pin' ? 'block' : 'none';
+
+  updateDriveBackgroundPill();
+
+  if (mode === 'google') {
+    const cid = localStorage.getItem(CLIENT_ID_KEY);
+    if (cidBox) {
+      if (!cid) cidBox.classList.add('visible');
+      else cidBox.classList.remove('visible');
+    }
+    if (backToPinBtn) {
+      backToPinBtn.style.display = hasConfiguredPin() ? 'inline-block' : 'none';
+    }
+  } else if (mode === 'setup_pin') {
+    const p1 = document.getElementById('pinSetupInput');
+    const p2 = document.getElementById('pinConfirmInput');
+    if (p1) p1.value = '';
+    if (p2) p2.value = '';
+    if (p1) setTimeout(() => p1.focus(), 60);
+  } else if (mode === 'pin') {
+    const pUnlock = document.getElementById('pinUnlockInput');
+    if (pUnlock) {
+      pUnlock.value = '';
+      setTimeout(() => pUnlock.focus(), 60);
+    }
+    startPinLockCountdownIfNeeded();
+  }
+  safeIcons();
+}
+
+function applyAuthLockState() {
+  const overlay = document.getElementById('appAuthOverlay');
+  if (isAppAuthenticated()) {
+    document.body.classList.remove('app-locked');
+    if (overlay) overlay.classList.add('hidden');
+    recordUserActivity();
+  } else {
+    document.body.classList.add('app-locked');
+    if (overlay) overlay.classList.remove('hidden');
+    if (hasConfiguredPin() && !pendingPinResetMode) {
+      setAuthOverlayMode('pin');
+    } else {
+      setAuthOverlayMode('google');
+    }
+  }
+}
+
+function togglePinFieldVisibility(inputId, iconId) {
+  const inp = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
+  if (!inp) return;
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  if (icon) {
+    icon.setAttribute('data-lucide', show ? 'eye-off' : 'eye');
+    safeIcons();
+  }
+}
+
+function toggleOverlayClientIdBox() {
+  const box = document.getElementById('authGoogleCidBox');
+  const inp = document.getElementById('authGoogleClientIdInput');
+  if (!box) return;
+  box.classList.toggle('visible');
+  if (box.classList.contains('visible') && inp) {
+    inp.value = localStorage.getItem(CLIENT_ID_KEY) || '';
+    inp.focus();
+  }
+}
+
+function startPinResetWithGoogle() {
+  pendingPinResetMode = true;
+  setAuthOverlayError('');
+  const sub = document.getElementById('authGoogleSubtitle');
+  if (sub) {
+    sub.innerHTML = 'Revalida tu identidad con tu <strong>cuenta de Google autorizada</strong> para crear un nuevo PIN rápido.';
+  }
+  setAuthOverlayMode('google');
+}
+
 function handleGoogleLoginFromOverlay() {
   setAuthOverlayError('');
   const cid = localStorage.getItem(CLIENT_ID_KEY);
@@ -5411,7 +6255,7 @@ function handleGoogleLoginFromOverlay() {
     if (box) box.classList.add('visible');
     const inp = document.getElementById('authGoogleClientIdInput');
     if (inp) inp.focus();
-    setAuthOverlayError('Ingresa tu Google Cloud Client ID para continuar con Google, o accede con tu usuario local.');
+    setAuthOverlayError('Pega tu Google Cloud Client ID arriba para continuar con Google.');
     return;
   }
   const gBtn = document.getElementById('authGoogleBtn');
@@ -5421,16 +6265,14 @@ function handleGoogleLoginFromOverlay() {
     fromLoginOverlay: true,
     onSuccess: () => {
       if (gBtn) gBtn.disabled = false;
-      authFailedAttempts = 0;
+      clearPinLockoutState();
       setAuthOverlayError('');
-      try {
-        sessionStorage.setItem(APP_SESSION_KEY, 'authenticated');
-        sessionStorage.setItem(APP_AUTH_METHOD_KEY, 'google');
-      } catch (err) {}
-      document.getElementById('authPassword').value = '';
-      applyAuthLockState();
-      renderAll();
-      showToast('¡Bienvenida, Mariela!', 'success');
+      if (!hasConfiguredPin() || pendingPinResetMode) {
+        pendingPinResetMode = false;
+        setAuthOverlayMode('setup_pin');
+      } else {
+        completeAppUnlock('¡Bienvenida, Mariela!');
+      }
     },
     onError: (msg) => {
       if (gBtn) gBtn.disabled = false;
@@ -5452,24 +6294,130 @@ function saveOverlayClientIdAndLogin() {
   handleGoogleLoginFromOverlay();
 }
 
-function logoutAppSession() {
+function handlePinSetupSubmit(e) {
+  e.preventDefault();
+  setAuthOverlayError('');
+  const pin1 = (document.getElementById('pinSetupInput').value || '').trim();
+  const pin2 = (document.getElementById('pinConfirmInput').value || '').trim();
+
+  if (!/^\d{4,6}$/.test(pin1)) {
+    setAuthOverlayError('El PIN debe contener entre 4 y 6 dígitos numéricos.');
+    return;
+  }
+  if (pin1 !== pin2) {
+    setAuthOverlayError('Los PIN ingresados no coinciden. Inténtalo de nuevo.');
+    document.getElementById('pinConfirmInput').value = '';
+    document.getElementById('pinConfirmInput').focus();
+    return;
+  }
+  saveStoredPinRecord(pin1);
+  clearPinLockoutState();
+  document.getElementById('pinSetupInput').value = '';
+  document.getElementById('pinConfirmInput').value = '';
+  completeAppUnlock('PIN rápido guardado. ¡Bienvenida, Mariela!');
+}
+
+function handlePinUnlockSubmit(e) {
+  e.preventDefault();
+  const st = getPinLockoutState();
+  const now = Date.now();
+  if (st.lockUntil > now) {
+    startPinLockCountdownIfNeeded();
+    return;
+  }
+
+  const pin = (document.getElementById('pinUnlockInput').value || '').trim();
+  if (!/^\d{4,6}$/.test(pin)) {
+    setAuthOverlayError('Ingresa tu PIN de 4 a 6 dígitos.');
+    return;
+  }
+
+  if (verifyStoredPin(pin)) {
+    clearPinLockoutState();
+    setAuthOverlayError('');
+    document.getElementById('pinUnlockInput').value = '';
+    completeAppUnlock('¡Bienvenida, Mariela!');
+  } else {
+    const nextCount = st.count + 1;
+    if (nextCount >= 5) {
+      setPinLockoutState({ count: 0, lockUntil: Date.now() + 60000 });
+      startPinLockCountdownIfNeeded();
+    } else {
+      const remaining = 5 - nextCount;
+      setPinLockoutState({ count: nextCount, lockUntil: 0 });
+      setAuthOverlayError(`PIN incorrecto. Te ${remaining === 1 ? 'queda 1 intento' : `quedan ${remaining} intentos`}.`);
+    }
+    document.getElementById('pinUnlockInput').value = '';
+    document.getElementById('pinUnlockInput').focus();
+  }
+}
+
+function completeAppUnlock(welcomeMsg) {
+  try {
+    sessionStorage.setItem(APP_SESSION_KEY, 'authenticated');
+    sessionStorage.setItem(APP_AUTH_METHOD_KEY, 'google_pin');
+    sessionStorage.setItem(APP_LAST_ACTIVITY_KEY, String(Date.now()));
+  } catch (err) {}
+  lastActivityTimestamp = Date.now();
+  applyAuthLockState();
+  renderAll();
+  if (welcomeMsg) showToast(welcomeMsg, 'success');
+}
+
+/* Bloqueo de pantalla: mantiene activa la conexión en memoria de Google Drive y Calendar */
+function lockAppSession(reasonMsg = '') {
+  pendingPinResetMode = false;
+  try {
+    sessionStorage.removeItem(APP_SESSION_KEY);
+    sessionStorage.removeItem(APP_LAST_ACTIVITY_KEY);
+  } catch (e) {}
+  setAuthOverlayError(reasonMsg || '');
+  applyAuthLockState();
+  safeIcons();
+}
+
+/* Desconexión completa opcional (revoca token de Google y bloquea) */
+function fullLogoutAppSession() {
   if (accessToken) {
     revokeGoogleTokenSilently(accessToken);
     accessToken = null;
     updateSyncUI(false, 'Guardado Local');
   }
   try {
-    sessionStorage.removeItem(APP_SESSION_KEY);
     sessionStorage.removeItem(APP_AUTH_METHOD_KEY);
   } catch (e) {}
-  const form = document.getElementById('appAuthForm');
-  if (form) form.reset();
-  setAuthOverlayError('');
-  applyAuthLockState();
-  safeIcons();
+  lockAppSession('Sesión de Google desconectada.');
+}
+
+function initInactivityAutoLock() {
+  const activityEvents = ['touchstart', 'pointerdown', 'click', 'keydown', 'scroll', 'mousemove'];
+  activityEvents.forEach(evtName => {
+    window.addEventListener(evtName, () => {
+      if (isAppAuthenticated()) recordUserActivity();
+    }, { passive: true });
+  });
+
+  const checkInactivity = () => {
+    if (document.body.classList.contains('app-locked')) return;
+    let lastTs = lastActivityTimestamp;
+    try {
+      const storedTs = Number(sessionStorage.getItem(APP_LAST_ACTIVITY_KEY) || 0);
+      if (storedTs > lastTs) lastTs = storedTs;
+    } catch (e) {}
+    if (Date.now() - lastTs >= INACTIVITY_LIMIT_MS) {
+      lockAppSession('Sesión bloqueada automáticamente tras 30 minutos de inactividad.');
+    }
+  };
+
+  setInterval(checkInactivity, 15000);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) checkInactivity();
+  });
+  window.addEventListener('focus', checkInactivity);
 }
 
 applyAuthLockState();
+initInactivityAutoLock();
 
 window.addEventListener('DOMContentLoaded', () => {
   applyAuthLockState();
