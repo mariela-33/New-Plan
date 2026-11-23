@@ -587,6 +587,169 @@
     select.mini-select { padding: 6px 28px 6px 10px; font-size: 0.8rem; min-width: 135px; cursor: pointer; background-color: #FFFFFF; border: 1px solid var(--dusty-lavender); border-radius: 8px; color: var(--dusty-dark); font-weight: 600; appearance: auto; -webkit-appearance: menulist; }
     input.mini-select { padding: 6px 10px; font-size: 0.8rem; border: 1px solid var(--border-soft); border-radius: 8px; background: #FFFFFF; }
 
+    /* Fila alineada en una sola línea para Actividades Energéticas por Hacer */
+    .energy-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      flex-wrap: nowrap;
+    }
+    .energy-action-main {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+    }
+    .energy-action-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.88rem;
+    }
+    .energy-action-comment {
+      flex: 0 1 230px;
+      width: 230px;
+      min-width: 150px;
+      padding: 5px 10px !important;
+      font-size: 0.79rem !important;
+    }
+    .energy-action-controls {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    @media (max-width: 780px) {
+      .energy-action-row { flex-wrap: wrap; }
+      .energy-action-comment { flex: 1 1 180px; width: auto; }
+    }
+
+    /* Campos de fecha con ícono visual y Minicalendario Personalizado */
+    input[data-date], input[placeholder="dd-mm-aaaa"] {
+      padding-right: 32px;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%238E4F8F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 15px 15px;
+    }
+    .mini-datepicker-popover {
+      position: fixed;
+      z-index: 360;
+      width: 268px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      padding: 12px;
+      display: none;
+      user-select: none;
+      animation: fadeIn 0.14s ease;
+    }
+    .mini-datepicker-popover.open { display: block; }
+    .mdp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    .mdp-nav-btn {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      background: var(--lavender-mist);
+      color: var(--dusty-dark);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: all 0.15s;
+    }
+    .mdp-nav-btn:hover { background: var(--thistle); border-color: var(--dusty-lavender); }
+    .mdp-selects {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      justify-content: center;
+    }
+    .mdp-selects select {
+      padding: 4px 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--dusty-dark);
+      border: 1px solid var(--border-soft);
+      border-radius: 7px;
+      background: #FAF8FD;
+      width: auto;
+      cursor: pointer;
+    }
+    .mdp-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .mdp-weekdays span {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding: 3px 0;
+    }
+    .mdp-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .mdp-day {
+      height: 31px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 0.79rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: all 0.12s;
+    }
+    .mdp-day:hover { background: var(--thistle-soft); color: var(--dusty-dark); border-color: var(--border-soft); }
+    .mdp-day.other-month { opacity: 0.36; }
+    .mdp-day.today { border-color: var(--teal-accent); background: var(--frosted-blue); color: var(--dusty-dark); font-weight: 700; }
+    .mdp-day.selected { background: var(--dusty-lavender) !important; color: #FFFFFF !important; border-color: var(--dusty-lavender) !important; font-weight: 700; }
+    .mdp-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-soft);
+    }
+    .mdp-foot-btn {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 7px;
+      border: 1px solid var(--border-soft);
+      background: var(--lavender-mist);
+      color: var(--dusty-dark);
+      cursor: pointer;
+    }
+    .mdp-foot-btn:hover { background: var(--thistle); }
+
     /* Sistema de Notificaciones Toast */
     .toast-container {
       position: fixed;
@@ -692,9 +855,6 @@
     </nav>
 
     <div class="sidebar-footer">
-      <button type="button" class="btn btn-cyan" id="btnGoogleAuthSidebar" onclick="handleGoogleAuth()">
-        <i data-lucide="cloud"></i> Conectar Google Drive
-      </button>
       <button type="button" class="btn btn-outline" onclick="openConfigModal()">
         <i data-lucide="settings"></i> Configuración &amp; Respaldo
       </button>
@@ -1571,6 +1731,7 @@
 </div>
 
 <!-- Contenedor de Notificaciones Toast -->
+<div class="mini-datepicker-popover" id="customDatePickerPopover" role="dialog" aria-label="Seleccionar fecha"></div>
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- Mobile Bottom Navigation -->
@@ -1628,8 +1789,12 @@
       <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('configModal')">✕</button>
     </div>
 
-    <div style="background:var(--lavender-mist);padding:14px;border-radius:var(--radius-md);margin-bottom:16px;font-size:0.84rem;">
+    <div style="background:var(--lavender-mist);padding:14px;border-radius:var(--radius-md);margin-bottom:14px;font-size:0.84rem;">
       <strong>Arquitectura Privada:</strong> Tus datos se almacenan exclusivamente en tu Google Drive dentro de la carpeta dedicada <code>Mi Planificador - Datos</code> (permiso limitado <code>drive.file</code> + <code>calendar.events</code>).
+    </div>
+
+    <div id="cfgConnectionStatus" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-soft);background:#FAF8FD;margin-bottom:14px;font-size:0.82rem;">
+      <span><strong>Estado de Google Drive &amp; Calendar:</strong> <span id="cfgConnStateText" style="color:var(--text-muted);font-weight:600;">No conectado (Guardado local)</span></span>
     </div>
 
     <div class="form-group" style="margin-bottom:14px;">
@@ -1984,6 +2149,169 @@ function autoDMY(el) {
   el.value = dg.length > 4 ? `${dg.slice(0, 2)}-${dg.slice(2, 4)}-${dg.slice(4)}` : dg.length > 2 ? `${dg.slice(0, 2)}-${dg.slice(2)}` : dg;
   el.setCustomValidity(el.value && !dmyToIso(el.value) ? 'Fecha inválida. Usa dd-mm-aaaa' : '');
 }
+const CUSTOM_DP_MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const CUSTOM_DP_DAYS = ['Do','Lu','Ma','Mi','Ju','Vi','Sá'];
+let customDpState = { activeInput: null, year: new Date().getFullYear(), month: new Date().getMonth() };
+
+function getInputIsoDate(el) {
+  if (!el) return '';
+  if (el.hasAttribute('data-date')) return el.value || '';
+  return dmyToIso(el.value) || '';
+}
+
+function applyDateToInput(el, iso) {
+  if (!el) return;
+  if (el.hasAttribute('data-date')) {
+    el.value = iso || '';
+  } else {
+    el.value = iso ? fmtDate(iso) : '';
+  }
+  el.setCustomValidity('');
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+  el.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+function positionCustomDatePicker(el) {
+  const pop = document.getElementById('customDatePickerPopover');
+  if (!pop || !el) return;
+  const rect = el.getBoundingClientRect();
+  const popW = 268;
+  const popH = pop.offsetHeight || 295;
+  let left = rect.left;
+  if (left + popW > window.innerWidth - 12) left = Math.max(12, window.innerWidth - popW - 12);
+  let top = rect.bottom + 6;
+  if (top + popH > window.innerHeight - 12 && rect.top - popH - 6 > 12) {
+    top = rect.top - popH - 6;
+  }
+  pop.style.left = `${Math.round(left)}px`;
+  pop.style.top = `${Math.round(top)}px`;
+}
+
+function renderCustomDatePicker() {
+  const pop = document.getElementById('customDatePickerPopover');
+  const el = customDpState.activeInput;
+  if (!pop || !el) return;
+
+  const { year, month } = customDpState;
+  const selectedIso = getInputIsoDate(el);
+  const todayIso = todayStr();
+
+  const curYear = new Date().getFullYear();
+  const minYear = Math.min(curYear - 15, year - 2);
+  const maxYear = Math.max(curYear + 15, year + 2);
+  let yearOpts = '';
+  for (let y = minYear; y <= maxYear; y++) {
+    yearOpts += `<option value="${y}" ${y === year ? 'selected' : ''}>${y}</option>`;
+  }
+  const monthOpts = CUSTOM_DP_MONTHS.map((mName, idx) =>
+    `<option value="${idx}" ${idx === month ? 'selected' : ''}>${mName}</option>`
+  ).join('');
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const prevMonthDays = new Date(year, month, 0).getDate();
+
+  let cellsHtml = '';
+  for (let i = firstDay - 1; i >= 0; i--) {
+    const d = prevMonthDays - i;
+    const prevM = month === 0 ? 11 : month - 1;
+    const prevY = month === 0 ? year - 1 : year;
+    const iso = `${prevY}-${String(prevM + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    cellsHtml += `<button type="button" class="mdp-day other-month ${iso === selectedIso ? 'selected' : ''}" data-pick-iso="${iso}">${d}</button>`;
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const cls = ['mdp-day'];
+    if (iso === todayIso) cls.push('today');
+    if (iso === selectedIso) cls.push('selected');
+    cellsHtml += `<button type="button" class="${cls.join(' ')}" data-pick-iso="${iso}">${d}</button>`;
+  }
+  const totalCells = firstDay + daysInMonth;
+  const trailing = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+  for (let d = 1; d <= trailing; d++) {
+    const nextM = month === 11 ? 0 : month + 1;
+    const nextY = month === 11 ? year + 1 : year;
+    const iso = `${nextY}-${String(nextM + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    cellsHtml += `<button type="button" class="mdp-day other-month ${iso === selectedIso ? 'selected' : ''}" data-pick-iso="${iso}">${d}</button>`;
+  }
+
+  pop.innerHTML = `
+    <div class="mdp-header">
+      <button type="button" class="mdp-nav-btn" data-dp-nav="-1" title="Mes anterior">‹</button>
+      <div class="mdp-selects">
+        <select id="mdpMonthSelect" aria-label="Mes">${monthOpts}</select>
+        <select id="mdpYearSelect" aria-label="Año">${yearOpts}</select>
+      </div>
+      <button type="button" class="mdp-nav-btn" data-dp-nav="1" title="Mes siguiente">›</button>
+    </div>
+    <div class="mdp-weekdays">${CUSTOM_DP_DAYS.map(d => `<span>${d}</span>`).join('')}</div>
+    <div class="mdp-days">${cellsHtml}</div>
+    <div class="mdp-footer">
+      <button type="button" class="mdp-foot-btn" data-dp-action="today">Hoy</button>
+      <button type="button" class="mdp-foot-btn" data-dp-action="clear">Limpiar</button>
+    </div>
+  `;
+
+  pop.querySelectorAll('[data-dp-nav]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const delta = Number(btn.getAttribute('data-dp-nav'));
+      let m = customDpState.month + delta;
+      let y = customDpState.year;
+      if (m < 0) { m = 11; y--; }
+      if (m > 11) { m = 0; y++; }
+      customDpState.month = m;
+      customDpState.year = y;
+      renderCustomDatePicker();
+    });
+  });
+
+  const mSel = pop.querySelector('#mdpMonthSelect');
+  const ySel = pop.querySelector('#mdpYearSelect');
+  if (mSel) mSel.addEventListener('change', (e) => { customDpState.month = Number(e.target.value); renderCustomDatePicker(); });
+  if (ySel) ySel.addEventListener('change', (e) => { customDpState.year = Number(e.target.value); renderCustomDatePicker(); });
+
+  pop.querySelectorAll('[data-pick-iso]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const iso = btn.getAttribute('data-pick-iso');
+      applyDateToInput(customDpState.activeInput, iso);
+      closeCustomDatePicker();
+    });
+  });
+
+  pop.querySelectorAll('[data-dp-action]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const act = btn.getAttribute('data-dp-action');
+      if (act === 'today') applyDateToInput(customDpState.activeInput, todayStr());
+      if (act === 'clear') applyDateToInput(customDpState.activeInput, '');
+      closeCustomDatePicker();
+    });
+  });
+}
+
+function openCustomDatePicker(el) {
+  const pop = document.getElementById('customDatePickerPopover');
+  if (!pop || !el) return;
+  customDpState.activeInput = el;
+  const iso = getInputIsoDate(el) || todayStr();
+  const parts = iso.split('-').map(Number);
+  if (parts.length === 3 && parts[0] && parts[1]) {
+    customDpState.year = parts[0];
+    customDpState.month = parts[1] - 1;
+  }
+  renderCustomDatePicker();
+  pop.classList.add('open');
+  positionCustomDatePicker(el);
+}
+
+function closeCustomDatePicker() {
+  const pop = document.getElementById('customDatePickerPopover');
+  if (pop) pop.classList.remove('open');
+  customDpState.activeInput = null;
+}
+
 function initDateInputs() {
   const desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
   document.querySelectorAll('input[data-date]').forEach(el => {
@@ -1993,6 +2321,30 @@ function initDateInputs() {
       set(v) { desc.set.call(el, fmtDate(v)); }
     });
     el.addEventListener('input', () => autoDMY(el));
+  });
+
+  document.addEventListener('focusin', (e) => {
+    const target = e.target;
+    if (target && target.matches && target.matches('input[data-date], input[placeholder="dd-mm-aaaa"]')) {
+      openCustomDatePicker(target);
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    const pop = document.getElementById('customDatePickerPopover');
+    if (!pop) return;
+    if (target && target.matches && target.matches('input[data-date], input[placeholder="dd-mm-aaaa"]')) {
+      openCustomDatePicker(target);
+      return;
+    }
+    if (pop.classList.contains('open') && !pop.contains(target)) {
+      closeCustomDatePicker();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (customDpState.activeInput) positionCustomDatePicker(customDpState.activeInput);
   });
 }
 
@@ -2123,17 +2475,23 @@ function handleGoogleAuth() {
 function updateSyncUI(connected, label) {
   const badge = document.getElementById('syncStatusBadge');
   const syncBtn = document.getElementById('btnSyncNow');
-  const sideBtn = document.getElementById('btnGoogleAuthSidebar');
+  const cfgText = document.getElementById('cfgConnStateText');
   if (connected) {
     badge.classList.remove('offline');
     badge.innerHTML = `<i data-lucide="cloud-check" style="width:14px;height:14px;"></i> ${escapeHTML(label)}`;
     syncBtn.style.display = 'inline-flex';
-    sideBtn.innerHTML = `<i data-lucide="check-circle"></i> Conectado a Google`;
+    if (cfgText) {
+      cfgText.textContent = label || 'Conectado y sincronizado';
+      cfgText.style.color = 'var(--success)';
+    }
   } else {
     badge.classList.add('offline');
     badge.innerHTML = `<i data-lucide="hard-drive" style="width:14px;height:14px;"></i> Guardado Local`;
     syncBtn.style.display = 'none';
-    sideBtn.innerHTML = `<i data-lucide="cloud"></i> Conectar Google Drive`;
+    if (cfgText) {
+      cfgText.textContent = 'No conectado (Guardado local)';
+      cfgText.style.color = 'var(--text-muted)';
+    }
   }
   safeIcons();
 }
@@ -3737,7 +4095,12 @@ async function openLibraryItem(id) {
     if ((item.mimeType || '').startsWith('image/') && safeImgSrc(rawUrl)) {
       body.innerHTML = `<img src="${safeImgSrc(rawUrl)}" style="max-width:100%;max-height:100%;object-fit:contain;" />`;
     } else if (/^data:application\/pdf;base64,[a-zA-Z0-9+/=]+$/i.test(rawUrl)) {
-      body.innerHTML = `<iframe src="${rawUrl}" sandbox="allow-same-origin" style="width:100%;height:100%;border:none;"></iframe>`;
+      const b64 = rawUrl.split(',')[1];
+      const bin = atob(b64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      activeBlobUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+      body.innerHTML = `<iframe src="${activeBlobUrl}" style="width:100%;height:100%;border:none;"></iframe>`;
     } else {
       body.innerHTML = `<p style="padding:20px;text-align:center;color:var(--danger);">Formato de archivo local no soportado por seguridad.</p>`;
     }
@@ -3858,15 +4221,13 @@ function renderEnergy() {
       const sid = safeId(a.id);
       const st = a.status || (a.done ? 'Culminado' : 'Por hacer');
       return `
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;background:${st==='Culminado'?'#FAF8FD':'var(--lavender-mist)'};border:1px solid var(--border-soft);border-radius:var(--radius-sm);flex-wrap:wrap;opacity:${st==='Culminado'?'0.78':'1'};">
-        <div style="flex:1;min-width:220px;">
-          <div style="${st==='Culminado'?'text-decoration:line-through;color:var(--text-muted);':''}">
-            ${a.subtype ? `<span class="badge badge-cyan">${escapeHTML(a.subtype)}</span>` : ''}
-            <strong style="margin-left:${a.subtype ? '6px' : '0'};">${escapeHTML(a.task)}</strong>
-          </div>
-          <input type="text" class="mini-select" style="width:100%;margin-top:6px;" placeholder="Agregar comentario..." value="${escapeHTML(a.comment || '')}" onchange="setEnergyActionComment('${sid}', this.value)" />
+      <div class="energy-action-row" style="background:${st==='Culminado'?'#FAF8FD':'var(--lavender-mist)'};opacity:${st==='Culminado'?'0.78':'1'};">
+        <div class="energy-action-main" style="${st==='Culminado'?'text-decoration:line-through;color:var(--text-muted);':''}">
+          ${a.subtype ? `<span class="badge badge-cyan" style="flex-shrink:0;">${escapeHTML(a.subtype)}</span>` : ''}
+          <strong class="energy-action-title" title="${escapeHTML(a.task)}">${escapeHTML(a.task)}</strong>
         </div>
-        <div style="display:flex;gap:6px;align-items:center;">
+        <input type="text" class="mini-select energy-action-comment" placeholder="Comentario..." value="${escapeHTML(a.comment || '')}" onchange="setEnergyActionComment('${sid}', this.value)" />
+        <div class="energy-action-controls">
           <select class="mini-select" onchange="setEnergyActionStatus('${sid}', this.value)">${optList(ENERGY_TASK_STATES, st)}</select>
           <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.energyActions=appData.energyActions.filter(x=>x.id!=='${sid}');saveData()">✕</button>
         </div>
@@ -4060,9 +4421,15 @@ function importBackupJSON(event) {
       if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
         throw new Error('Formato inválido');
       }
-      delete parsed.__proto__;
-      delete parsed.constructor;
-      appData = { ...JSON.parse(JSON.stringify(DEFAULT_DATA)), ...parsed };
+      const safeBase = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      Object.keys(safeBase).forEach(key => {
+        if (Object.prototype.hasOwnProperty.call(parsed, key) && parsed[key] !== undefined && parsed[key] !== null) {
+          if (Array.isArray(safeBase[key]) === Array.isArray(parsed[key]) && typeof safeBase[key] === typeof parsed[key]) {
+            safeBase[key] = parsed[key];
+          }
+        }
+      });
+      appData = safeBase;
       saveData();
       closeModal('configModal');
       showToast('Respaldo restaurado exitosamente.', 'success');
@@ -4173,6 +4540,11 @@ initDateInputs();
 
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
+    const dp = document.getElementById('customDatePickerPopover');
+    if (dp && dp.classList.contains('open')) {
+      closeCustomDatePicker();
+      return;
+    }
     document.querySelectorAll('.modal-backdrop.open').forEach(m => closeModal(m.id));
   }
 });
