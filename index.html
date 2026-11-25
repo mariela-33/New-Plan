@@ -1326,7 +1326,6 @@
     <div class="auth-brand">
       <div class="auth-brand-icon"><i data-lucide="sparkles" style="width:28px;height:28px;"></i></div>
       <h1 id="authHeading">Lumos Plan</h1>
-      <p>Vida • Trabajo • Energía</p>
     </div>
 
     <div id="authDriveStatusPill" class="auth-session-pill">
@@ -1348,7 +1347,7 @@
       <div id="authGoogleCidBox" class="auth-google-cid-box">
         <label for="authGoogleClientIdInput">Pega tu Google Cloud Client ID (solo la primera vez en este dispositivo):</label>
         <div class="auth-google-cid-row">
-          <input type="text" id="authGoogleClientIdInput" placeholder="123456789-abc.apps.googleusercontent.com" />
+          <input type="password" id="authGoogleClientIdInput" autocomplete="off" spellcheck="false" placeholder="123456789-abc.apps.googleusercontent.com" />
           <button type="button" class="btn btn-sm btn-primary" onclick="saveOverlayClientIdAndLogin()">Guardar</button>
         </div>
       </div>
@@ -1425,9 +1424,6 @@
       </div>
     </div>
 
-    <div class="auth-footnote">
-      Verificación Google + clave PBKDF2 / datos AES-GCM • Auto-bloqueo 30 min
-    </div>
   </div>
 </div>
 
@@ -1813,7 +1809,7 @@
                   <th>Actividad</th>
                   <th>Tiempo</th>
                   <th>Notas</th>
-                  <th></th>
+                  <th>Eliminar</th>
                 </tr>
               </thead>
               <tbody id="exerciseList"></tbody>
@@ -1857,7 +1853,7 @@
                   <th>Lugar de Atención</th>
                   <th>Exámenes / Tratamiento</th>
                   <th>Próximo Control</th>
-                  <th></th>
+                  <th>Eliminar</th>
                 </tr>
               </thead>
               <tbody id="medicalTableBody"></tbody>
@@ -1958,7 +1954,7 @@
                   <th>Categoría</th>
                   <th>Descripción / Cuotas</th>
                   <th>Monto</th>
-                  <th></th>
+                  <th>Eliminar</th>
                 </tr>
               </thead>
               <tbody id="financeGastoTable"></tbody>
@@ -1994,7 +1990,7 @@
                   <th>Tipo</th>
                   <th>Descripción</th>
                   <th>Monto</th>
-                  <th></th>
+                  <th>Eliminar</th>
                 </tr>
               </thead>
               <tbody id="financeIngresoTable"></tbody>
@@ -2030,7 +2026,7 @@
                   <th>Tipo</th>
                   <th>Descripción</th>
                   <th>Monto</th>
-                  <th></th>
+                  <th>Eliminar</th>
                 </tr>
               </thead>
               <tbody id="financeAhorroTable"></tbody>
@@ -2067,7 +2063,7 @@
                   <th>Valor Actual</th>
                   <th>Rentabilidad</th>
                   <th>Vencimiento</th>
-                  <th></th>
+                  <th>Eliminar</th>
                 </tr>
               </thead>
               <tbody id="investmentsTable"></tbody>
@@ -2124,7 +2120,7 @@
           <div class="table-wrap">
             <table>
               <thead>
-                <tr><th>Objetivo</th><th>Acciones</th><th>Plazo</th><th>Estado</th><th></th></tr>
+                <tr><th>Objetivo</th><th>Acciones</th><th>Plazo</th><th>Estado</th><th>Eliminar</th></tr>
               </thead>
               <tbody id="dreamMatrixBody"></tbody>
             </table>
@@ -2193,7 +2189,7 @@
                   <th>Actividad</th>
                   <th>Comentarios</th>
                   <th>Estado</th>
-                  <th></th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody id="coupleList"></tbody>
@@ -2252,7 +2248,7 @@
                   <th>Tipo</th>
                   <th>Actividad</th>
                   <th>Comentarios</th>
-                  <th></th>
+                  <th>Eliminar</th>
                 </tr>
               </thead>
               <tbody id="leisureList"></tbody>
@@ -2329,7 +2325,7 @@
                 <th>Tipo</th>
                 <th>Descripción</th>
                 <th>Acción</th>
-                <th></th>
+                <th>Eliminar</th>
               </tr>
             </thead>
             <tbody id="energyLogsTable"></tbody>
@@ -2365,7 +2361,7 @@
                 <th>Persona</th>
                 <th>Descripción</th>
                 <th>Acción</th>
-                <th></th>
+                <th>Eliminar</th>
               </tr>
             </thead>
             <tbody id="energyLettersTable"></tbody>
@@ -2499,7 +2495,12 @@
 
     <div class="form-group" style="margin-bottom:14px;">
       <label>Tu Google Cloud Client ID (termina en .apps.googleusercontent.com)</label>
-      <input type="text" id="cfgClientId" placeholder="123456789-abcdef.apps.googleusercontent.com" />
+      <div class="auth-input-wrap" style="position:relative;">
+        <input type="password" id="cfgClientId" autocomplete="off" spellcheck="false" placeholder="123456789-abcdef.apps.googleusercontent.com" style="width:100%;padding-right:42px;" />
+        <button type="button" class="auth-toggle-pwd" onclick="togglePinFieldVisibility('cfgClientId', 'cfgClientIdEyeIcon')" aria-label="Mostrar u ocultar Client ID">
+          <i id="cfgClientIdEyeIcon" data-lucide="eye" style="width:18px;height:18px;"></i>
+        </button>
+      </div>
     </div>
 
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
@@ -3155,6 +3156,7 @@ function saveData() {
 ============================================================================ */
 function openConfigModal() {
   document.getElementById('cfgClientId').value = localStorage.getItem(CLIENT_ID_KEY) || '';
+  document.getElementById('cfgClientId').type = 'password';
   document.getElementById('configModal').classList.add('open');
 }
 
@@ -4666,7 +4668,7 @@ function renderPersonal() {
     appData.habits.map(h => `<option value="${safeId(h.id)}" ${h.id===habitFilter?'selected':''}>${escapeHTML(h.name)}</option>`).join('');
 
   document.getElementById('habitTableHead').innerHTML = `<th>Hábito</th>` +
-    hDates.map((d, i) => `<th style="text-align:center;padding:6px 2px;font-size:0.7rem;">${i + 1}</th>`).join('') + `<th>Mes</th><th></th>`;
+    hDates.map((d, i) => `<th style="text-align:center;padding:6px 2px;font-size:0.7rem;">${i + 1}</th>`).join('') + `<th>Mes</th><th>Eliminar</th>`;
 
   document.getElementById('habitTableBody').innerHTML = appData.habits.filter(h => !habitFilter || h.id === habitFilter).map(h => {
     const sid = safeId(h.id);
@@ -5753,7 +5755,7 @@ function renderEnergy() {
           <span style="font-size:0.76rem;color:var(--text-muted);font-weight:600;">${pendingCount} pendiente${pendingCount === 1 ? '' : 's'} de ${itemsInGroup.length}</span>
         </div>
         <div class="table-wrap"><table class="energy-actions-table">
-          <thead><tr><th style="width:34%;">Actividad</th><th>Comentarios</th><th style="width:140px;">Estado</th><th style="width:48px;"></th></tr></thead>
+          <thead><tr><th style="width:34%;">Actividad</th><th>Comentarios</th><th style="width:140px;">Estado</th><th style="width:84px;">Eliminar</th></tr></thead>
           <tbody>${rowsHtml}</tbody>
         </table></div>
       </div>`;
