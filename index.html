@@ -9,14 +9,15 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="referrer" content="no-referrer" />
-  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location; } catch (e) {} }</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Mi Planificador" />
+  <meta name="apple-mobile-web-app-title" content="Lumos Plan" />
   <meta name="theme-color" content="#8E4F8F" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.googleusercontent.com https://drive.google.com; frame-src 'self' blob: https://drive.google.com https://docs.google.com https://accounts.google.com; connect-src 'self' https://*.googleapis.com https://accounts.google.com https://www.googleapis.com;" />
-  <title>Mi Planificador Integral — Vida, Trabajo &amp; Energía</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.googleusercontent.com https://drive.google.com; frame-src blob: https://drive.google.com https://docs.google.com https://accounts.google.com; upgrade-insecure-requests; connect-src 'self' https://*.googleapis.com https://accounts.google.com https://www.googleapis.com;" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Lumos Plan — Vida, Trabajo &amp; Energía</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,11 +25,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- Libraries: Lucide Icons, Chart.js, SheetJS (Excel/CSV), PDF.js, Mammoth.js (Word .docx) -->
-  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js" integrity="sha384-ieG+IKD0d/ZPXyCBTMVAbqsQdns8QGJR/e26WMw7M4fkaI/rHcS/YIoi+ah9WGge" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js" integrity="sha384-/cXAMbzovUIKbBERjPmR3SnPTh8siWr5lsvFYj1Uq4XP0yaJUZJmsh0YXyGv5P0y" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -631,6 +632,8 @@
       border-radius: var(--radius-sm);
       flex-wrap: nowrap;
     }
+    .energy-actions-table td { vertical-align: top; }
+    .energy-action-comment-ta { width: 100%; min-height: 3.2em; resize: vertical; font: inherit; font-size: 0.82rem; line-height: 1.35; padding: 6px 8px; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); box-sizing: border-box; }
     .energy-action-main {
       flex: 1 1 auto;
       min-width: 0;
@@ -1322,12 +1325,12 @@
   <div class="auth-card">
     <div class="auth-brand">
       <div class="auth-brand-icon"><i data-lucide="sparkles" style="width:28px;height:28px;"></i></div>
-      <h1 id="authHeading">Mi Planificador Integral</h1>
+      <h1 id="authHeading">Lumos Plan</h1>
       <p>Vida • Trabajo • Energía</p>
     </div>
 
     <div id="authDriveStatusPill" class="auth-session-pill">
-      <i data-lucide="cloud-check" style="width:14px;height:14px;"></i>
+      <i data-lucide="cloud" style="width:14px;height:14px;"></i>
       <span>Google Drive y Calendar activos en segundo plano</span>
     </div>
 
@@ -1339,7 +1342,7 @@
     <!-- MODO 1: ACCESO CON GOOGLE (Primera vez o restablecimiento de PIN) -->
     <div id="authModeGoogle">
       <div id="authGoogleSubtitle" class="auth-subtitle-box">
-        Inicia sesión con tu cuenta de Google autorizada para acceder y configurar tu PIN rápido de desbloqueo.
+        Inicia sesión con tu cuenta de Google autorizada para acceder y configurar tu clave de desbloqueo.
       </div>
 
       <div id="authGoogleCidBox" class="auth-google-cid-box">
@@ -1369,14 +1372,14 @@
     <!-- MODO 2: CREAR PIN RÁPIDO (4 a 6 dígitos) -->
     <div id="authModeSetupPin" style="display:none;">
       <div class="auth-subtitle-box">
-        <strong>Cuenta verificada.</strong> Crea un PIN numérico de <strong>4 a 6 dígitos</strong> para desbloquear rápidamente este dispositivo.
+        <strong>Cuenta verificada.</strong> Crea una clave de <strong>mínimo 8 caracteres</strong> con letras y números. Con ella se <strong>cifran tus datos</strong> en este dispositivo. Si la olvidas, podrás recuperarlos desde Google Drive.
       </div>
 
       <form id="appPinSetupForm" onsubmit="handlePinSetupSubmit(event)" novalidate>
         <div class="auth-field">
-          <label for="pinSetupInput">Nuevo PIN (4 a 6 dígitos)</label>
+          <label for="pinSetupInput">Nueva clave (mín. 8, letras y números)</label>
           <div class="auth-input-wrap">
-            <input type="password" id="pinSetupInput" class="auth-pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="new-password" placeholder="••••" required />
+            <input type="password" id="pinSetupInput" class="auth-pin-input" minlength="8" maxlength="64" autocomplete="new-password" placeholder="••••••••" required />
             <button type="button" class="auth-toggle-pwd" onclick="togglePinFieldVisibility('pinSetupInput', 'pinSetupEyeIcon')" aria-label="Mostrar u ocultar PIN">
               <i id="pinSetupEyeIcon" data-lucide="eye" style="width:18px;height:18px;"></i>
             </button>
@@ -1384,9 +1387,9 @@
         </div>
 
         <div class="auth-field">
-          <label for="pinConfirmInput">Confirmar PIN</label>
+          <label for="pinConfirmInput">Confirmar clave</label>
           <div class="auth-input-wrap">
-            <input type="password" id="pinConfirmInput" class="auth-pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="new-password" placeholder="••••" required />
+            <input type="password" id="pinConfirmInput" class="auth-pin-input" minlength="8" maxlength="64" autocomplete="new-password" placeholder="••••••••" required />
             <button type="button" class="auth-toggle-pwd" onclick="togglePinFieldVisibility('pinConfirmInput', 'pinConfirmEyeIcon')" aria-label="Mostrar u ocultar confirmación">
               <i id="pinConfirmEyeIcon" data-lucide="eye" style="width:18px;height:18px;"></i>
             </button>
@@ -1394,7 +1397,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary auth-submit-btn">
-          <i data-lucide="shield-check" style="width:17px;height:17px;"></i> Guardar PIN e Ingresar
+          <i data-lucide="shield-check" style="width:17px;height:17px;"></i> Guardar clave e Ingresar
         </button>
       </form>
     </div>
@@ -1403,9 +1406,9 @@
     <div id="authModePin" style="display:none;">
       <form id="appPinUnlockForm" onsubmit="handlePinUnlockSubmit(event)" novalidate>
         <div class="auth-field">
-          <label for="pinUnlockInput" style="text-align:center;">Ingresa tu PIN rápido (4 a 6 dígitos)</label>
+          <label for="pinUnlockInput" style="text-align:center;">Ingresa tu clave de acceso</label>
           <div class="auth-input-wrap">
-            <input type="password" id="pinUnlockInput" class="auth-pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="••••" required />
+            <input type="password" id="pinUnlockInput" class="auth-pin-input" maxlength="64" autocomplete="current-password" placeholder="••••••••" required />
             <button type="button" class="auth-toggle-pwd" onclick="togglePinFieldVisibility('pinUnlockInput', 'pinUnlockEyeIcon')" aria-label="Mostrar u ocultar PIN">
               <i id="pinUnlockEyeIcon" data-lucide="eye" style="width:18px;height:18px;"></i>
             </button>
@@ -1418,12 +1421,12 @@
       </form>
 
       <div class="auth-secondary-links">
-        <button type="button" class="auth-link-btn" onclick="startPinResetWithGoogle()">¿Olvidaste tu PIN? Revalidar con Google</button>
+        <button type="button" class="auth-link-btn" onclick="startPinResetWithGoogle()">¿Olvidaste tu clave? Revalidar con Google</button>
       </div>
     </div>
 
     <div class="auth-footnote">
-      Verificación Google + PIN cifrado SHA-256 • Auto-bloqueo 30 min
+      Verificación Google + clave PBKDF2 / datos AES-GCM • Auto-bloqueo 30 min
     </div>
   </div>
 </div>
@@ -1434,7 +1437,7 @@
     <div class="brand">
       <div class="brand-icon"><i data-lucide="sparkles"></i></div>
       <div class="brand-text">
-        <h1>Mi Planificador</h1>
+        <h1>Lumos Plan</h1>
         <span>Vida • Trabajo • Energía</span>
       </div>
     </div>
@@ -1654,7 +1657,7 @@
           <button type="button" class="subtab-btn" data-ptab="finanzas" onclick="switchPersonalTab('finanzas')"><i data-lucide="wallet"></i> Finanzas</button>
           <button type="button" class="subtab-btn" data-ptab="suenos" onclick="switchPersonalTab('suenos')"><i data-lucide="star"></i> Sueños</button>
           <button type="button" class="subtab-btn" data-ptab="pareja" onclick="switchPersonalTab('pareja')"><i data-lucide="heart"></i> Pareja</button>
-          <button type="button" class="subtab-btn" data-ptab="ocio" onclick="switchPersonalTab('ocio')"><i data-lucide="coffee"></i> Ocio</button>
+          <button type="button" class="subtab-btn" data-ptab="ocio" onclick="switchPersonalTab('ocio')"><i data-lucide="coffee"></i> Entretenimiento</button>
         </div>
         <button type="button" class="btn btn-sm btn-secondary btn-drawer-toggle" data-drawer="drawer-personal-import" onclick="toggleDrawer('drawer-personal-import', this)">
           <i data-lucide="sparkles"></i> Importar Notas
@@ -1665,7 +1668,7 @@
       <div id="drawer-personal-import" class="collapsible-drawer card card-lavender">
         <div class="card-header">
           <h3 class="card-title"><i data-lucide="sparkles"></i> Importador Inteligente Personal</h3>
-          <span class="badge badge-cyan">Clasifica en Salud, Ejercicio, Ocio, Pareja y Sueños</span>
+          <span class="badge badge-cyan">Clasifica en Salud, Ejercicio, Entretenimiento, Pareja y Sueños</span>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <textarea id="personalImportText" rows="2" style="flex:1;min-width:240px;" placeholder="Pega ideas o pendientes:&#10;- Sacar cita con el dentista el 28/11&#10;- Correr 5km en el parque&#10;- Planear cena de aniversario&#10;- Ahorrar para viaje a Europa"></textarea>
@@ -1680,15 +1683,18 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title"><i data-lucide="pie-chart"></i> Rueda de la Vida</h3>
-              <button type="button" class="btn btn-sm btn-outline" onclick="promptNewWheelArea()"><i data-lucide="plus"></i> Área</button>
+              <div class="header-actions">
+                <button type="button" class="btn btn-sm btn-outline" id="btnToggleWheelAreas" aria-expanded="false" aria-controls="wheelSliders" onclick="toggleWheelAreas()"><i data-lucide="chevron-down"></i> Ver áreas</button>
+                <button type="button" class="btn btn-sm btn-outline" onclick="promptNewWheelArea()"><i data-lucide="plus"></i> Área</button>
+              </div>
             </div>
             <div class="chart-box" style="height:200px;"><canvas id="chartPersonalWheel"></canvas></div>
-            <div id="wheelSliders" style="margin-top:10px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;"></div>
+            <div id="wheelSliders" style="margin-top:10px;display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;"></div>
           </div>
 
           <div class="card card-cyan">
             <div class="card-header">
-              <h3 class="card-title"><i data-lucide="calendar"></i> Agenda Personal &amp; Calendar</h3>
+              <h3 class="card-title"><i data-lucide="calendar"></i> Calendar</h3>
               <div class="header-actions" style="flex-wrap:wrap;">
                 <select id="googleCalendarSelect" class="gcal-filter-select" onchange="onGoogleCalendarFilterChange(this.value)" aria-label="Seleccionar calendario de Google">
                   <option value="__ALL__">Todos mis calendarios</option>
@@ -1742,7 +1748,7 @@
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="flame"></i> Habit Tracker — Constancia Mensual</h3>
+            <h3 class="card-title"><i data-lucide="flame"></i> Habit Tracker</h3>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <input type="text" id="newHabitName" placeholder="Nuevo hábito (ej. Meditar 15m)" style="width:210px;" onkeydown="if(event.key==='Enter'){event.preventDefault();addHabit();}" />
               <button type="button" class="btn btn-sm btn-primary" onclick="addHabit()"><i data-lucide="plus"></i> Agregar</button>
@@ -1926,43 +1932,108 @@
 
         <div class="card" style="margin-bottom:20px;">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="arrow-left-right"></i> Movimientos del Periodo</h3>
-            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-tx-form" onclick="toggleDrawer('drawer-tx-form', this)">
-              <i data-lucide="plus"></i> Registrar Movimiento
+            <h3 class="card-title"><i data-lucide="receipt"></i> Registro de Gastos</h3>
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-txGasto-form" onclick="toggleDrawer('drawer-txGasto-form', this)">
+              <i data-lucide="plus"></i> Registrar Gasto
             </button>
           </div>
-          <div id="drawer-tx-form" class="collapsible-drawer">
-            <form onsubmit="addFinanceTx(event)" class="form-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-md);border:1px solid var(--border-soft);margin-bottom:0;">
-              <select id="txType" onchange="toggleTxCategory()">
-                <option value="Gasto">Gasto</option>
-                <option value="Ingreso">Ingreso</option>
-                <option value="Ahorro">Ahorro Mensual</option>
-              </select>
-              <select id="txCategory"></select>
-              <input type="text" id="txDesc" required placeholder="Concepto (ej. Supermercado, Sueldo)" />
-              <select id="txCurrency">
+          <div id="drawer-txGasto-form" class="collapsible-drawer">
+            <form onsubmit="addFinanceTx(event, 'Gasto')" class="form-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-md);border:1px solid var(--border-soft);margin-bottom:0;">
+              <select id="txGastoCategory" aria-label="Categoría del gasto"></select>
+              <input type="text" id="txGastoDesc" required placeholder="Concepto (ej. Supermercado)" />
+              <select id="txGastoCurrency" aria-label="Moneda">
                 <option value="PEN">S/ (Soles)</option>
                 <option value="USD">$ (Dólares)</option>
               </select>
-              <input type="number" step="0.01" id="txAmount" required placeholder="Monto" />
-              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="txDate" required />
+              <input type="number" step="0.01" id="txGastoAmount" required placeholder="Monto" />
+              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="txGastoDate" required />
               <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
             </form>
           </div>
-
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
                   <th>Fecha</th>
-                  <th>Tipo</th>
                   <th>Categoría</th>
                   <th>Descripción / Cuotas</th>
                   <th>Monto</th>
                   <th></th>
                 </tr>
               </thead>
-              <tbody id="financeTxTable"></tbody>
+              <tbody id="financeGastoTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <h3 class="card-title"><i data-lucide="trending-up"></i> Registro de Ingresos</h3>
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-txIngreso-form" onclick="toggleDrawer('drawer-txIngreso-form', this)">
+              <i data-lucide="plus"></i> Registrar Ingreso
+            </button>
+          </div>
+          <div id="drawer-txIngreso-form" class="collapsible-drawer">
+            <form onsubmit="addFinanceTx(event, 'Ingreso')" class="form-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-md);border:1px solid var(--border-soft);margin-bottom:0;">
+              
+              <input type="text" id="txIngresoDesc" required placeholder="Concepto (ej. Sueldo)" />
+              <select id="txIngresoCurrency" aria-label="Moneda">
+                <option value="PEN">S/ (Soles)</option>
+                <option value="USD">$ (Dólares)</option>
+              </select>
+              <input type="number" step="0.01" id="txIngresoAmount" required placeholder="Monto" />
+              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="txIngresoDate" required />
+              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
+            </form>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Tipo</th>
+                  <th>Descripción</th>
+                  <th>Monto</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="financeIngresoTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <h3 class="card-title"><i data-lucide="piggy-bank"></i> Registro de Ahorro</h3>
+            <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-txAhorro-form" onclick="toggleDrawer('drawer-txAhorro-form', this)">
+              <i data-lucide="plus"></i> Registrar Ahorro
+            </button>
+          </div>
+          <div id="drawer-txAhorro-form" class="collapsible-drawer">
+            <form onsubmit="addFinanceTx(event, 'Ahorro')" class="form-row" style="background:var(--lavender-mist);padding:12px;border-radius:var(--radius-md);border:1px solid var(--border-soft);margin-bottom:0;">
+              
+              <input type="text" id="txAhorroDesc" required placeholder="Concepto (ej. Ahorro mensual)" />
+              <select id="txAhorroCurrency" aria-label="Moneda">
+                <option value="PEN">S/ (Soles)</option>
+                <option value="USD">$ (Dólares)</option>
+              </select>
+              <input type="number" step="0.01" id="txAhorroAmount" required placeholder="Monto" />
+              <input type="text" data-date inputmode="numeric" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" title="dd-mm-aaaa" placeholder="dd-mm-aaaa" id="txAhorroDate" required />
+              <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Guardar</button>
+            </form>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Tipo</th>
+                  <th>Descripción</th>
+                  <th>Monto</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="financeAhorroTable"></tbody>
             </table>
           </div>
         </div>
@@ -2135,7 +2206,7 @@
       <div id="ptab-ocio" class="ptab-content" style="display:none;">
         <div class="card card-cyan">
           <div class="card-header">
-            <h3 class="card-title"><i data-lucide="coffee"></i> Ocio, Viajes, Teatro, Cine y Descanso</h3>
+            <h3 class="card-title"><i data-lucide="coffee"></i> Entretenimiento, Viajes, Teatro, Cine y Descanso</h3>
             <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-leisure" onclick="toggleDrawer('drawer-leisure', this)">
               <i data-lucide="plus"></i> Nuevo Plan
             </button>
@@ -2199,7 +2270,7 @@
         <div class="card card-cyan">
           <div class="card-header">
             <h3 class="card-title"><i data-lucide="sparkles"></i> Calendario de Limpieza</h3>
-            <span class="badge badge-lavender" id="energyStreakBadge">0 días este mes</span>
+            <span class="badge badge-lavender" id="energyStreakBadge">0 días</span>
           </div>
           <div class="cal-header">
             <button type="button" class="btn btn-sm btn-outline" onclick="changeEnergyMonth(-1)">◀</button>
@@ -2304,7 +2375,7 @@
 
       <div class="card" style="margin-bottom:20px;">
         <div class="card-header">
-          <h3 class="card-title"><i data-lucide="check-square"></i> Actividades Energéticas por Hacer (Seguimiento)</h3>
+          <h3 class="card-title"><i data-lucide="check-square"></i> Actividades por hacer</h3>
           <button type="button" class="btn btn-sm btn-primary btn-drawer-toggle" data-drawer="drawer-en-action" onclick="toggleDrawer('drawer-en-action', this)">
             <i data-lucide="plus"></i> Nueva Actividad
           </button>
@@ -2326,7 +2397,7 @@
               <option>Por Eliminar</option>
               <option>Culminado</option>
             </select>
-            <input type="text" id="eaComment" placeholder="Comentarios (opcional)" />
+            <textarea id="eaComment" rows="2" maxlength="500" placeholder="Comentarios (opcional)" style="resize:vertical;"></textarea>
             <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Agregar</button>
           </form>
         </div>
@@ -2438,9 +2509,9 @@
 
     <hr style="border:none;border-top:1px solid var(--border-soft);margin:16px 0;" />
 
-    <h4 style="margin-bottom:10px;font-size:0.92rem;color:var(--dusty-lavender);">Respaldo Manual en Archivo JSON</h4>
+    <h4 style="margin-bottom:10px;font-size:0.92rem;color:var(--dusty-lavender);">Respaldo Manual Cifrado (JSON)</h4>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button type="button" class="btn btn-secondary" onclick="exportBackupJSON()"><i data-lucide="download"></i> Exportar Respaldo JSON</button>
+      <button type="button" class="btn btn-secondary" onclick="exportBackupJSON()"><i data-lucide="download"></i> Exportar Respaldo Cifrado</button>
       <label class="btn btn-outline" style="cursor:pointer;">
         <i data-lucide="upload"></i> Importar Respaldo JSON
         <input type="file" accept=".json" style="display:none;" onchange="importBackupJSON(event)" />
@@ -2450,7 +2521,7 @@
     <hr style="border:none;border-top:1px solid var(--border-soft);margin:16px 0;" />
 
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
-      <span id="cfgSessionInfoText" style="font-size:0.82rem;color:var(--text-muted);">Sesión protegida con PIN SHA-256 • Bloqueo tras 30 min</span>
+      <span id="cfgSessionInfoText" style="font-size:0.82rem;color:var(--text-muted);">Datos cifrados (AES-GCM) • Bloqueo tras 30 min de inactividad</span>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('configModal');lockAppSession();">
           <i data-lucide="lock"></i> Bloquear
@@ -2532,6 +2603,9 @@
    1. ESTADO GLOBAL, FECHAS LOCALES, INDEXEDDB Y PERSISTENCIA SEGURA
 ============================================================================ */
 const STORAGE_KEY = 'mi_planificador_data_v1';
+let localDataLocked = false;   // true = hay datos cifrados en disco que aún no se pueden leer
+let dataCryptoKey = null;      // CryptoKey AES-GCM; vive solo en memoria
+let recoveryDriveLoadAllowed = false;
 const CLIENT_ID_KEY = 'mi_planificador_client_id';
 const DRIVE_META_KEY = 'mi_planificador_drive_meta';
 const DRAWERS_STATE_KEY = 'mi_planificador_drawers_v1';
@@ -3053,6 +3127,10 @@ function loadLocalData() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return JSON.parse(JSON.stringify(DEFAULT_DATA));
     const parsed = JSON.parse(raw);
+    if (parsed && parsed.enc === 2 && typeof parsed.ct === 'string') {
+      localDataLocked = true;
+      return JSON.parse(JSON.stringify(DEFAULT_DATA));
+    }
     if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
       return JSON.parse(JSON.stringify(DEFAULT_DATA));
     }
@@ -3064,12 +3142,7 @@ function loadLocalData() {
 
 let syncTimeout = null;
 function saveData() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-  } catch (e) {
-    console.error('Error guardando en localStorage:', e);
-    showToast('Memoria local casi llena. Conecta Google Drive o elimina fotos antiguas.', 'warning');
-  }
+  persistLocalData();
   renderAll();
   if (accessToken) {
     clearTimeout(syncTimeout);
@@ -3094,9 +3167,14 @@ function closeModal(id) {
   }
 }
 
+function isValidGoogleClientId(cid) {
+  return /^[0-9]{6,}-[a-z0-9]{10,}\.apps\.googleusercontent\.com$/i.test(String(cid || ''));
+}
+
 function saveClientIdOnly() {
   const cid = document.getElementById('cfgClientId').value.trim();
   if (!cid) return showToast('Por favor pega tu Client ID.', 'warning');
+  if (!isValidGoogleClientId(cid)) return showToast('El Client ID no tiene un formato válido (termina en .apps.googleusercontent.com).', 'warning');
   localStorage.setItem(CLIENT_ID_KEY, cid);
   showToast('Client ID guardado correctamente.', 'success');
 }
@@ -3104,6 +3182,7 @@ function saveClientIdOnly() {
 function saveConfigAndConnect() {
   const cid = document.getElementById('cfgClientId').value.trim();
   if (!cid) return showToast('Pega primero tu Client ID de Google Cloud.', 'warning');
+  if (!isValidGoogleClientId(cid)) return showToast('El Client ID no tiene un formato válido (termina en .apps.googleusercontent.com).', 'warning');
   localStorage.setItem(CLIENT_ID_KEY, cid);
   closeModal('configModal');
   handleGoogleAuth();
@@ -3119,6 +3198,36 @@ try {
   googleCalendars = [];
 }
 let selectedGoogleCalendarId = localStorage.getItem(GCAL_SELECTED_KEY) || '__ALL__';
+
+function toggleWheelAreas() {
+  const box = document.getElementById('wheelSliders');
+  const btn = document.getElementById('btnToggleWheelAreas');
+  if (!box || !btn) return;
+  const open = box.style.display === 'none';
+  box.style.display = open ? 'grid' : 'none';
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  btn.innerHTML = `<i data-lucide="${open ? 'chevron-up' : 'chevron-down'}"></i> ${open ? 'Ocultar áreas' : 'Ver áreas'}`;
+  if (window.lucide) lucide.createIcons();
+}
+
+/* Normaliza 'primary' y el correo de la cuenta principal como el mismo calendario */
+function normalizeCalendarId(id) {
+  const v = String(id || 'primary');
+  if (v === 'primary') {
+    const prim = (typeof googleCalendars !== 'undefined' ? googleCalendars : []).find(c => c.primary);
+    return prim ? prim.id : 'primary';
+  }
+  return v;
+}
+function matchesSelectedCalendar(ev) {
+  if (selectedGoogleCalendarId === '__ALL__') return true;
+  return normalizeCalendarId(ev.calendarId) === normalizeCalendarId(selectedGoogleCalendarId);
+}
+function monthEndIso() {
+  const n = new Date();
+  const last = new Date(n.getFullYear(), n.getMonth() + 1, 0);
+  return `${last.getFullYear()}-${String(last.getMonth() + 1).padStart(2, '0')}-${String(last.getDate()).padStart(2, '0')}`;
+}
 
 function addDaysToIso(isoDate, days) {
   if (!isoDate || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) return isoDate;
@@ -3258,7 +3367,7 @@ function handleGoogleAuth(options = {}) {
   }
   tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: cid,
-    scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/userinfo.email',
+    scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.calendarlist.readonly https://www.googleapis.com/auth/userinfo.email',
     callback: async (resp) => {
       if (resp.error) {
         const msg = 'Autorización cancelada o denegada por Google.';
@@ -3304,7 +3413,7 @@ function updateSyncUI(connected, label) {
   const cfgText = document.getElementById('cfgConnStateText');
   if (connected) {
     badge.classList.remove('offline');
-    badge.innerHTML = `<i data-lucide="cloud-check" style="width:14px;height:14px;"></i> ${escapeHTML(label)}`;
+    badge.innerHTML = `<i data-lucide="cloud" style="width:14px;height:14px;"></i> ${escapeHTML(label)}`;
     syncBtn.style.display = 'inline-flex';
     if (cfgText) {
       cfgText.textContent = label || 'Conectado y sincronizado';
@@ -3366,6 +3475,7 @@ async function ensureDriveWorkspace() {
 
 async function loadFromGoogleDrive() {
   if (!accessToken || !driveMeta.rootId) return;
+  if (localDataLocked && !recoveryDriveLoadAllowed) return;
   const q = `name='planificador_data.json' and '${driveMeta.rootId}' in parents and trashed=false`;
   const res = await driveFetch(`https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&fields=files(id,name)`);
   const data = await res.json();
@@ -3376,7 +3486,7 @@ async function loadFromGoogleDrive() {
     const remoteJson = await fileRes.json();
     if (remoteJson && typeof remoteJson === 'object' && !Array.isArray(remoteJson)) {
       appData = { ...JSON.parse(JSON.stringify(DEFAULT_DATA)), ...remoteJson };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+      persistLocalData();
       renderAll();
     }
   } else {
@@ -3386,6 +3496,7 @@ async function loadFromGoogleDrive() {
 
 async function syncToGoogleDrive() {
   if (!accessToken) return;
+  if (localDataLocked) return; // nunca subir datos vacíos mientras la app está bloqueada
   try {
     updateSyncUI(true, 'Guardando...');
     if (!driveMeta.rootId) await ensureDriveWorkspace();
@@ -3462,11 +3573,13 @@ async function syncGoogleCalendar() {
       : availableCals.filter(c => c.id === selectedGoogleCalendarId);
     const calsToFetch = targetCals.length ? targetCals : [{ id: 'primary', summary: 'Principal', primary: true }];
 
-    const timeMin = new Date(new Date().setDate(new Date().getDate() - 15)).toISOString();
+    const now0 = new Date();
+    const timeMin = new Date(now0.getFullYear(), now0.getMonth(), now0.getDate(), 0, 0, 0).toISOString();
+    const timeMax = new Date(now0.getFullYear(), now0.getMonth() + 1, 1, 0, 0, 0).toISOString();
     const results = await Promise.allSettled(
       calsToFetch.map(async cal => {
         const res = await driveFetch(
-          `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cal.id)}/events?timeMin=${encodeURIComponent(timeMin)}&singleEvents=true&orderBy=startTime&maxResults=40`
+          `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cal.id)}/events?timeMin=${encodeURIComponent(timeMin)}&timeMax=${encodeURIComponent(timeMax)}&singleEvents=true&orderBy=startTime&maxResults=250`
         );
         const data = await res.json();
         const calLabel = cal.primary ? 'Principal' : (cal.summary || 'Google Calendar');
@@ -3852,7 +3965,7 @@ function parsePersonalText() {
   if (!raw) return showToast('Escribe o pega notas primero.', 'warning');
   const lines = raw.split(/\r?\n/).map(l => l.replace(/^[\-\*\•\d\.\)]+\s*/, '').trim()).filter(Boolean);
   parsedPersonalQueue = lines.map(line => {
-    let cat = 'Ocio';
+    let cat = 'Entretenimiento';
     if (/gym|correr|ejercicio|entrenar|yoga|cardio|pilates/i.test(line)) cat = 'Ejercicio';
     else if (/médic|doctor|dentista|oculista|ginecol|examen|salud|cita|terapia/i.test(line)) cat = 'Salud';
     else if (/pareja|aniversario|novio|esposo|cita romántica|cena juntos/i.test(line)) cat = 'Pareja';
@@ -3871,7 +3984,7 @@ function parsePersonalText() {
               <td><input type="text" value="${escapeHTML(item.text)}" onchange="parsedPersonalQueue[${idx}].text=this.value" /></td>
               <td>
                 <select onchange="parsedPersonalQueue[${idx}].category=this.value">
-                  ${['Salud', 'Ejercicio', 'Ocio', 'Pareja', 'Sueños'].map(c => `<option value="${c}" ${c===item.category?'selected':''}>${c}</option>`).join('')}
+                  ${['Salud', 'Ejercicio', 'Entretenimiento', 'Pareja', 'Sueños'].map(c => `<option value="${c}" ${c===item.category?'selected':''}>${c}</option>`).join('')}
                 </select>
               </td>
               <td><input type="text" inputmode="numeric" maxlength="10" placeholder="dd-mm-aaaa" value="${fmtDate(item.date)}" oninput="autoDMY(this)" onchange="parsedPersonalQueue[${idx}].date=dmyToIso(this.value)||parsedPersonalQueue[${idx}].date" /></td>
@@ -4087,27 +4200,24 @@ function saveNewFinCategory() {
   showToast(`Categoría "${name}" creada.`, 'success');
 }
 
-function toggleTxCategory() {
-  const t = document.getElementById('txType').value;
-  document.getElementById('txCategory').disabled = (t !== 'Gasto');
-}
-
-function addFinanceTx(e) {
+function addFinanceTx(e, kind) {
   e.preventDefault();
-  const type = document.getElementById('txType').value;
+  if (!['Gasto', 'Ingreso', 'Ahorro'].includes(kind)) return;
+  const g = id => document.getElementById('tx' + kind + id);
+  const amount = parseFloat(g('Amount').value);
+  if (!isFinite(amount) || amount <= 0) { showToast('Ingresa un monto válido mayor a 0.', 'warning'); return; }
   appData.financeTxs.push({
     id: 'tx_' + Date.now(),
-    type,
-    category: type === 'Gasto' ? document.getElementById('txCategory').value : type,
-    desc: document.getElementById('txDesc').value.trim(),
-    currency: document.getElementById('txCurrency').value,
-    amount: parseFloat(document.getElementById('txAmount').value) || 0,
-    date: document.getElementById('txDate').value,
+    type: kind,
+    category: kind === 'Gasto' ? (document.getElementById('txGastoCategory').value || 'Otros') : kind,
+    desc: g('Desc').value.trim(),
+    currency: g('Currency').value === 'USD' ? 'USD' : 'PEN',
+    amount,
+    date: g('Date').value,
     installments: ''
   });
   e.target.reset();
-  document.getElementById('txDate').value = todayStr();
-  toggleTxCategory();
+  g('Date').value = todayStr();
   saveData();
   showToast('Movimiento registrado.', 'success');
 }
@@ -4385,7 +4495,7 @@ async function pushCoupleItemToGoogleCalendar(item, calendarId = 'primary') {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         summary: `[Pareja] ${item.title}`,
-        description: item.note || 'Plan registrado desde Mi Planificador Integral (Pareja)',
+        description: item.note || 'Plan registrado desde Lumos Plan (Pareja)',
         start: startObj,
         end: endObj
       })
@@ -4526,7 +4636,10 @@ function renderPersonal() {
     });
   }
 
-  const sortedEv = [...appData.personalEvents].sort((a, b) => nextOccurrence(a).localeCompare(nextOccurrence(b)));
+  const todayIso = todayStr(), endIso = monthEndIso();
+  const sortedEv = appData.personalEvents
+    .filter(ev => { const d = nextOccurrence(ev); return d >= todayIso && d <= endIso && matchesSelectedCalendar(ev); })
+    .sort((a, b) => nextOccurrence(a).localeCompare(nextOccurrence(b)));
   document.getElementById('personalEventsList').innerHTML = sortedEv.length ? sortedEv.map(ev => {
     const sid = safeId(ev.id);
     return `
@@ -4539,7 +4652,7 @@ function renderPersonal() {
       </div>
       ${!String(ev.id).startsWith('gcal_') ? `<button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.personalEvents=appData.personalEvents.filter(x=>x.id!=='${sid}');saveData()">✕</button>` : ''}
     </div>`;
-  }).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);">Sin eventos próximos registrados.</p>`;
+  }).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);">Sin eventos desde hoy hasta fin de mes en este calendario.</p>`;
 
   const hy = habitMonth.getFullYear(), hmo = habitMonth.getMonth();
   const hn = new Date(hy, hmo + 1, 0).getDate();
@@ -4672,7 +4785,7 @@ function renderPersonal() {
       <td>${it.note ? `<div class="note-text" style="margin-top:0;">${escapeHTML(it.note)}</div>` : '—'}</td>
       <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.leisure=appData.leisure.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
     </tr>`;
-  }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Sin planes de ocio registrados todavía.</td></tr>`;
+  }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Sin planes de entretenimiento registrados todavía.</td></tr>`;
 }
 
 function renderFinance() {
@@ -4681,7 +4794,7 @@ function renderFinance() {
   const cur = document.getElementById('finFilterCurrency').value;
   const sym = cur === 'USD' ? '$' : 'S/';
 
-  document.getElementById('txCategory').innerHTML = appData.financeCategories.map(c => `<option value="${escapeHTML(c.name)}">${escapeHTML(c.name)}</option>`).join('');
+  document.getElementById('txGastoCategory').innerHTML = appData.financeCategories.map(c => `<option value="${escapeHTML(c.name)}">${escapeHTML(c.name)}</option>`).join('');
 
   const periodTxs = appData.financeTxs.filter(tx => {
     const d = new Date(tx.date + 'T00:00:00');
@@ -4700,18 +4813,25 @@ function renderFinance() {
     <div class="kpi-card"><span class="kpi-label">Saldo Disponible</span><span class="kpi-value">${sym} ${net.toFixed(2)}</span><span class="kpi-sub">Ingresos − Gastos − Ahorro</span></div>
   `;
 
-  document.getElementById('financeTxTable').innerHTML = periodTxs.slice().reverse().map(tx => {
-    const sid = safeId(tx.id);
-    return `
+  const txRows = (type) => {
+    const rows = periodTxs.filter(t => t.type === type).slice().reverse().map(tx => {
+      const sid = safeId(tx.id);
+      const mid = type === 'Gasto'
+        ? `<td>${escapeHTML(tx.category)}</td><td>${escapeHTML(tx.desc)} ${tx.installments ? `<span class="badge badge-warning">Cuotas: ${escapeHTML(tx.installments)}</span>` : ''}</td>`
+        : `<td><span class="badge ${type === 'Ingreso' ? 'badge-success' : 'badge-cyan'}">${escapeHTML(tx.type)}</span></td><td>${escapeHTML(tx.desc)}</td>`;
+      return `
     <tr>
       <td>${escapeHTML(fmtDate(tx.date))}</td>
-      <td><span class="badge ${tx.type==='Ingreso'?'badge-success':tx.type==='Ahorro'?'badge-cyan':'badge-lavender'}">${escapeHTML(tx.type)}</span></td>
-      <td>${escapeHTML(tx.category)}</td>
-      <td>${escapeHTML(tx.desc)} ${tx.installments ? `<span class="badge badge-warning">Cuotas: ${escapeHTML(tx.installments)}</span>` : ''}</td>
+      ${mid}
       <td><strong>${sym} ${(Number(tx.amount) || 0).toFixed(2)}</strong></td>
       <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.financeTxs=appData.financeTxs.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
     </tr>`;
-  }).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">No hay movimientos en este mes y moneda.</td></tr>`;
+    }).join('');
+    return rows || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Sin registros de ${type.toLowerCase()} en este mes y moneda.</td></tr>`;
+  };
+  document.getElementById('financeGastoTable').innerHTML = txRows('Gasto');
+  document.getElementById('financeIngresoTable').innerHTML = txRows('Ingreso');
+  document.getElementById('financeAhorroTable').innerHTML = txRows('Ahorro');
 
   document.getElementById('investmentsTable').innerHTML = appData.investments.map(inv => {
     const sid = safeId(inv.id);
@@ -5109,7 +5229,7 @@ async function syncEnergyLibraryFromDrive(silent = false) {
     });
 
     appData.energyLibrary = nextLibrary;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    persistLocalData();
     renderEnergyLibrary();
     if (!silent) {
       showToast(`Biblioteca sincronizada con Drive (${remoteFiles.length} archivos en ${subfolders.length + (rootFiles.length ? 1 : 0)} carpetas).`, 'success');
@@ -5285,11 +5405,27 @@ async function openLibraryItem(id) {
   if (renderToken !== viewerRenderToken) return;
 
   if (!fileBlob) {
-    if (item.driveFileId) {
-      body.innerHTML = `<iframe src="https://drive.google.com/file/d/${encodeURIComponent(item.driveFileId)}/preview" style="width:100%;height:100%;border:none;"></iframe>`;
-    } else {
-      body.innerHTML = `<div style="padding:28px;text-align:center;color:var(--text-muted);">Conecta tu cuenta de Google Drive en <strong>Configuración &amp; Respaldo</strong> para descargar y previsualizar este documento.</div>`;
-    }
+    const hasDrive = !!item.driveFileId;
+    const driveLink = hasDrive ? `https://drive.google.com/file/d/${encodeURIComponent(item.driveFileId)}/view` : '';
+    const msg = !hasDrive
+      ? 'Este documento no está guardado en este dispositivo ni vinculado a Google Drive.'
+      : (accessToken
+          ? 'No se pudo descargar el documento desde Drive. Revisa tu conexión o tus permisos e inténtalo de nuevo.'
+          : 'Este documento aún no está en la memoria de este dispositivo. Conecta Google Drive para descargarlo y verlo aquí.');
+    body.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:24px;gap:12px;">
+        <p style="font-weight:600;color:var(--dusty-dark);max-width:420px;">${escapeHTML(msg)}</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+          ${hasDrive && !accessToken ? '<button type="button" class="btn btn-primary" id="viewerConnectDriveBtn"><i data-lucide="link"></i> Conectar Google Drive</button>' : ''}
+          ${hasDrive && accessToken ? '<button type="button" class="btn btn-primary" id="viewerRetryBtn"><i data-lucide="refresh-cw"></i> Reintentar</button>' : ''}
+          ${hasDrive ? `<a class="btn btn-outline" href="${driveLink}" target="_blank" rel="noopener noreferrer"><i data-lucide="external-link"></i> Abrir en Google Drive</a>` : ''}
+        </div>
+      </div>`;
+    const cBtn = document.getElementById('viewerConnectDriveBtn');
+    if (cBtn) cBtn.onclick = () => { handleGoogleAuth(); showToast('Tras conectar, vuelve a abrir el documento.', 'info'); };
+    const rBtn = document.getElementById('viewerRetryBtn');
+    if (rBtn) rBtn.onclick = () => openLibraryItem(id);
+    safeIcons();
     return;
   }
 
@@ -5525,7 +5661,7 @@ function renderEnergy() {
     html += `<div class="cal-cell ${cleaned ? 'cleaned' : ''}" onclick="toggleEnergyCleanDay('${ds}')">${d}</div>`;
   }
   document.getElementById('energyCalendarGrid').innerHTML = html;
-  document.getElementById('energyStreakBadge').textContent = `${monthCleaned} días limpios este mes`;
+  document.getElementById('energyStreakBadge').textContent = `${monthCleaned} días`;
 
   const typeLabels = [...appData.energyTypes, 'Cartas'];
   const typeCounts = [...appData.energyTypes.map(t => appData.energyLogs.filter(l => l.type === t).length), appData.energyLetters.length];
@@ -5600,17 +5736,14 @@ function renderEnergy() {
       const sid = safeId(a.id);
       const st = a.status || (a.done ? 'Culminado' : 'Por hacer');
       return `
-      <div class="energy-action-row" style="background:${st==='Culminado'?'#FAF8FD':'var(--lavender-mist)'};opacity:${st==='Culminado'?'0.78':'1'};">
-        <div class="energy-action-main" style="${st==='Culminado'?'text-decoration:line-through;color:var(--text-muted);':''}">
-          ${a.subtype ? `<span class="badge badge-cyan" style="flex-shrink:0;">${escapeHTML(a.subtype)}</span>` : ''}
-          <strong class="energy-action-title" title="${escapeHTML(a.task)}">${escapeHTML(a.task)}</strong>
-        </div>
-        <input type="text" class="mini-select energy-action-comment" placeholder="Comentario..." value="${escapeHTML(a.comment || '')}" onchange="setEnergyActionComment('${sid}', this.value)" />
-        <div class="energy-action-controls">
-          <select class="mini-select" onchange="setEnergyActionStatus('${sid}', this.value)">${optList(ENERGY_TASK_STATES, st)}</select>
-          <button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.energyActions=appData.energyActions.filter(x=>x.id!=='${sid}');saveData()">✕</button>
-        </div>
-      </div>`;
+      <tr style="opacity:${st==='Culminado'?'0.78':'1'};">
+        <td style="${st==='Culminado'?'text-decoration:line-through;color:var(--text-muted);':''}">
+          ${a.subtype ? `<span class="badge badge-cyan">${escapeHTML(a.subtype)}</span> ` : ''}<strong>${escapeHTML(a.task)}</strong>
+        </td>
+        <td><textarea class="energy-action-comment-ta" rows="2" maxlength="500" placeholder="Comentario..." aria-label="Comentario" onchange="setEnergyActionComment('${sid}', this.value)">${escapeHTML(a.comment || '')}</textarea></td>
+        <td><select class="mini-select" onchange="setEnergyActionStatus('${sid}', this.value)">${optList(ENERGY_TASK_STATES, st)}</select></td>
+        <td><button type="button" class="btn btn-sm btn-danger-soft" aria-label="Eliminar" onclick="appData.energyActions=appData.energyActions.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+      </tr>`;
     }).join('');
 
     return `
@@ -5619,7 +5752,10 @@ function renderEnergy() {
           <span class="badge badge-lavender" style="font-size:0.8rem;">${escapeHTML(groupType)}</span>
           <span style="font-size:0.76rem;color:var(--text-muted);font-weight:600;">${pendingCount} pendiente${pendingCount === 1 ? '' : 's'} de ${itemsInGroup.length}</span>
         </div>
-        <div style="display:flex;flex-direction:column;gap:8px;">${rowsHtml}</div>
+        <div class="table-wrap"><table class="energy-actions-table">
+          <thead><tr><th style="width:34%;">Actividad</th><th>Comentarios</th><th style="width:140px;">Estado</th><th style="width:48px;"></th></tr></thead>
+          <tbody>${rowsHtml}</tbody>
+        </table></div>
       </div>`;
   }).filter(Boolean).join('');
 
@@ -5778,42 +5914,77 @@ function renderDashboard() {
 /* ============================================================================
    8. INICIALIZACIÓN, NORMALIZACIÓN Y RESPALDO JSON
 ============================================================================ */
-function exportBackupJSON() {
-  const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+function downloadTextFile(name, text, mime) {
+  const blob = new Blob([text], { type: mime || 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `respaldo_planificador_${todayStr()}.json`;
+  a.download = name;
+  a.rel = 'noopener';
   a.click();
-  URL.revokeObjectURL(url);
-  showToast('Respaldo JSON descargado.', 'success');
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+/* Respaldo cifrado: se abre con la misma clave de acceso (incluye sal e iteraciones) */
+async function exportBackupJSON() {
+  const rec = getStoredPinRecord();
+  if (!dataCryptoKey || !rec || rec.v !== 2) {
+    showToast('Desbloquea con tu clave para generar un respaldo cifrado.', 'warning');
+    return;
+  }
+  try {
+    const env = await encryptTextWithKey(JSON.stringify(appData), dataCryptoKey);
+    const payload = { app: 'LumosPlan', v: 2, salt: rec.salt, iter: rec.iter, iv: env.iv, ct: env.ct };
+    downloadTextFile(`respaldo_lumos_plan_${todayStr()}.json`, JSON.stringify(payload));
+    showToast('Respaldo cifrado descargado. Se abre con tu clave de acceso.', 'success');
+  } catch (err) {
+    console.error(err);
+    showToast('No se pudo generar el respaldo cifrado.', 'danger');
+  }
+}
+
+function applyImportedBackup(parsed) {
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('Formato inválido');
+  const safeBase = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  Object.keys(safeBase).forEach(key => {
+    if (Object.prototype.hasOwnProperty.call(parsed, key) && parsed[key] !== undefined && parsed[key] !== null) {
+      if (Array.isArray(safeBase[key]) === Array.isArray(parsed[key]) && typeof safeBase[key] === typeof parsed[key]) {
+        safeBase[key] = parsed[key];
+      }
+    }
+  });
+  appData = safeBase;
+  saveData();
+  closeModal('configModal');
+  showToast('Respaldo restaurado exitosamente.', 'success');
 }
 
 function importBackupJSON(event) {
   const file = event.target.files[0];
   event.target.value = '';
   if (!file) return;
+  if (file.size > 25 * 1024 * 1024) { showToast('El archivo supera los 25 MB.', 'danger'); return; }
   const reader = new FileReader();
-  reader.onload = (e) => {
+  reader.onload = async (e) => {
     try {
       const parsed = JSON.parse(e.target.result);
-      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-        throw new Error('Formato inválido');
-      }
-      const safeBase = JSON.parse(JSON.stringify(DEFAULT_DATA));
-      Object.keys(safeBase).forEach(key => {
-        if (Object.prototype.hasOwnProperty.call(parsed, key) && parsed[key] !== undefined && parsed[key] !== null) {
-          if (Array.isArray(safeBase[key]) === Array.isArray(parsed[key]) && typeof safeBase[key] === typeof parsed[key]) {
-            safeBase[key] = parsed[key];
-          }
+      if (parsed && parsed.app === 'LumosPlan' && parsed.v === 2 && typeof parsed.ct === 'string') {
+        const pass = window.prompt('Ingresa la clave con la que se cifró este respaldo:');
+        if (!pass) return;
+        const d = await deriveFromPassphrase(pass, String(parsed.salt), Number(parsed.iter));
+        let plain;
+        try {
+          plain = await decryptTextWithKey({ iv: parsed.iv, ct: parsed.ct }, d.key);
+        } catch (err) {
+          showToast('Clave incorrecta o respaldo dañado.', 'danger');
+          return;
         }
-      });
-      appData = safeBase;
-      saveData();
-      closeModal('configModal');
-      showToast('Respaldo restaurado exitosamente.', 'success');
+        applyImportedBackup(JSON.parse(plain));
+      } else {
+        applyImportedBackup(parsed); // respaldo antiguo sin cifrar
+      }
     } catch (err) {
-      showToast('El archivo JSON no tiene un formato válido.', 'danger');
+      showToast('El archivo de respaldo no tiene un formato válido.', 'danger');
     }
   };
   reader.readAsText(file);
@@ -5821,7 +5992,7 @@ function importBackupJSON(event) {
 
 function registerDynamicPWAManifest() {
   const manifest = {
-    name: 'Mi Planificador Integral',
+    name: 'Lumos Plan',
     short_name: 'Planificador',
     start_url: '.',
     display: 'standalone',
@@ -5857,7 +6028,7 @@ async function migrateLegacyLibraryBlobsToIDB() {
     }
   }
   if (changed) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); } catch (e) {}
+    persistLocalData();
   }
 }
 
@@ -6012,7 +6183,7 @@ function generateRandomSaltHex(byteLen = 16) {
     window.crypto.getRandomValues(arr);
     return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
   }
-  return sha256Hex(String(Date.now()) + ':' + String(Math.random())).slice(0, byteLen * 2);
+  throw new Error('Generador aleatorio seguro no disponible.');
 }
 
 function getStoredPinRecord() {
@@ -6020,6 +6191,9 @@ function getStoredPinRecord() {
     const raw = localStorage.getItem(APP_PIN_DATA_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
+    if (parsed && parsed.v === 2 && typeof parsed.salt === 'string' && typeof parsed.verifier === 'string' && parsed.verifier.length === 64 && Number(parsed.iter) >= 100000) {
+      return parsed;
+    }
     if (parsed && typeof parsed.salt === 'string' && typeof parsed.hash === 'string' && parsed.hash.length === 64) {
       return parsed;
     }
@@ -6031,33 +6205,152 @@ function hasConfiguredPin() {
   return !!getStoredPinRecord();
 }
 
-function saveStoredPinRecord(pin) {
-  const salt = generateRandomSaltHex(16);
-  const hash = sha256Hex(`${salt}:${pin}`);
-  localStorage.setItem(APP_PIN_DATA_KEY, JSON.stringify({
-    salt,
-    hash,
-    updatedAt: new Date().toISOString()
-  }));
+/* ---------- Cifrado local: PBKDF2-SHA256 -> AES-GCM (Web Crypto) ---------- */
+const PBKDF2_ITERATIONS = 250000;
+const PASSPHRASE_MIN_LEN = 8;
+let localWriteChain = Promise.resolve();
+let wipePromise = Promise.resolve();
+
+function hexToBytes(hex) {
+  const out = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < out.length; i++) out[i] = parseInt(hex.substr(i * 2, 2), 16);
+  return out;
+}
+function bytesToHex(bytes) {
+  return Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+}
+function bytesToB64(bytes) {
+  let bin = '';
+  const CH = 0x8000;
+  for (let i = 0; i < bytes.length; i += CH) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+  return btoa(bin);
+}
+function b64ToBytes(b64) {
+  const bin = atob(b64);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+function isStrongPassphrase(p) {
+  return typeof p === 'string' && p.length >= PASSPHRASE_MIN_LEN && p.length <= 64 && /[A-Za-z]/.test(p) && /\d/.test(p);
+}
+function constantTimeEqualHex(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string' || a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
 }
 
-function verifyStoredPin(pin) {
+/* Deriva 512 bits: los primeros 256 son el verificador (se guarda); los últimos 256 son la clave AES (nunca se guarda). */
+async function deriveFromPassphrase(passphrase, saltHex, iterations) {
+  const subtle = window.crypto && window.crypto.subtle;
+  if (!subtle) throw new Error('Web Crypto no disponible (se requiere HTTPS).');
+  const baseKey = await subtle.importKey('raw', new TextEncoder().encode(passphrase), 'PBKDF2', false, ['deriveBits']);
+  const bits = new Uint8Array(await subtle.deriveBits(
+    { name: 'PBKDF2', hash: 'SHA-256', salt: hexToBytes(saltHex), iterations },
+    baseKey, 512
+  ));
+  const verifier = bytesToHex(bits.slice(0, 32));
+  const aesKey = await subtle.importKey('raw', bits.slice(32), { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']);
+  return { verifier, key: aesKey };
+}
+
+async function encryptTextWithKey(plain, key) {
+  const iv = window.crypto.getRandomValues(new Uint8Array(12));
+  const ct = new Uint8Array(await window.crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(plain)));
+  return { enc: 2, iv: bytesToB64(iv), ct: bytesToB64(ct) };
+}
+async function decryptTextWithKey(env, key) {
+  const pt = await window.crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64ToBytes(env.iv) }, key, b64ToBytes(env.ct));
+  return new TextDecoder().decode(pt);
+}
+
+/* Persistencia: cifrada si hay clave; nunca sobrescribe datos cifrados mientras estén bloqueados */
+function persistLocalData() {
+  if (localDataLocked) return Promise.resolve();
+  const snapshot = JSON.stringify(appData);
+  const key = dataCryptoKey;
+  localWriteChain = localWriteChain.then(async () => {
+    try {
+      if (key) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(await encryptTextWithKey(snapshot, key)));
+      } else {
+        localStorage.setItem(STORAGE_KEY, snapshot);
+      }
+    } catch (e) {
+      console.error('Error guardando datos locales:', e);
+      showToast('Memoria local casi llena o sin permisos. Conecta Google Drive o elimina fotos antiguas.', 'warning');
+    }
+  });
+  return localWriteChain;
+}
+
+/* Tras desbloquear: descifra los datos locales y los carga en memoria */
+async function loadEncryptedLocalData(key) {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) {
+    const env = JSON.parse(raw);
+    if (env && env.enc === 2 && typeof env.ct === 'string') {
+      const parsed = JSON.parse(await decryptTextWithKey(env, key));
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('Formato inválido');
+      appData = { ...JSON.parse(JSON.stringify(DEFAULT_DATA)), ...parsed };
+    }
+  }
+  dataCryptoKey = key;
+  localDataLocked = false;
+  try {
+    const again = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    if (!again || again.enc !== 2) persistLocalData(); // datos aún sin cifrar: cifrarlos ahora
+  } catch (e) { persistLocalData(); }
+}
+
+/* Al bloquear: guarda pendientes, sube a Drive y borra los datos de la memoria */
+function wipeSensitiveMemory() {
+  if (!dataCryptoKey) return;
+  wipePromise = (async () => {
+    try {
+      await localWriteChain;
+      if (accessToken && syncTimeout) {
+        clearTimeout(syncTimeout);
+        syncTimeout = null;
+        await syncToGoogleDrive();
+      }
+    } catch (e) { /* continuar con el borrado */ }
+    localDataLocked = true;
+    dataCryptoKey = null;
+    appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    try { renderAll(); } catch (e) {}
+  })();
+}
+
+async function saveStoredPinRecord(passphrase) {
+  const salt = generateRandomSaltHex(16);
+  const { verifier, key } = await deriveFromPassphrase(passphrase, salt, PBKDF2_ITERATIONS);
+  localStorage.setItem(APP_PIN_DATA_KEY, JSON.stringify({
+    v: 2, salt, iter: PBKDF2_ITERATIONS, verifier, updatedAt: new Date().toISOString()
+  }));
+  return key;
+}
+
+/* Verificación del PIN heredado (v1, SHA-256 con sal) — solo para migrar */
+function verifyLegacyPin(pin) {
   const rec = getStoredPinRecord();
-  if (!rec) return false;
+  if (!rec || rec.v === 2 || typeof rec.hash !== 'string') return false;
   return sha256Hex(`${rec.salt}:${pin}`) === rec.hash;
 }
 
 function getPinLockoutState() {
   try {
     const raw = localStorage.getItem(APP_PIN_LOCKOUT_KEY);
-    if (!raw) return { count: 0, lockUntil: 0 };
+    if (!raw) return { count: 0, lockUntil: 0, level: 0 };
     const parsed = JSON.parse(raw);
     return {
       count: Number(parsed.count) || 0,
-      lockUntil: Number(parsed.lockUntil) || 0
+      lockUntil: Number(parsed.lockUntil) || 0,
+      level: Number(parsed.level) || 0
     };
   } catch (e) {
-    return { count: 0, lockUntil: 0 };
+    return { count: 0, lockUntil: 0, level: 0 };
   }
 }
 
@@ -6065,7 +6358,8 @@ function setPinLockoutState(state) {
   try {
     localStorage.setItem(APP_PIN_LOCKOUT_KEY, JSON.stringify({
       count: Number(state.count) || 0,
-      lockUntil: Number(state.lockUntil) || 0
+      lockUntil: Number(state.lockUntil) || 0,
+      level: Number(state.level) || 0
     }));
   } catch (e) {}
 }
@@ -6090,10 +6384,10 @@ function startPinLockCountdownIfNeeded() {
     const now = Date.now();
     if (st.lockUntil > now) {
       const secs = Math.ceil((st.lockUntil - now) / 1000);
-      setAuthOverlayError(`Demasiados intentos fallidos de PIN. Espera ${secs}s o revalida con Google.`);
+      setAuthOverlayError(`Demasiados intentos fallidos. Espera ${secs >= 60 ? Math.ceil(secs / 60) + ' min' : secs + ' s'} para volver a intentar.`);
       return true;
     } else if (st.lockUntil > 0) {
-      setPinLockoutState({ count: 0, lockUntil: 0 });
+      setPinLockoutState({ count: 0, lockUntil: 0, level: st.level });
       setAuthOverlayError('');
     }
     return false;
@@ -6239,10 +6533,11 @@ function toggleOverlayClientIdBox() {
 
 function startPinResetWithGoogle() {
   pendingPinResetMode = true;
+  recoveryDriveLoadAllowed = true;
   setAuthOverlayError('');
   const sub = document.getElementById('authGoogleSubtitle');
   if (sub) {
-    sub.innerHTML = 'Revalida tu identidad con tu <strong>cuenta de Google autorizada</strong> para crear un nuevo PIN rápido.';
+    sub.innerHTML = 'Revalida tu identidad con tu <strong>cuenta de Google autorizada</strong> para crear una nueva clave. Tus datos se recuperarán desde Google Drive y reemplazarán la copia local cifrada.';
   }
   setAuthOverlayMode('google');
 }
@@ -6270,8 +6565,11 @@ function handleGoogleLoginFromOverlay() {
       if (!hasConfiguredPin() || pendingPinResetMode) {
         pendingPinResetMode = false;
         setAuthOverlayMode('setup_pin');
-      } else {
+      } else if (dataCryptoKey || !localDataLocked) {
         completeAppUnlock('¡Bienvenida, Mariela!');
+      } else {
+        setAuthOverlayMode('pin');
+        setAuthOverlayError('Cuenta verificada. Ingresa tu clave para descifrar tus datos.');
       }
     },
     onError: (msg) => {
@@ -6288,68 +6586,129 @@ function saveOverlayClientIdAndLogin() {
     setAuthOverlayError('Pega tu Google Cloud Client ID (termina en .apps.googleusercontent.com).');
     return;
   }
+  if (!isValidGoogleClientId(cid)) {
+    setAuthOverlayError('El Client ID no tiene un formato válido (termina en .apps.googleusercontent.com).');
+    return;
+  }
   localStorage.setItem(CLIENT_ID_KEY, cid);
   const box = document.getElementById('authGoogleCidBox');
   if (box) box.classList.remove('visible');
   handleGoogleLoginFromOverlay();
 }
 
-function handlePinSetupSubmit(e) {
+let pinMigrationMode = false; // true cuando se migra de un PIN heredado a la nueva clave
+
+async function handlePinSetupSubmit(e) {
   e.preventDefault();
   setAuthOverlayError('');
-  const pin1 = (document.getElementById('pinSetupInput').value || '').trim();
-  const pin2 = (document.getElementById('pinConfirmInput').value || '').trim();
+  const pass1 = document.getElementById('pinSetupInput').value || '';
+  const pass2 = document.getElementById('pinConfirmInput').value || '';
 
-  if (!/^\d{4,6}$/.test(pin1)) {
-    setAuthOverlayError('El PIN debe contener entre 4 y 6 dígitos numéricos.');
+  if (!isStrongPassphrase(pass1)) {
+    setAuthOverlayError(`La clave debe tener entre ${PASSPHRASE_MIN_LEN} y 64 caracteres e incluir al menos una letra y un número.`);
     return;
   }
-  if (pin1 !== pin2) {
-    setAuthOverlayError('Los PIN ingresados no coinciden. Inténtalo de nuevo.');
+  if (pass1 !== pass2) {
+    setAuthOverlayError('Las claves ingresadas no coinciden. Inténtalo de nuevo.');
     document.getElementById('pinConfirmInput').value = '';
     document.getElementById('pinConfirmInput').focus();
     return;
   }
-  saveStoredPinRecord(pin1);
-  clearPinLockoutState();
-  document.getElementById('pinSetupInput').value = '';
-  document.getElementById('pinConfirmInput').value = '';
-  completeAppUnlock('PIN rápido guardado. ¡Bienvenida, Mariela!');
+  const btn = e.target.querySelector('button[type="submit"]');
+  if (btn) btn.disabled = true;
+  try {
+    await wipePromise;
+    const key = await saveStoredPinRecord(pass1);
+    dataCryptoKey = key;
+    localDataLocked = false;
+    recoveryDriveLoadAllowed = false;
+    pinMigrationMode = false;
+    await persistLocalData(); // cifra los datos actuales (migración o recuperación desde Drive)
+    clearPinLockoutState();
+    setPinLockoutState({ count: 0, lockUntil: 0, level: 0 });
+    document.getElementById('pinSetupInput').value = '';
+    document.getElementById('pinConfirmInput').value = '';
+    completeAppUnlock('Clave guardada y datos cifrados. ¡Bienvenida, Mariela!');
+  } catch (err) {
+    console.error(err);
+    setAuthOverlayError('No se pudo crear la clave segura. Usa HTTPS o un navegador actualizado.');
+  } finally {
+    if (btn) btn.disabled = false;
+  }
 }
 
-function handlePinUnlockSubmit(e) {
+const LOCKOUT_STEPS_SEC = [30, 120, 600, 1800, 3600];
+
+async function handlePinUnlockSubmit(e) {
   e.preventDefault();
   const st = getPinLockoutState();
-  const now = Date.now();
-  if (st.lockUntil > now) {
+  if (st.lockUntil > Date.now()) {
     startPinLockCountdownIfNeeded();
     return;
   }
-
-  const pin = (document.getElementById('pinUnlockInput').value || '').trim();
-  if (!/^\d{4,6}$/.test(pin)) {
-    setAuthOverlayError('Ingresa tu PIN de 4 a 6 dígitos.');
+  const pass = document.getElementById('pinUnlockInput').value || '';
+  if (!pass) {
+    setAuthOverlayError('Ingresa tu clave de acceso.');
     return;
   }
+  const rec = getStoredPinRecord();
+  if (!rec) { setAuthOverlayMode('google'); return; }
 
-  if (verifyStoredPin(pin)) {
+  const btn = document.getElementById('pinUnlockSubmitBtn');
+  if (btn) btn.disabled = true;
+  let ok = false, legacyOk = false, key = null;
+  try {
+    await wipePromise;
+    if (rec.v === 2) {
+      const d = await deriveFromPassphrase(pass, rec.salt, Number(rec.iter));
+      ok = constantTimeEqualHex(d.verifier, rec.verifier);
+      key = d.key;
+    } else {
+      legacyOk = /^\d{4,6}$/.test(pass) && verifyLegacyPin(pass);
+    }
+  } catch (err) {
+    console.error(err);
+    setAuthOverlayError('No se pudo verificar la clave en este navegador (se requiere HTTPS).');
+    if (btn) btn.disabled = false;
+    return;
+  }
+  if (btn) btn.disabled = false;
+
+  if (ok) {
+    try {
+      await loadEncryptedLocalData(key);
+    } catch (err) {
+      console.error('Error descifrando datos locales:', err);
+      setAuthOverlayError('La clave es correcta pero los datos locales no se pudieron descifrar. Usa «Revalidar con Google» para recuperarlos desde Drive.');
+      return;
+    }
     clearPinLockoutState();
     setAuthOverlayError('');
     document.getElementById('pinUnlockInput').value = '';
     completeAppUnlock('¡Bienvenida, Mariela!');
-  } else {
-    const nextCount = st.count + 1;
-    if (nextCount >= 5) {
-      setPinLockoutState({ count: 0, lockUntil: Date.now() + 60000 });
-      startPinLockCountdownIfNeeded();
-    } else {
-      const remaining = 5 - nextCount;
-      setPinLockoutState({ count: nextCount, lockUntil: 0 });
-      setAuthOverlayError(`PIN incorrecto. Te ${remaining === 1 ? 'queda 1 intento' : `quedan ${remaining} intentos`}.`);
-    }
-    document.getElementById('pinUnlockInput').value = '';
-    document.getElementById('pinUnlockInput').focus();
+    return;
   }
+  if (legacyOk) {
+    clearPinLockoutState();
+    document.getElementById('pinUnlockInput').value = '';
+    pinMigrationMode = true;
+    setAuthOverlayMode('setup_pin');
+    setAuthOverlayError('Por seguridad, crea una nueva clave alfanumérica (mín. 8 caracteres). Tus datos se cifrarán con ella.');
+    return;
+  }
+
+  const nextCount = st.count + 1;
+  if (nextCount >= 5) {
+    const secs = LOCKOUT_STEPS_SEC[Math.min(st.level, LOCKOUT_STEPS_SEC.length - 1)];
+    setPinLockoutState({ count: 0, lockUntil: Date.now() + secs * 1000, level: st.level + 1 });
+    startPinLockCountdownIfNeeded();
+  } else {
+    const remaining = 5 - nextCount;
+    setPinLockoutState({ count: nextCount, lockUntil: 0, level: st.level });
+    setAuthOverlayError(`Clave incorrecta. Te ${remaining === 1 ? 'queda 1 intento' : `quedan ${remaining} intentos`}.`);
+  }
+  document.getElementById('pinUnlockInput').value = '';
+  document.getElementById('pinUnlockInput').focus();
 }
 
 function completeAppUnlock(welcomeMsg) {
@@ -6367,6 +6726,8 @@ function completeAppUnlock(welcomeMsg) {
 /* Bloqueo de pantalla: mantiene activa la conexión en memoria de Google Drive y Calendar */
 function lockAppSession(reasonMsg = '') {
   pendingPinResetMode = false;
+  pinMigrationMode = false;
+  wipeSensitiveMemory();
   try {
     sessionStorage.removeItem(APP_SESSION_KEY);
     sessionStorage.removeItem(APP_LAST_ACTIVITY_KEY);
@@ -6409,9 +6770,19 @@ function initInactivityAutoLock() {
     }
   };
 
+  const HIDDEN_LOCK_MS = 5 * 60 * 1000; // 5 minutos con la pestaña oculta
+  let hiddenSince = 0;
   setInterval(checkInactivity, 15000);
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) checkInactivity();
+    if (document.hidden) {
+      hiddenSince = Date.now();
+    } else {
+      if (hiddenSince && Date.now() - hiddenSince >= HIDDEN_LOCK_MS && !document.body.classList.contains('app-locked')) {
+        lockAppSession('Sesión bloqueada: la pestaña estuvo oculta más de 5 minutos.');
+      }
+      hiddenSince = 0;
+      checkInactivity();
+    }
   });
   window.addEventListener('focus', checkInactivity);
 }
@@ -6428,7 +6799,10 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('peDate').value = todayStr();
   document.getElementById('exDate').value = todayStr();
   document.getElementById('medDate').value = todayStr();
-  document.getElementById('txDate').value = todayStr();
+  ['txGastoDate', 'txIngresoDate', 'txAhorroDate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = todayStr();
+  });
   document.getElementById('enDate').value = todayStr();
   document.getElementById('letDate').value = todayStr();
   document.getElementById('coupleDate').value = todayStr();
