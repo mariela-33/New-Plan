@@ -10,7 +10,7 @@
   <meta charset="UTF-8" />
   <meta name="referrer" content="no-referrer" />
   <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location; } catch (e) {} }</script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Lumos Plan" />
@@ -1316,6 +1316,72 @@
       max-width: 195px;
       cursor: pointer;
     }
+  
+    /* =========================================================================
+       MEJORAS MÓVILES (iPhone / Safari y Android / Chrome)
+    ========================================================================= */
+    .personal-tab-select { display: none; }
+    .energy-actions-table { table-layout: fixed; width: 100%; }
+    .energy-actions-table th, .energy-actions-table td { text-align: left; vertical-align: top; }
+    .energy-actions-table .mini-select { width: 100%; min-width: 0; }
+    .energy-action-comment-ta { height: 3.6em; }
+
+    @media (max-width: 768px) {
+      /* Botones táctiles >= 44px */
+      .btn, .btn-sm, .subtab-btn, .mobile-nav-btn, .nav-btn, select.mini-select { min-height: 44px; }
+      .btn-sm { min-width: 44px; padding: 10px 14px; }
+      /* Personal: desplegable en lugar de pestañas */
+      .personal-tab-select {
+        display: block; flex: 1 1 100%; min-height: 46px; padding: 10px 14px; font-weight: 700;
+        border: 1.5px solid var(--border-soft); border-radius: var(--radius-md); background: var(--lavender-mist);
+      }
+      #view-personal .subtabs { display: none; }
+      /* Tablas: scroll horizontal + primera columna fija */
+      .table-wrap table { min-width: 520px; }
+      .table-wrap table th:first-child, .table-wrap table td:first-child {
+        position: sticky; left: 0; z-index: 1; background: #FFFFFF; box-shadow: 1px 0 0 var(--border-soft);
+      }
+      .table-wrap table th:first-child { background: var(--lavender-mist); z-index: 2; }
+      /* Tablas en tarjetas apiladas (Finanzas y Actividades por hacer) */
+      .table-wrap table.table-cards { min-width: 0; display: block; table-layout: auto; }
+      .table-cards thead { display: none; }
+      .table-cards tbody, .table-cards tr, .table-cards td { display: block; width: 100% !important; }
+      .table-cards tr { border: 1px solid var(--border-soft); border-radius: 12px; padding: 8px 12px; margin: 10px 0; background: #FFFFFF; }
+      .table-cards td, .table-wrap table.table-cards td:first-child {
+        position: static; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+        padding: 7px 0; border: none; text-align: right; box-shadow: none; background: transparent;
+      }
+      .table-cards td[data-label]::before { content: attr(data-label); font-weight: 700; font-size: 0.78rem; color: var(--text-muted); text-align: left; flex: 0 0 34%; }
+      .table-cards td.td-block { flex-direction: column; align-items: stretch; text-align: left; }
+      .table-cards td.td-block::before { margin-bottom: 4px; }
+      .energy-action-comment-ta { height: 4.4em; }
+      /* Configuración a pantalla completa */
+      #configModal.modal-backdrop { padding: 0; align-items: stretch; }
+      #configModal .modal-box {
+        max-width: 100%; width: 100%; height: 100dvh; max-height: 100dvh; border-radius: 0; border: none;
+        padding: 0 16px calc(16px + env(safe-area-inset-bottom));
+      }
+      #configModal .modal-box > .card-header:first-child {
+        position: sticky; top: 0; z-index: 5; background: #FFFFFF; margin: 0 -16px 8px;
+        padding: calc(12px + env(safe-area-inset-top)) 16px 12px; border-bottom: 1px solid var(--border-soft);
+      }
+      .modal-box { max-height: 92dvh; }
+      /* Selector de fecha como hoja inferior */
+      .mini-datepicker-popover {
+        position: fixed !important; left: 0 !important; right: 0 !important; top: auto !important; bottom: 0 !important;
+        width: 100% !important; max-width: none !important; border-radius: 18px 18px 0 0 !important;
+        padding-bottom: calc(14px + env(safe-area-inset-bottom)) !important; box-shadow: 0 -8px 30px rgba(43,34,44,0.25) !important;
+      }
+    }
+
+    /* Pantalla horizontal en celulares */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .mobile-nav-btn { min-height: 38px; font-size: 0.68rem; padding-top: 3px; padding-bottom: 3px; }
+      .main-content { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
+      .auth-overlay { align-items: flex-start; }
+      .modal-box, #viewerModal .viewer-modal-box { max-height: 100dvh !important; }
+      .toast-container { bottom: calc(58px + env(safe-area-inset-bottom)); }
+    }
   </style>
 </head>
 <body class="app-locked">
@@ -1647,6 +1713,14 @@
     ====================================================================== -->
     <section id="view-personal" class="view-section">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+        <select id="personalTabSelect" class="personal-tab-select" aria-label="Sección de Personal" onchange="switchPersonalTab(this.value)">
+          <option value="equilibrio">Equilibrio, Hábitos &amp; Calendar</option>
+          <option value="salud">Salud &amp; Ejercicio</option>
+          <option value="finanzas">Finanzas</option>
+          <option value="suenos">Sueños</option>
+          <option value="pareja">Pareja</option>
+          <option value="ocio">Entretenimiento</option>
+        </select>
         <div class="subtabs" style="margin-bottom:0;flex:1;">
           <button type="button" class="subtab-btn active" data-ptab="equilibrio" onclick="switchPersonalTab('equilibrio')"><i data-lucide="compass"></i> Equilibrio, Hábitos &amp; Agenda</button>
           <button type="button" class="subtab-btn" data-ptab="salud" onclick="switchPersonalTab('salud')"><i data-lucide="heart-pulse"></i> Salud &amp; Ejercicio</button>
@@ -1947,7 +2021,7 @@
             </form>
           </div>
           <div class="table-wrap">
-            <table>
+            <table class="table-cards">
               <thead>
                 <tr>
                   <th>Fecha</th>
@@ -1983,7 +2057,7 @@
             </form>
           </div>
           <div class="table-wrap">
-            <table>
+            <table class="table-cards">
               <thead>
                 <tr>
                   <th>Fecha</th>
@@ -2019,7 +2093,7 @@
             </form>
           </div>
           <div class="table-wrap">
-            <table>
+            <table class="table-cards">
               <thead>
                 <tr>
                   <th>Fecha</th>
@@ -2402,7 +2476,7 @@
 
       <div class="card card-cyan">
         <div class="card-header">
-          <h3 class="card-title"><i data-lucide="library"></i> Biblioteca de Energía (Local + Google Drive)</h3>
+          <h3 class="card-title"><i data-lucide="library"></i> Biblioteca de Energía</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <button type="button" class="btn btn-sm btn-outline" id="btnSyncEnergyLib" onclick="syncEnergyLibraryFromDrive(false)"><i data-lucide="folder-sync"></i> Sincronizar Drive</button>
             <button type="button" class="btn btn-sm btn-outline" onclick="promptNewLibrarySubfolder()"><i data-lucide="folder-plus"></i> Nueva Subcarpeta</button>
@@ -3069,6 +3143,18 @@ function initDateInputs() {
     });
     el.addEventListener('input', () => autoDMY(el));
   });
+  const isTouch = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  if (isTouch) {
+    // En celular se usa el selector de fecha; evita que el teclado tape la pantalla
+    document.querySelectorAll('input[data-date], input[placeholder="dd-mm-aaaa"]').forEach(el => el.setAttribute('inputmode', 'none'));
+    // Al abrir el teclado, lleva el campo a la vista (iOS/Android)
+    document.addEventListener('focusin', (e) => {
+      const t = e.target;
+      if (t && t.matches && t.matches('input:not([data-date]):not([placeholder="dd-mm-aaaa"]), select, textarea')) {
+        setTimeout(() => { try { t.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (err) {} }, 320);
+      }
+    });
+  }
 
   document.addEventListener('focusin', (e) => {
     const target = e.target;
@@ -3723,6 +3809,8 @@ function switchPersonalTab(tabId) {
   document.querySelectorAll('.subtab-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.ptab === tabId);
   });
+  const psel = document.getElementById('personalTabSelect');
+  if (psel && psel.value !== tabId) psel.value = tabId;
   renderPersonal();
 }
 
@@ -4867,14 +4955,14 @@ function renderFinance() {
     const rows = periodTxs.filter(t => t.type === type).slice().reverse().map(tx => {
       const sid = safeId(tx.id);
       const mid = type === 'Gasto'
-        ? `<td>${escapeHTML(tx.category)}</td><td>${escapeHTML(tx.desc)} ${tx.installments ? `<span class="badge badge-warning">Cuotas: ${escapeHTML(tx.installments)}</span>` : ''}</td>`
-        : `<td><span class="badge ${type === 'Ingreso' ? 'badge-success' : 'badge-cyan'}">${escapeHTML(tx.type)}</span></td><td>${escapeHTML(tx.desc)}</td>`;
+        ? `<td data-label="Categoría">${escapeHTML(tx.category)}</td><td data-label="Descripción">${escapeHTML(tx.desc)} ${tx.installments ? `<span class="badge badge-warning">Cuotas: ${escapeHTML(tx.installments)}</span>` : ''}</td>`
+        : `<td data-label="Tipo"><span class="badge ${type === 'Ingreso' ? 'badge-success' : 'badge-cyan'}">${escapeHTML(tx.type)}</span></td><td data-label="Descripción">${escapeHTML(tx.desc)}</td>`;
       return `
     <tr>
-      <td>${escapeHTML(fmtDate(tx.date))}</td>
+      <td data-label="Fecha">${escapeHTML(fmtDate(tx.date))}</td>
       ${mid}
-      <td><strong>${sym} ${(Number(tx.amount) || 0).toFixed(2)}</strong></td>
-      <td><button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.financeTxs=appData.financeTxs.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+      <td data-label="Monto"><strong>${sym} ${(Number(tx.amount) || 0).toFixed(2)}</strong></td>
+      <td data-label="Eliminar"><button type="button" aria-label="Eliminar" class="btn btn-sm btn-danger-soft" onclick="appData.financeTxs=appData.financeTxs.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
     </tr>`;
     }).join('');
     return rows || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Sin registros de ${type.toLowerCase()} en este mes y moneda.</td></tr>`;
@@ -5787,12 +5875,12 @@ function renderEnergy() {
       const st = a.status || (a.done ? 'Culminado' : 'Por hacer');
       return `
       <tr style="opacity:${st==='Culminado'?'0.78':'1'};">
-        <td style="${st==='Culminado'?'text-decoration:line-through;color:var(--text-muted);':''}">
+        <td data-label="Actividad" style="${st==='Culminado'?'text-decoration:line-through;color:var(--text-muted);':''}">
           ${a.subtype ? `<span class="badge badge-cyan">${escapeHTML(a.subtype)}</span> ` : ''}<strong>${escapeHTML(a.task)}</strong>
         </td>
-        <td><textarea class="energy-action-comment-ta" rows="2" maxlength="500" placeholder="Comentario..." aria-label="Comentario" onchange="setEnergyActionComment('${sid}', this.value)">${escapeHTML(a.comment || '')}</textarea></td>
-        <td><select class="mini-select" onchange="setEnergyActionStatus('${sid}', this.value)">${optList(ENERGY_TASK_STATES, st)}</select></td>
-        <td><button type="button" class="btn btn-sm btn-danger-soft" aria-label="Eliminar" onclick="appData.energyActions=appData.energyActions.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
+        <td data-label="Comentarios" class="td-block"><textarea class="energy-action-comment-ta" rows="2" maxlength="500" placeholder="Comentario..." aria-label="Comentario" onchange="setEnergyActionComment('${sid}', this.value)">${escapeHTML(a.comment || '')}</textarea></td>
+        <td data-label="Estado"><select class="mini-select" onchange="setEnergyActionStatus('${sid}', this.value)">${optList(ENERGY_TASK_STATES, st)}</select></td>
+        <td data-label="Eliminar"><button type="button" class="btn btn-sm btn-danger-soft" aria-label="Eliminar" onclick="appData.energyActions=appData.energyActions.filter(x=>x.id!=='${sid}');saveData()">✕</button></td>
       </tr>`;
     }).join('');
 
@@ -5802,8 +5890,8 @@ function renderEnergy() {
           <span class="badge badge-lavender" style="font-size:0.8rem;">${escapeHTML(groupType)}</span>
           <span style="font-size:0.76rem;color:var(--text-muted);font-weight:600;">${pendingCount} pendiente${pendingCount === 1 ? '' : 's'} de ${itemsInGroup.length}</span>
         </div>
-        <div class="table-wrap"><table class="energy-actions-table">
-          <thead><tr><th style="width:34%;">Actividad</th><th>Comentarios</th><th style="width:140px;">Estado</th><th style="width:84px;">Eliminar</th></tr></thead>
+        <div class="table-wrap"><table class="energy-actions-table table-cards">
+          <thead><tr><th style="width:30%;">Actividad</th><th style="width:45%;">Comentarios</th><th style="width:15%;">Estado</th><th style="width:10%;">Eliminar</th></tr></thead>
           <tbody>${rowsHtml}</tbody>
         </table></div>
       </div>`;
@@ -6040,19 +6128,50 @@ function importBackupJSON(event) {
   reader.readAsText(file);
 }
 
+function makeAppIconDataUrl(size) {
+  try {
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const g = c.getContext('2d');
+    const grad = g.createLinearGradient(0, 0, size, size);
+    grad.addColorStop(0, '#B565B6');
+    grad.addColorStop(1, '#8E4F8F');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, size, size); // sin esquinas: iOS y Android aplican su propia máscara
+    g.fillStyle = '#FFFFFF';
+    g.font = `700 ${Math.round(size * 0.56)}px "Outfit", Arial, sans-serif`;
+    g.textAlign = 'center';
+    g.textBaseline = 'middle';
+    g.fillText('L', size / 2, size / 2 + size * 0.03);
+    return c.toDataURL('image/png');
+  } catch (e) { return ''; }
+}
+
 function registerDynamicPWAManifest() {
+  const icon192 = makeAppIconDataUrl(192);
+  const icon512 = makeAppIconDataUrl(512);
+  const icon180 = makeAppIconDataUrl(180);
+  if (icon180) {
+    const apple = document.createElement('link');
+    apple.rel = 'apple-touch-icon';
+    apple.href = icon180;
+    document.head.appendChild(apple);
+  }
+  const base = location.href.split('#')[0].split('?')[0];
   const manifest = {
     name: 'Lumos Plan',
-    short_name: 'Planificador',
-    start_url: '.',
+    short_name: 'Lumos Plan',
+    start_url: base,
+    scope: base.replace(/[^/]*$/, ''),
     display: 'standalone',
+    orientation: 'any',
     background_color: '#FBF4FB',
     theme_color: '#8E4F8F',
-    icons: [{
-      src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="%238E4F8F"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="white">✦</text></svg>',
-      sizes: '192x192',
-      type: 'image/svg+xml'
-    }]
+    icons: icon192 && icon512 ? [
+      { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any' },
+      { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+    ] : []
   };
   const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
   const link = document.createElement('link');
