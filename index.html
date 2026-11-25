@@ -3202,6 +3202,12 @@ try {
 let calendarScopesGranted = true;
 let selectedGoogleCalendarId = localStorage.getItem(GCAL_SELECTED_KEY) || '__ALL__';
 
+/* Cumpleaños, feriados, clima, etc. no permiten crear eventos (Google responde 400/403) */
+function isSpecialReadOnlyCalendar(id) {
+  const v = String(id || '');
+  return /#(contacts|holiday|weather|weeknum)@group\.v\.calendar\.google\.com$/i.test(v) || /@group\.v\.calendar\.google\.com$/i.test(v);
+}
+
 function toggleWheelAreas() {
   const box = document.getElementById('wheelSliders');
   const btn = document.getElementById('btnToggleWheelAreas');
@@ -3268,7 +3274,7 @@ function populateGoogleCalendarSelectors() {
       }).join('');
   }
 
-  const writableCals = allCals.filter(c => !c.accessRole || c.accessRole === 'owner' || c.accessRole === 'writer');
+  const writableCals = allCals.filter(c => (!c.accessRole || c.accessRole === 'owner' || c.accessRole === 'writer') && !isSpecialReadOnlyCalendar(c.id));
   const targetList = writableCals.length ? writableCals : allCals;
   const defaultTarget = (selectedGoogleCalendarId !== '__ALL__' && targetList.some(c => c.id === selectedGoogleCalendarId))
     ? selectedGoogleCalendarId
@@ -3594,6 +3600,7 @@ async function syncGoogleCalendar() {
         );
         const data = await res.json();
         const calLabel = cal.primary ? 'Principal' : (cal.summary || 'Google Calendar');
+        console.info('Calendar leído:', calLabel, (data.items || []).length, 'eventos');
         return (data.items || []).map(ev => ({
           id: 'gcal_' + safeId(cal.id + '_' + ev.id),
           googleId: ev.id,
@@ -3641,31 +3648,46 @@ async function syncGoogleCalendar() {
 
 async function pushEventToGoogleCalendar(evObj, calendarId = 'primary') {
   if (!accessToken) return null;
-  try {
-    const startIso = `${evObj.date}T${evObj.time}:00`;
-    const [hh, mm] = evObj.time.split(':').map(Number);
-    const endDate = hh === 23 ? addDaysToIso(evObj.date, 1) : evObj.date;
-    const endHour = hh === 23 ? '00' : String(hh + 1).padStart(2, '0');
-    const endIso = `${endDate}T${endHour}:${String(mm).padStart(2, '0')}:00`;
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Lima';
-    const rruleMap = { Diaria: 'FREQ=DAILY', Semanal: 'FREQ=WEEKLY', Quincenal: 'FREQ=WEEKLY;INTERVAL=2', Mensual: 'FREQ=MONTHLY', Anual: 'FREQ=YEARLY' };
-    const targetCal = calendarId || 'primary';
-    const res = await driveFetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(targetCal)}/events`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        summary: `[${evObj.category}] ${evObj.title}`,
-        start: { dateTime: startIso, timeZone: tz },
-        end: { dateTime: endIso, timeZone: tz },
-        ...(evObj.recurrence && rruleMap[evObj.recurrence] ? { recurrence: ['RRULE:' + rruleMap[evObj.recurrence]] } : {})
-      })
+  const isoDate = /^\d{4}-\d{2}-\d{2}$/.test(String(evObj.date || '')) ? evObj.date : '';
+  const timeOk = /^\d{2}:\d{2}$/.test(String(evObj.time || ''));
+  if (!isoDate || !timeOk) {
+    showToast('El evento no tiene una fecha u hora válida para enviarlo a Google Calendar.', 'warning');
+    return null;
+  }
+  const [hh, mm] = evObj.time.split(':').map(Number);
+  const startIso = `${isoDate}T${evObj.time}:00`;
+  const endDate = hh === 23 ? addDaysToIso(isoDate, 1) : isoDate;
+  const endHour = hh === 23 ? '00' : String(hh + 1).padStart(2, '0');
+  const endIso = `${endDate}T${endHour}:${String(mm).padStart(2, '0')}:00`;
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Lima';
+  const rruleMap = { Diaria: 'FREQ=DAILY', Semanal: 'FREQ=WEEKLY', Quincenal: 'FREQ=WEEKLY;INTERVAL=2', Mensual: 'FREQ=MONTHLY', Anual: 'FREQ=YEARLY' };
+  const body = JSON.stringify({
+    summary: `[${evObj.category}] ${evObj.title}`,
+    start: { dateTime: startIso, timeZone: tz },
+    end: { dateTime: endIso, timeZone: tz },
+    ...(evObj.recurrence && rruleMap[evObj.recurrence] ? { recurrence: ['RRULE:' + rruleMap[evObj.recurrence]] } : {})
+  });
+  const tryPost = async (cal) => {
+    const res = await driveFetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cal)}/events`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body
     });
     return await res.json();
+  };
+  const first = calendarId || 'primary';
+  try {
+    return await tryPost(first);
   } catch (e) {
-    console.error('No se pudo crear evento en Google Calendar:', e);
-    showToast(e && e.status === 403
-      ? 'No se pudo crear el evento en Google Calendar (403): falta permiso o Calendar API deshabilitada. Quedó guardado solo en este dispositivo.'
-      : 'No se pudo crear el evento en Google Calendar. Quedó guardado solo en este dispositivo.', 'warning');
+    console.error('No se pudo crear evento en Google Calendar:', e, e && e.reason);
+    if (first !== 'primary' && e && (e.status === 400 || e.status === 403 || e.status === 404)) {
+      try {
+        const created = await tryPost('primary');
+        evObj.calendarId = 'primary';
+        showToast('Ese calendario no admite crear eventos; se guardó en tu calendario principal.', 'info');
+        return created;
+      } catch (e2) { e = e2; console.error('Reintento en primary falló:', e2, e2 && e2.reason); }
+    }
+    const why = e && e.reason ? ` Motivo de Google: ${e.reason}` : '';
+    showToast(`No se pudo crear el evento en Google Calendar (${(e && e.status) || 'error'}).${why} Quedó guardado solo en este dispositivo.`, 'warning');
     return null;
   }
 }
