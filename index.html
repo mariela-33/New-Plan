@@ -3199,6 +3199,7 @@ try {
 } catch (e) {
   googleCalendars = [];
 }
+let calendarScopesGranted = true;
 let selectedGoogleCalendarId = localStorage.getItem(GCAL_SELECTED_KEY) || '__ALL__';
 
 function toggleWheelAreas() {
@@ -3306,6 +3307,7 @@ async function fetchGoogleCalendars() {
     }
   } catch (e) {
     console.error('Error listando calendarios de Google:', e);
+    if (e && e.status === 403) showToast('Google rechazó listar tus calendarios (403). Revisa que Calendar API esté habilitada y que diste permiso de Calendar al conectar.', 'warning');
   }
   return googleCalendars;
 }
@@ -3380,6 +3382,8 @@ function handleGoogleAuth(options = {}) {
       try {
         await verifyAuthorizedGoogleAccount(resp.access_token);
         accessToken = resp.access_token;
+        calendarScopesGranted = !!(google.accounts.oauth2.hasGrantedAllScopes && google.accounts.oauth2.hasGrantedAllScopes(resp, 'https://www.googleapis.com/auth/calendar.events', 'https://www.googleapis.com/auth/calendar.calendarlist.readonly'));
+        if (!calendarScopesGranted) showToast('Faltan permisos de Google Calendar. Vuelve a conectar y marca TODAS las casillas de permisos.', 'warning');
         if (fromLoginOverlay && typeof onSuccess === 'function') {
           onSuccess();
         }
@@ -3442,7 +3446,12 @@ async function driveFetch(url, options = {}) {
     showToast('Tu sesión de Google expiró. Vuelve a conectar Drive.', 'warning');
     throw new Error('Token expirado (401)');
   }
-  if (!res.ok) throw new Error('Error Drive API: ' + res.status);
+  if (!res.ok) {
+    const err = new Error('Error Google API: ' + res.status);
+    err.status = res.status;
+    try { const j = await res.clone().json(); err.reason = (j.error && (j.error.message || j.error.status)) || ''; } catch (e) {}
+    throw err;
+  }
   return res;
 }
 
@@ -3599,11 +3608,23 @@ async function syncGoogleCalendar() {
     );
 
     const remoteEvents = [];
+    const failures = [];
     results.forEach(r => {
       if (r.status === 'fulfilled' && Array.isArray(r.value)) {
         remoteEvents.push(...r.value);
+      } else if (r.status === 'rejected') {
+        failures.push(r.reason);
       }
     });
+    if (failures.length === results.length) {
+      const f = failures[0] || {};
+      console.error('Calendar: todas las lecturas fallaron', failures);
+      showToast(f.status === 403
+        ? 'Google Calendar rechazó la lectura (403): habilita Calendar API en Google Cloud o vuelve a conectar aceptando los permisos de Calendar.'
+        : `No se pudieron leer los eventos de Google Calendar (${f.status || 'error de red'}).`, 'danger');
+      return;
+    }
+    if (failures.length) showToast(`${failures.length} calendario(s) no se pudieron leer.`, 'warning');
 
     const localOnly = appData.personalEvents.filter(e => !String(e.id).startsWith('gcal_'));
     appData.personalEvents = [...localOnly, ...remoteEvents];
@@ -3642,6 +3663,9 @@ async function pushEventToGoogleCalendar(evObj, calendarId = 'primary') {
     return await res.json();
   } catch (e) {
     console.error('No se pudo crear evento en Google Calendar:', e);
+    showToast(e && e.status === 403
+      ? 'No se pudo crear el evento en Google Calendar (403): falta permiso o Calendar API deshabilitada. Quedó guardado solo en este dispositivo.'
+      : 'No se pudo crear el evento en Google Calendar. Quedó guardado solo en este dispositivo.', 'warning');
     return null;
   }
 }
@@ -4642,7 +4666,9 @@ function renderPersonal() {
   const sortedEv = appData.personalEvents
     .filter(ev => { const d = nextOccurrence(ev); return d >= todayIso && d <= endIso && matchesSelectedCalendar(ev); })
     .sort((a, b) => nextOccurrence(a).localeCompare(nextOccurrence(b)));
-  document.getElementById('personalEventsList').innerHTML = sortedEv.length ? sortedEv.map(ev => {
+  const hiddenEv = appData.personalEvents.filter(ev => matchesSelectedCalendar(ev)).length - sortedEv.length;
+  const hiddenNote = hiddenEv > 0 ? `<p style="font-size:0.76rem;color:var(--text-muted);margin-top:4px;">${hiddenEv} evento(s) fuera del rango (hoy – fin de mes) no se muestran.</p>` : '';
+  document.getElementById('personalEventsList').innerHTML = (sortedEv.length ? sortedEv.map(ev => {
     const sid = safeId(ev.id);
     return `
     <div style="background:#FFF;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--frosted-blue);display:flex;justify-content:space-between;align-items:center;">
@@ -4654,7 +4680,7 @@ function renderPersonal() {
       </div>
       ${!String(ev.id).startsWith('gcal_') ? `<button type="button" class="btn btn-sm btn-danger-soft" onclick="appData.personalEvents=appData.personalEvents.filter(x=>x.id!=='${sid}');saveData()">✕</button>` : ''}
     </div>`;
-  }).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);">Sin eventos desde hoy hasta fin de mes en este calendario.</p>`;
+  }).join('') : `<p style="font-size:0.83rem;color:var(--text-muted);">Sin eventos desde hoy hasta fin de mes en este calendario.</p>`) + hiddenNote;
 
   const hy = habitMonth.getFullYear(), hmo = habitMonth.getMonth();
   const hn = new Date(hy, hmo + 1, 0).getDate();
